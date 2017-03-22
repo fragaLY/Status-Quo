@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+      xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}" href="../../resources/css/style.css">
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>Login</h1>
+    </header>
+    <div th:if="${unknownUserError != null}">
+        <div class="alert alert-error">
+            <div>
+                <strong th:text="#{error.message.title}"></strong>
+            </div>
+            <ul>
+                <li th:text="#{error.message.unknowuser}"></li>
+            </ul>
+        </div>
+    </div>
+    <form action="#" th:action="@{/login}" th:object="${clientDto}" method="post" class="form-horizontal">
+        <fieldset>
+            <div class="control-group">
+                <label class="control-label">Login</label>
+                <div class="controls">
+                    <div class="input-prepend">
+                        <span class="add-on">@</span>
+                        <input id="loginField" class="span3" type="text" th:field="*{email}" required="required"/>
+                    </div>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Password</label>
+                <div class="controls">
+                    <input id="passwordField" class="span3" type="password" th:field="*{password}" required="required"/>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button id="loginButton" class="btn btn-primary" type="submit">Login</button>
+            </div>
+        </fieldset>
+    </form>
+</div>
+<script th:src="@{/resources/js/jquery-1.8.1.min.js}"></script>
+<script th:src="@{/resources/js/bootstrap-2.2.2.min.js}"></script>
+</body>
+</html>

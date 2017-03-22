@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:remove="all">Course Announcement</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<div>
+    <div>
+        <span th:text="|#{notificationRejectedCourse}|">Course was rejected by</span>
+        <span th:each="managerDecision : ${managerDecisions}">
+        <span th:if="${managerDecision.decision.decision == 'Rejected'}"
+              th:text="|${managerDecision.client.firstName} ${managerDecision.client.secondName} |">
+            {one vote|both}
+        </span>
+    </span>
+    </div>
+
+    <div th:each="managerDecision : ${managerDecisions}">
+        <div th:if="${managerDecision.decision.decision == 'Rejected'}">
+            <p th:text="#{managerDecision(${managerDecision.decision.decision})}">Decision: {ManagerDecision}</p>
+            <p th:text="#{managerReason(${managerDecision.reason})}">Reason: {ManagerReason}</p>
+        </div>
+    </div>
+    <p>
+        <span th:text="#{subscriptionUpdateCourse}">Update your course</span>
+        <a class="btn btn-mini" th:href="@{|http://localhost:8080/courses/${course.id}/update|}">link</a></br>
+    </p>
+</div>
+</body>
+</html>

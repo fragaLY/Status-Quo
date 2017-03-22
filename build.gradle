@@ -1,0 +1,107 @@
+group 'by.integrated'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'idea'
+apply plugin: 'org.akhikhl.gretty'
+
+compileJava {
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+//Dynamic versions of dependencies
+ext {
+    springVersion = '4.+'
+    thymeleafVersion = '3.+'
+    hibernateVersion = '5.+'
+    h2Version = '1.+'
+    slf4Version = '1.7.+'
+    log4jVersion = '1.2.+'
+    apacheCommonsVersion = '3.+'
+    junitVersion = '4.+'
+    springTestVersion = '4.3.+'
+    validationApiVersion = '1.1.0.Final'
+    mockitoCoreVersion = '2.+'
+    javaMailVersion = '1.5.+'
+    ehCacheVersion = '2.+'
+    guavaVersion = '+'
+    jacksonVersion = '2.8.+'
+}
+
+dependencies {
+
+    //Spring dependencies
+    compile group: 'org.springframework', name: 'spring-core', version: springVersion
+    compile group: 'org.springframework', name: 'spring-context', version: springVersion
+    compile group: 'org.springframework', name: 'spring-expression', version: springVersion
+    compile group: 'org.springframework', name: 'spring-tx', version: springVersion
+    compile group: 'org.springframework', name: 'spring-orm', version: springVersion
+    compile group: 'org.springframework', name: 'spring-webmvc', version: springVersion
+    compile group: 'org.springframework.security', name: 'spring-security-config', version: springVersion
+    compile group: 'org.springframework.security', name: 'spring-security-taglibs', version: springVersion
+    compile group: 'org.springframework', name: 'spring-context-support', version: springVersion
+
+    //Hibernate and Validation API dependencies
+    compile group: 'javax.validation', name: 'validation-api', version: validationApiVersion
+    compile group: 'org.hibernate', name: 'hibernate-core', version: hibernateVersion
+    compile group: 'org.hibernate', name: 'hibernate-validator', version: hibernateVersion
+
+    //Thymeleaf dependencies
+    compile group: 'org.thymeleaf', name: 'thymeleaf-spring4', version: thymeleafVersion
+    compile group: 'org.thymeleaf', name: 'thymeleaf', version: thymeleafVersion
+    compile group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-springsecurity4', version: thymeleafVersion
+
+    //H2 database dependency
+    runtime group: 'com.h2database', name: 'h2', version: h2Version
+
+    //Logger
+    compile group: 'org.slf4j', name: 'slf4j-api', version: slf4Version
+    compile group: 'org.slf4j', name: 'jcl-over-slf4j', version: slf4Version
+    compile group: 'org.slf4j', name: 'slf4j-log4j12', version: slf4Version
+    compile group: 'log4j', name: 'log4j', version: log4jVersion
+
+    //Apache commons lang dependency
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: apacheCommonsVersion
+
+    //Guava
+    compile group: 'com.google.guava', name: 'guava', version: guavaVersion
+
+    //Jackson
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: jacksonVersion
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: jacksonVersion
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: jacksonVersion
+
+    //Test dependencies
+    testCompile group: 'junit', name: 'junit', version: junitVersion
+    testCompile group: 'org.springframework', name: 'spring-test', version: springTestVersion
+    compile group: 'org.mockito', name: 'mockito-core', version: mockitoCoreVersion
+
+    //Mail dependencies
+    compile group: 'javax.mail', name: 'javax.mail-api', version: javaMailVersion
+    compile group: 'com.sun.mail', name: 'javax.mail', version: javaMailVersion
+
+    //Ehcache dependencies
+    compile group: 'net.sf.ehcache', name: 'ehcache', version: ehCacheVersion
+}
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'org.akhikhl.gretty:gretty:+'
+    }
+}
+
+gretty {
+    httpPort = 8080
+    contextPath = '/'
+    servletContainer = 'jetty9'
+}
