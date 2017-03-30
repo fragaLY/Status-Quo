@@ -8,7 +8,6 @@ import sq.vk.domain.client.Client;
 
 import java.util.List;
 
-
 /**
  * Created by Vadzim Kavalkou on 22.03.2017.
  */

@@ -35,17 +35,21 @@ public class ServletConfig extends WebMvcConfigurerAdapter implements Applicatio
 
     @Bean
     public ViewResolver contentNegotiationResolver(ContentNegotiationManager cnm) {
-        ContentNegotiatingViewResolver negotiatingViewResolver =
-                new ContentNegotiatingViewResolver();
-        negotiatingViewResolver.setContentNegotiationManager(cnm);
-        negotiatingViewResolver.setApplicationContext(applicationContext);
-        negotiatingViewResolver.setOrder(1);
+        ContentNegotiatingViewResolver resolver = new ContentNegotiatingViewResolver();
+
+        resolver.setContentNegotiationManager(cnm);
+        resolver.setApplicationContext(applicationContext);
+        resolver.setOrder(1);
+        resolver.setDefaultViews(Lists.newArrayList(getJsonView()));
+
+        return resolver;
+    }
+
+    private MappingJackson2JsonView getJsonView() {
         MappingJackson2JsonView view = new MappingJackson2JsonView();
         view.setPrettyPrint(true);
         view.setEncoding(JsonEncoding.UTF8);
-        negotiatingViewResolver.setDefaultViews(Lists.newArrayList(view));
-
-        return negotiatingViewResolver;
+        return view;
     }
 
     @Override
