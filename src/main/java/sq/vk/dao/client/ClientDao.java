@@ -9,6 +9,7 @@ import java.util.List;
  */
 public interface ClientDao {
     List<Client> getAllClients();
-
     Client getClientByEmail(String email);
+
+    Client getClientById(Integer id);
 }

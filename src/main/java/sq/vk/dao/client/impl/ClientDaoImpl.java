@@ -15,16 +15,24 @@ import java.util.List;
 @Repository("ClientRepository")
 public class ClientDaoImpl extends AbstractDao implements ClientDao {
 
+    //TODO: add Optional
+
     @Override
     public List<Client> getAllClients() {
-        return (List<Client>) getSession().createQuery("from Client").list();
+        return (List<Client>) getSession().createQuery("FROM Client").list();
     }
 
     @Override
-    public Client getClientByEmail(String email) {
+    public Client getClientByEmail(final String email) {
         Query query = getSession()
-                .createQuery("from Client c where c.email=:email")
+                .createQuery("FROM Client c WHERE c.email=:email")
                 .setParameter("email", email);
         return (Client) query.uniqueResult();
     }
+
+    @Override
+    public Client getClientById(final Integer id) {
+        return getSession().get(Client.class, id);
+    }
+
 }

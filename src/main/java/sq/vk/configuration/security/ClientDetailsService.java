@@ -40,7 +40,7 @@ public class ClientDetailsService implements UserDetailsService {
         if (optionalClientDto.isPresent()) {
 
             ClientDto clientDto = optionalClientDto.get();
-            String clientRole = clientDto.getRole().getClientRole();
+            String clientRole = clientDto.getRole();
 
             List<GrantedAuthority> authorities = ImmutableList.of(new SimpleGrantedAuthority(clientRole));
 

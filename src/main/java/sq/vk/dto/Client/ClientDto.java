@@ -15,7 +15,7 @@ public class ClientDto {
     private String email;
     private String firstName;
     private String secondName;
-    private ClientRole role;
+    private String role;
 
     private ClientDto(Builder builder) {
         this.id = builder.id;
@@ -23,7 +23,7 @@ public class ClientDto {
         this.password = builder.password;
         this.firstName = builder.firstName;
         this.secondName = builder.secondName;
-        this.role = builder.role;
+        this.role = builder.role.getClientRole();
     }
 
     public Integer getId() {
@@ -68,11 +68,11 @@ public class ClientDto {
         this.secondName = secondName;
     }
 
-    public ClientRole getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(ClientRole role) {
+    public void setRole(String role) {
         this.role = role;
     }
 

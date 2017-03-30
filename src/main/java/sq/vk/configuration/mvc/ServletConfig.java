@@ -1,5 +1,6 @@
 package sq.vk.configuration.mvc;
 
+import com.fasterxml.jackson.core.JsonEncoding;
 import com.google.common.collect.Lists;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -39,9 +40,9 @@ public class ServletConfig extends WebMvcConfigurerAdapter implements Applicatio
         negotiatingViewResolver.setContentNegotiationManager(cnm);
         negotiatingViewResolver.setApplicationContext(applicationContext);
         negotiatingViewResolver.setOrder(1);
-
         MappingJackson2JsonView view = new MappingJackson2JsonView();
         view.setPrettyPrint(true);
+        view.setEncoding(JsonEncoding.UTF8);
         negotiatingViewResolver.setDefaultViews(Lists.newArrayList(view));
 
         return negotiatingViewResolver;

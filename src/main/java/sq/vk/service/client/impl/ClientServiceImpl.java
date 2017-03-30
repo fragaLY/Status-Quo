@@ -34,4 +34,10 @@ public class ClientServiceImpl implements ClientService {
     public ClientDto getClientByEmail(final String email) {
         return clientConverter.apply(clientDao.getClientByEmail(email));
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public ClientDto getClientById(final Integer id) {
+        return clientConverter.apply(clientDao.getClientById(id));
+    }
 }

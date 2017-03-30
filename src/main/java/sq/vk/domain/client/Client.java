@@ -2,6 +2,7 @@ package sq.vk.domain.client;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 
@@ -17,7 +18,7 @@ public class Client {
     private String password;
     private String firstName;
     private String secondName;
-    private ClientRole role;
+    private String role;
 
     public Client() {
     }
@@ -28,7 +29,7 @@ public class Client {
         this.password = builder.password;
         this.firstName = builder.firstName;
         this.secondName = builder.secondName;
-        this.role = builder.role;
+        this.role = builder.role.getClientRole();
     }
 
     @Id
@@ -42,16 +43,18 @@ public class Client {
         this.id = id;
     }
 
+    @Column(name = "email")
+    @NotBlank(message = "Email should not be blank.")
     public String getEmail() {
         return email;
     }
 
-    @Column(name = "email")
     public void setEmail(String email) {
         this.email = email;
     }
 
     @Column(name = "password")
+    @NotBlank(message = "Password should not be blank.")
     public String getPassword() {
         return password;
     }
@@ -61,6 +64,7 @@ public class Client {
     }
 
     @Column(name = "firstName")
+    @NotBlank(message = "Firstname should not be blank.")
     public String getFirstName() {
         return firstName;
     }
@@ -70,6 +74,7 @@ public class Client {
     }
 
     @Column(name = "secondName")
+    @NotBlank(message = "Secondname should not be blank.")
     public String getSecondName() {
         return secondName;
     }
@@ -79,11 +84,11 @@ public class Client {
     }
 
     @Column(name = "role")
-    public ClientRole getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(ClientRole role) {
+    public void setRole(String role) {
         this.role = role;
     }
 

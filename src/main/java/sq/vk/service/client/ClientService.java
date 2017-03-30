@@ -12,4 +12,6 @@ public interface ClientService {
     List<ClientDto> getAllClients();
 
     ClientDto getClientByEmail(String email);
+
+    ClientDto getClientById(Integer id);
 }
