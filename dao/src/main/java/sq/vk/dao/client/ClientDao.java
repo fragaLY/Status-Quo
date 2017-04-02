@@ -18,4 +18,5 @@ public interface ClientDao {
 
     @Cacheable(value = "clientCache")
     Client getClientById(Integer id);
+
 }
