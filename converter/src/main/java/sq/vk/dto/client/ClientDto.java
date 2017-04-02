@@ -1,6 +1,5 @@
-package sq.vk.dto.Client;
+package sq.vk.dto.client;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import sq.vk.domain.client.ClientRole;
@@ -34,7 +33,6 @@ public class ClientDto {
         this.id = id;
     }
 
-    @JsonIgnore
     public String getEmail() {
         return email;
     }
@@ -43,7 +41,6 @@ public class ClientDto {
         this.email = email;
     }
 
-    @JsonIgnore
     public String getPassword() {
         return password;
     }

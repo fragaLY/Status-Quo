@@ -86,9 +86,9 @@ dependencies {
     //Mail dependencies
     compile group: 'javax.mail', name: 'javax.mail-api', version: javaMailVersion
     compile group: 'com.sun.mail', name: 'javax.mail', version: javaMailVersion
-
-    //Ehcache dependencies
-    compile group: 'net.sf.ehcache', name: 'ehcache', version: ehCacheVersion
+    
+    //service
+    compile project(':service')
 }
 
 buildscript {

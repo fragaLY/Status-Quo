@@ -1,2 +1,4 @@
 rootProject.name = 'Status Quo'
-
+include 'dao'
+include 'service'
+include 'converter'

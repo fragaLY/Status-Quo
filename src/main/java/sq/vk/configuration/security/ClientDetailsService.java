@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import sq.vk.dto.Client.ClientDto;
+import sq.vk.dto.client.ClientDto;
 import sq.vk.service.client.ClientService;
 
 import java.util.List;
@@ -44,12 +44,12 @@ public class ClientDetailsService implements UserDetailsService {
 
             List<GrantedAuthority> authorities = ImmutableList.of(new SimpleGrantedAuthority(clientRole));
 
-            LOG.info("Client with email [ {} ] has {}.", email, clientRole);
+            LOG.info("client with email [ {} ] has {}.", email, clientRole);
             return new User(email, clientDto.getPassword(), true, true, true, true, authorities);
         }
 
-        LOG.info("Client with email [ {} ] has ROLE_SURFER.", email);
+        LOG.info("client with email [ {} ] has ROLE_SURFER.", email);
 
-        throw new UsernameNotFoundException(String.format("Client with email [ {} ] was not found. Grants ROLE_SURFER.", email));
+        throw new UsernameNotFoundException(String.format("client with email [ {} ] was not found. Grants ROLE_SURFER.", email));
     }
 }
