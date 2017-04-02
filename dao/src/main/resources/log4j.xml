@@ -20,24 +20,12 @@
         <level value="info"/>
     </logger>
 
-    <logger name="org.thymeleaf">
+    <logger name="sq.vk.dao" additivity="false">
         <level value="info"/>
-    </logger>
-
-    <logger name="jtc.vk.tc.dao" additivity="false">
-        <level value="warn"/>
-    </logger>
-
-    <logger name="jtc.vk.tc">
-        <level value="debug"/>
     </logger>
 
     <logger name="org.hibernate">
         <level value="info"/>
-    </logger>
-
-    <logger name="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
-        <level value="error"/>
     </logger>
 
     <!-- Root Logger -->

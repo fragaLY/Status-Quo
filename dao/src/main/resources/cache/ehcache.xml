@@ -1,8 +1,0 @@
-<ehcache updateCheck="true"
-         monitoring="autodetect">
-    <cache name="trainingCenterCache"
-           maxBytesLocalHeap="50m"
-           timeToLiveSeconds="120"
-           memoryStoreEvictionPolicy="FIFO">
-    </cache>
-</ehcache>
