@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sq.vk.converter.client.ClientConverter;
 import sq.vk.dao.client.ClientDao;
-import sq.vk.dto.Client.ClientDto;
+import sq.vk.dto.client.ClientDto;
 import sq.vk.service.client.ClientService;
 
 import java.util.List;

@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import sq.vk.dto.Client.ClientDto;
+import sq.vk.dto.client.ClientDto;
 import sq.vk.service.client.ClientService;
 
 import javax.validation.Valid;
@@ -67,6 +67,8 @@ public class ClientController {
         return new ResponseEntity<>(client, responseHeaders, httpStatus);
     }
 
+
+    //TODO: change PathVariable to String
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<ClientDto> getClientById(@Valid @PathVariable Integer id, BindingResult result) {

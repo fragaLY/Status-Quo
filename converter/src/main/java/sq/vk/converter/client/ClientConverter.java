@@ -3,7 +3,7 @@ package sq.vk.converter.client;
 import org.springframework.stereotype.Component;
 import sq.vk.domain.client.Client;
 import sq.vk.domain.client.ClientRole;
-import sq.vk.dto.Client.ClientDto;
+import sq.vk.dto.client.ClientDto;
 
 import java.util.function.Function;
 

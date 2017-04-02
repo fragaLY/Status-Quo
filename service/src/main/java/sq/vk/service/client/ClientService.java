@@ -1,6 +1,6 @@
 package sq.vk.service.client;
 
-import sq.vk.dto.Client.ClientDto;
+import sq.vk.dto.client.ClientDto;
 
 import java.util.List;
 
