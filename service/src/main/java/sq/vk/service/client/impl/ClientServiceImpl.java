@@ -1,5 +1,8 @@
 package sq.vk.service.client.impl;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +13,6 @@ import sq.vk.dao.client.ClientDao;
 import sq.vk.dto.client.ClientDto;
 import sq.vk.service.client.ClientService;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 /**
  * Created by Vadzim Kavalkou on 22.03.2017.
  */
@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 public class ClientServiceImpl implements ClientService {
 
     private static final Logger LOG = LoggerFactory.getLogger(ClientServiceImpl.class);
+
     @Autowired
     private ClientDao clientDao;
 
@@ -54,5 +55,11 @@ public class ClientServiceImpl implements ClientService {
 
         return clientConverter.apply(clientDao.getClientById(id));
 
+    }
+
+    @Override public boolean saveClient(ClientDto client) {
+
+        //TODO VK: implement logic
+        return false;
     }
 }

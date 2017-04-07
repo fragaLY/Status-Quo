@@ -1,13 +1,13 @@
 package sq.vk.converter.client;
 
+import java.util.function.Function;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import sq.vk.domain.client.Client;
 import sq.vk.domain.client.ClientRole;
 import sq.vk.dto.client.ClientDto;
-
-import java.util.function.Function;
 
 /**
  * Created by Vadzim Kavalkou on 22.03.2017.
@@ -23,12 +23,12 @@ public class ClientConverter implements Function<Client, ClientDto> {
         LOG.info("Converts Client = [{}] into ClientDto.", client);
 
         ClientDto clientDto = new ClientDto.Builder(client.getEmail())
-                .setId(client.getId())
-                .setFirstName(client.getFirstName())
-                .setSecondName(client.getSecondName())
-                .setPassword(client.getPassword())
-                .setRole(ClientRole.getClientRoleByHisRole(client.getRole()))
-                .build();
+                                .setId(client.getId())
+                                .setFirstName(client.getFirstName())
+                                .setSecondName(client.getSecondName())
+                                .setPassword(client.getPassword())
+                                .setRole(ClientRole.getClientRoleByHisRole(client.getRole()))
+                             .build();
 
         LOG.info("Client was successfully converted into ClientDto = [{}].", clientDto);
 

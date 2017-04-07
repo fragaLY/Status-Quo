@@ -20,6 +20,7 @@ ext {
     hibernateVersion = '5.+'
     slf4Version = '1.7.+'
     log4jVersion = '1.2.+'
+    jsoupVersion = '1.10.+'
 }
 
 dependencies {
@@ -39,6 +40,12 @@ dependencies {
     compile group: 'org.slf4j', name: 'jcl-over-slf4j', version: slf4Version
     compile group: 'org.slf4j', name: 'slf4j-log4j12', version: slf4Version
     compile group: 'log4j', name: 'log4j', version: log4jVersion
+
+    //Jsoup
+    compile group: 'org.jsoup', name: 'jsoup', version: jsoupVersion
+
+    //Json
+    compile group: 'org.json', name: 'json', version: '20160810'
 
     //dao added
     compile project(':dao')
