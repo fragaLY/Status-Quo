@@ -1,5 +1,9 @@
 package sq.vk.controller;
 
+import java.time.ZoneId;
+import java.util.List;
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,15 +11,14 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import sq.vk.dto.client.ClientDto;
 import sq.vk.service.client.ClientService;
-
-import javax.validation.Valid;
-import java.time.ZoneId;
-import java.util.List;
 
 import static java.time.LocalDateTime.now;
 
@@ -24,7 +27,6 @@ import static java.time.LocalDateTime.now;
  */
 @RestController
 @RequestMapping("/client")
-@Secured({"ROLE_ADMIN"})
 public class ClientController {
 
     private static final Logger LOG = LoggerFactory.getLogger(ClientController.class);
@@ -78,4 +80,6 @@ public class ClientController {
 
         return new ResponseEntity<>(currentClient, responseHeaders, HttpStatus.OK);
     }
+
+
 }

@@ -13,7 +13,6 @@ import org.springframework.core.io.ClassPathResource;
 public class CachingConfig {
 
     private static final String PATH_EHCACHE = "cache/ehcache.xml";
-
     @Bean
     public EhCacheCacheManager cacheManager(CacheManager cm) {
         return new EhCacheCacheManager(ehcacheManagerFactory().getObject());
