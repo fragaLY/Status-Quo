@@ -1,8 +1,5 @@
 package sq.vk.configuration.hibernate;
 
-import java.util.Properties;
-import javax.sql.DataSource;
-
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -16,6 +13,9 @@ import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import javax.sql.DataSource;
+import java.util.Properties;
+
 /**
  * Created by Vadzim Kavalkou on 23.03.2016.
  */
@@ -26,7 +26,7 @@ public class HibernateConfiguration {
 
     private static final String CREATE_CLIENTS_TABLE = "sql/create-clients.sql";
     private static final String INIT_CLIENT_TABLE = "sql/init-clients.sql";
-  private static final String CREATE_ITEMS_TABLE = "sql/create-items.sql";
+    private static final String CREATE_ITEMS_TABLE = "sql/create-user-statistic.sql";
 
     @Autowired
     private Environment environment;

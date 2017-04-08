@@ -1,8 +1,5 @@
 package sq.vk.service.client.impl;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +10,9 @@ import sq.vk.dao.client.ClientDao;
 import sq.vk.dto.client.ClientDto;
 import sq.vk.service.client.ClientService;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * Created by Vadzim Kavalkou on 22.03.2017.
  */
@@ -22,10 +22,10 @@ public class ClientServiceImpl implements ClientService {
     private static final Logger LOG = LoggerFactory.getLogger(ClientServiceImpl.class);
 
     @Autowired
-    private ClientDao clientDao;
+    private ClientDao dao;
 
     @Autowired
-    private ClientConverter clientConverter;
+    private ClientConverter converter;
 
     @Override
     @Transactional(readOnly = true)
@@ -33,7 +33,7 @@ public class ClientServiceImpl implements ClientService {
 
         LOG.info("Starting to get all clients.");
 
-        return clientDao.getAllClients().stream().parallel().map(clientConverter).collect(Collectors.toList());
+        return dao.getAllClients().stream().parallel().map(converter).collect(Collectors.toList());
 
     }
 
@@ -43,7 +43,7 @@ public class ClientServiceImpl implements ClientService {
 
         LOG.info("Starting to get client by email = [{}].", email);
 
-        return clientConverter.apply(clientDao.getClientByEmail(email));
+        return converter.apply(dao.getClientByEmail(email));
 
     }
 
@@ -53,13 +53,14 @@ public class ClientServiceImpl implements ClientService {
 
         LOG.info("Starting to get client by id = [{}].", id);
 
-        return clientConverter.apply(clientDao.getClientById(id));
+        return converter.apply(dao.getClientById(id));
 
     }
 
-    @Override public boolean saveClient(ClientDto client) {
+    @Override
+    public ClientDto saveClient(ClientDto client) {
 
         //TODO VK: implement logic
-        return false;
+        return null;
     }
 }

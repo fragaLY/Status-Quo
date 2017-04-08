@@ -1,7 +1,5 @@
 package sq.vk.dao.client.impl;
 
-import java.util.List;
-
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +7,8 @@ import org.springframework.stereotype.Repository;
 import sq.vk.dao.AbstractDao;
 import sq.vk.dao.client.ClientDao;
 import sq.vk.domain.client.Client;
+
+import java.util.List;
 
 /**
  * Created by Vadzim Kavalkou on 22.03.2017.
@@ -49,11 +49,12 @@ public class ClientDaoImpl extends AbstractDao implements ClientDao {
 
     }
 
-    @Override public boolean saveClient(Client client) {
+    @Override
+    public Client saveClient(Client client) {
 
         LOG.info("Save client = [ {} ].", client);
         //TODO VK : implement save logic
-        return false;
+        return null;
     }
 
 }
