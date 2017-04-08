@@ -1,5 +1,6 @@
 package sq.vk.service.statistic;
 
+import sq.vk.domain.statistic.PokerRoomType;
 import sq.vk.domain.statistic.Statistic;
 import sq.vk.dto.statistic.StatisticDto;
 
@@ -17,4 +18,7 @@ public interface StatisticService {
     StatisticDto getItemById(Integer id);
 
     StatisticDto getItemByName(String name);
+
+    Double getTotalProfit(String name, PokerRoomType roomType);
+
 }

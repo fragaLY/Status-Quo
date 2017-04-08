@@ -51,7 +51,7 @@ public class Statistic {
         this.name = name;
     }
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     public PokerRoomType getPokerRoom() {
         return pokerRoom;
     }

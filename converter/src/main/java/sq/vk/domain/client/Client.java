@@ -83,7 +83,7 @@ public class Client {
         this.secondName = secondName;
     }
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     public ClientRole getRole() {
         return role;
     }

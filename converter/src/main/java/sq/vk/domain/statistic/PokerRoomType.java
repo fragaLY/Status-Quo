@@ -16,11 +16,11 @@ public enum PokerRoomType {
         this.pokerRoom = pokerRoom;
     }
 
-    public static PokerRoomType getClientRoleByHisRole(String roomType_) {
+    public static PokerRoomType getRoomAsEnum(String roomType_) {
 
         Optional<PokerRoomType> room = Arrays.stream(values())
                 .parallel()
-                .filter(clientRole -> clientRole.getPokerRoom().equals(roomType_))
+                .filter(clientRole -> clientRole.getValue().equals(roomType_))
                 .findFirst();
 
 
@@ -31,7 +31,7 @@ public enum PokerRoomType {
         }
     }
 
-    public String getPokerRoom() {
+    public String getValue() {
         return pokerRoom;
     }
 
