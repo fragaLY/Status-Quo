@@ -1,1 +1,73 @@
-.idea/*
+# Gradle
+# ------
+*.class
+.gradle
+/build
+/buildSrc/build
+/subprojects/*/build
+/subprojects/docs/src/samples/*/*/build
+/subprojects/internal-android-performance-testing/build-android-libs
+cache.properties
+*.bin
+vcs.xml
+log.txt
+.lock
+
+# IDEA
+# ----
+.idea
+.shelf
+/*.iml
+/*.ipr
+/*.iws
+*/*.class
+
+/buildSrc/*.iml
+/buildSrc/*.ipr
+/buildSrc/*.iws
+/buildSrc/out
+/out
+/subprojects/*/*.iml
+/subprojects/*/out
+
+# Vim
+# ---
+*.sw[op]
+
+# Emacs
+# -----
+*~
+\#*\#
+.\#*
+
+# Textmate
+# --------
+.textmate
+
+# Sublime Text
+# ------------
+*.sublime-*
+
+# jEnv
+# ----
+.java-version
+
+# OS X
+# ----
+.DS_Store
+
+# HPROF
+# -----
+*.hprof
+
+# Work dirs
+# ---------
+/incoming-distributions
+/intTestHomeDir
+
+# Logs
+# ----
+/*.log
+
+# oh-my-zsh gradle plugin
+.gradletasknamecache

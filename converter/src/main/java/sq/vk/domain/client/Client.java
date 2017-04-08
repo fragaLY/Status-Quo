@@ -18,7 +18,7 @@ public class Client {
     private String password;
     private String firstName;
     private String secondName;
-    private String role;
+    private ClientRole role;
 
     public Client() {
     }
@@ -29,7 +29,7 @@ public class Client {
         this.password = builder.password;
         this.firstName = builder.firstName;
         this.secondName = builder.secondName;
-        this.role = builder.role.getClientRole();
+        this.role = builder.role;
     }
 
     @Id
@@ -83,12 +83,12 @@ public class Client {
         this.secondName = secondName;
     }
 
-    @Column(name = "role")
-    public String getRole() {
+    @Enumerated(EnumType.ORDINAL)
+    public ClientRole getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(ClientRole role) {
         this.role = role;
     }
 

@@ -1,8 +1,8 @@
 package sq.vk.dao.client;
 
-import java.util.List;
-
 import sq.vk.domain.client.Client;
+
+import java.util.List;
 
 /**
  * Created by Vadzim Kavalkou on 22.03.2017.
@@ -15,5 +15,5 @@ public interface ClientDao {
 
     Client getClientById(Integer id);
 
-    boolean saveClient(Client client);
+    Client saveClient(Client client);
 }
