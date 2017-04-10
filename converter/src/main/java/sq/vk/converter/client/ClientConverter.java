@@ -1,12 +1,12 @@
 package sq.vk.converter.client;
 
+import java.util.function.Function;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import sq.vk.domain.client.Client;
 import sq.vk.dto.client.ClientDto;
-
-import java.util.function.Function;
 
 /**
  * Created by Vadzim Kavalkou on 22.03.2017.

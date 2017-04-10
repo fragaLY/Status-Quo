@@ -1,5 +1,8 @@
 package sq.vk.service.client.impl;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +12,6 @@ import sq.vk.converter.client.ClientConverter;
 import sq.vk.dao.client.ClientDao;
 import sq.vk.dto.client.ClientDto;
 import sq.vk.service.client.ClientService;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Created by Vadzim Kavalkou on 22.03.2017.
