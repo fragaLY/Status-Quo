@@ -1,4 +1,4 @@
-package sq.vk.controller;
+package sq.vk.controllers;
 
 import java.time.ZoneId;
 import java.util.List;
@@ -11,6 +11,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,6 +38,7 @@ public class ClientController {
 
     @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
+    @Secured("ROLE_ADMIN")
     public ResponseEntity<List<ClientDto>> getAllClients() {
         LOG.info("Get all clients");
 
@@ -51,6 +53,7 @@ public class ClientController {
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
+    @Secured("ROLE_ADMIN")
     public ResponseEntity<ClientDto> getClientById(@Valid @PathVariable("id") int id) {
         LOG.info("Get client by id: '{}'", id);
 
