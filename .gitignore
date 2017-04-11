@@ -1,73 +1,57 @@
-# Gradle
-# ------
-*.class
 .gradle
-/build
-/buildSrc/build
-/subprojects/*/build
-/subprojects/docs/src/samples/*/*/build
-/subprojects/internal-android-performance-testing/build-android-libs
-cache.properties
-*.bin
-vcs.xml
-log.txt
-.lock
+/build/
 
-# IDEA
-# ----
-.idea
-.shelf
-/*.iml
-/*.ipr
-/*.iws
-*/*.class
+# Ignore Gradle GUI config
+gradle-app.setting
 
-/buildSrc/*.iml
-/buildSrc/*.ipr
-/buildSrc/*.iws
-/buildSrc/out
-/out
-/subprojects/*/*.iml
-/subprojects/*/out
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!gradle-wrapper.jar
 
-# Vim
-# ---
-*.sw[op]
-
-# Emacs
-# -----
-*~
-\#*\#
-.\#*
-
-# Textmate
-# --------
-.textmate
-
-# Sublime Text
-# ------------
-*.sublime-*
-
-# jEnv
-# ----
-.java-version
-
-# OS X
-# ----
-.DS_Store
-
-# HPROF
-# -----
-*.hprof
-
-# Work dirs
-# ---------
-/incoming-distributions
-/intTestHomeDir
-
-# Logs
-# ----
-/*.log
-
-# oh-my-zsh gradle plugin
+# Cache of project
 .gradletasknamecache
+
+# Compiled class file
+*.class
+*.bin
+*.lock
+*.yml
+
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+*.lock
+.gradle/3.1/taskArtifacts/cache.properties.lock
+*.bin
+.idea/.name
+.idea/artifacts/Gradle___by_integrated___Status_Quo_1_0_SNAPSHOT_war__exploded_.xml
+.idea/gradle.xml
+.gradle/3.3/taskArtifacts/taskArtifacts.lock
+.idea\*
+.idea/*
+/*.class
+\*.class
+*.class
+/_config.yml
+/*.bin
+\*.bin
+*.bin
+.gradle/3.3/taskArtifacts/fileHashes.bin
+*.bin
+.gradle\*
+.gradle/*
