@@ -1,8 +1,8 @@
 package sq.vk.dao.statistic;
 
-import sq.vk.domain.statistic.Statistic;
-
 import java.util.List;
+
+import sq.vk.domain.statistic.Statistic;
 
 /**
  * Created by Vadzim_Kavalkou on 4/7/2017.
@@ -11,10 +11,10 @@ public interface StatisticDao {
 
     Statistic saveItem(Statistic statistic);
 
-    List<Statistic> getAllItems();
+    List<Statistic> getAllStatistics();
 
-    Statistic getItemById(Integer id);
+    Statistic getStatisticById(Integer id);
 
-    Statistic getItemByName(String name);
+    Statistic getStatisticByName(String name);
 
 }

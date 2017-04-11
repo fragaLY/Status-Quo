@@ -1,5 +1,7 @@
 package sq.vk.dao.client.impl;
 
+import java.util.List;
+
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,8 +9,7 @@ import org.springframework.stereotype.Repository;
 import sq.vk.dao.AbstractDao;
 import sq.vk.dao.client.ClientDao;
 import sq.vk.domain.client.Client;
-
-import java.util.List;
+import sq.vk.exceptions.client.ClientNotFoundException;
 
 /**
  * Created by Vadzim Kavalkou on 22.03.2017.
@@ -16,45 +17,60 @@ import java.util.List;
 @Repository("ClientRepository")
 public class ClientDaoImpl extends AbstractDao implements ClientDao {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ClientDaoImpl.class);
+  private static final Logger LOG = LoggerFactory.getLogger(ClientDaoImpl.class);
 
-    @Override
-    public List<Client> getAllClients() {
+  @Override
+  public List<Client> getAllClients() {
 
-        LOG.info("Get all clients.");
+    LOG.info("Get all clients.");
+    final List<Client> clients = getSession().createQuery("FROM Client").list();
 
-        return (List<Client>) getSession().createQuery("FROM Client").list();
-
+    if (clients.isEmpty()) {
+      throw new ClientNotFoundException("Clients were not found");
     }
 
-    @Override
-    public Client getClientByEmail(final String email) {
+    return clients;
 
-        LOG.info("Get client by email = [{}].", email);
+  }
 
-        Query query = getSession()
-                .createQuery("FROM Client c WHERE c.email=:email")
-                .setParameter("email", email);
+  @Override
+  public Client getClientByEmail(final String email) {
 
-        return (Client) query.uniqueResult();
+    LOG.info("Get client by email = [{}].", email);
 
+    Query query = getSession().createQuery("FROM Client c WHERE c.email=:email").setParameter("email", email);
+
+    final Client client = (Client)query.uniqueResult();
+
+    if (client == null) {
+      throw new ClientNotFoundException("Client with email '" + email + "' was not found.");
     }
 
-    @Override
-    public Client getClientById(final Integer id) {
+    return client;
 
-        LOG.info("Get client by id = [ {} ].", id);
+  }
 
-        return getSession().get(Client.class, id);
+  @Override
+  public Client getClientById(final Integer id) {
 
+    LOG.info("Get client by id = [ {} ].", id);
+
+    final Client client = getSession().get(Client.class, id);
+
+    if (client == null) {
+      throw new ClientNotFoundException("Client with id='" + id + "' was not found.");
     }
 
-    @Override
-    public Client saveClient(Client client) {
+    return client;
 
-        LOG.info("Save client = [ {} ].", client);
-        //TODO VK : implement save logic
-        return null;
-    }
+  }
+
+  @Override
+  public Client saveClient(Client client) {
+
+    LOG.info("Save client = [ {} ].", client);
+    //TODO VK : implement save logic
+    return null;
+  }
 
 }

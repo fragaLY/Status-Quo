@@ -34,7 +34,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(clientDetailsService);
+        PasswordEncoder encoder = new BCryptPasswordEncoder();
+        auth.userDetailsService(clientDetailsService).passwordEncoder(encoder);
         auth.authenticationProvider(authenticationProvider());
     }
 
@@ -61,25 +62,25 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         encodingFilter.setForceEncoding(true);
 
         http
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                    .sessionManagement()
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .headers().frameOptions().disable()
+                    .headers().frameOptions().disable()
                 .and()
-                .addFilterBefore(encodingFilter, CsrfFilter.class)
-                .formLogin()
-                .loginPage("/login").defaultSuccessUrl("/client/profile", false).failureUrl("/login")
-                .usernameParameter("email").passwordParameter("password")
+                    .addFilterBefore(encodingFilter, CsrfFilter.class)
+                    .formLogin()
+                    .loginPage("/login").defaultSuccessUrl("/client/profile", false).failureUrl("/login")
+                    .usernameParameter("email").passwordParameter("password")
                 .and()
-                .logout().logoutUrl("/handlelogout").invalidateHttpSession(true).logoutSuccessUrl("/login")
+                    .logout().logoutUrl("/handlelogout").invalidateHttpSession(true).logoutSuccessUrl("/login")
                 .and()
-                .httpBasic().realmName("Status-Quo")
+                    .httpBasic().realmName("Status-Quo")
                 .and()
-                .authorizeRequests()
-                .antMatchers("/", "/login", "/favicon.ico", "/client/*").permitAll()
+                    .authorizeRequests()
+                    .antMatchers("/", "/login", "/favicon.ico").permitAll()
                 .and()
-                .exceptionHandling().accessDeniedPage("/error")
+                    .exceptionHandling().accessDeniedPage("/error")
                 .and()
-                .csrf().disable();
+                    .csrf().disable();
     }
 }
