@@ -3,19 +3,18 @@ package sq.vk.configuration.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.authentication.configuration.EnableGlobalAuthentication;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.csrf.CsrfFilter;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.filter.CharacterEncodingFilter;
+import sq.vk.configuration.security.rest.RestAuthenticationEntryPoint;
+import sq.vk.configuration.security.rest.RestAuthenticationSuccessHandler;
+import sq.vk.configuration.security.rest.RestLogoutSuccessHandler;
+import sq.vk.configuration.security.rest.RestUsernamePasswordAuthenticationFilter;
 
 /**
  * Created by Vadzim Kavalkou on 13.11.2016.
@@ -24,64 +23,54 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private ClientDetailsService clientDetailsService;
+  @Autowired
+  private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
 
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web
-                .ignoring()
-                .antMatchers("/resources/**");
-    }
+  @Autowired
+  private RestAuthenticationSuccessHandler authenticationSuccessHandler;
 
-    @Autowired
-    public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
-        PasswordEncoder encoder = new BCryptPasswordEncoder();
-        auth.userDetailsService(clientDetailsService).passwordEncoder(encoder);
-        auth.authenticationProvider(authenticationProvider());
-    }
+  @Autowired
+  private RestLogoutSuccessHandler logoutSuccessHandler;
 
+  @Autowired
+  private ClientDetailsService clientDetailsService;
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+  @Autowired
+  public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
+    PasswordEncoder encoder = new BCryptPasswordEncoder();
+    auth.userDetailsService(clientDetailsService).passwordEncoder(encoder);
+  }
 
+  @Bean
+  public RestUsernamePasswordAuthenticationFilter restFilter() throws Exception {
+    RestUsernamePasswordAuthenticationFilter authFilter = new RestUsernamePasswordAuthenticationFilter();
+    authFilter.setAuthenticationManager(authenticationManager());
 
-    @Bean
-    public DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setUserDetailsService(clientDetailsService);
-        authenticationProvider.setPasswordEncoder(passwordEncoder());
-        return authenticationProvider;
-    }
+    return authFilter;
+  }
 
-    @Override
-    public void configure(HttpSecurity http) throws Exception {
+  @Override
+  public void configure(HttpSecurity http) throws Exception {
 
-        CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter();
-        encodingFilter.setEncoding("UTF-8");
-        encodingFilter.setForceEncoding(true);
+    CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter();
 
-        http
-                    .sessionManagement()
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                    .headers().frameOptions().disable()
-                .and()
-                    .formLogin()
-                    .loginPage("/login").defaultSuccessUrl("/client/profile", false).failureUrl("/login")
-                    .usernameParameter("email").passwordParameter("password")
-                .and()
-                    .logout().logoutUrl("/handlelogout").invalidateHttpSession(true).logoutSuccessUrl("/login")
-                .and()
-                    .httpBasic().realmName("Status-Quo")
-                .and()
-                    .authorizeRequests()
-        .antMatchers("/", "/login", "/favicon.ico").permitAll()
-                .and()
-                    .exceptionHandling().accessDeniedPage("/error")
-                .and()
-                    .csrf().disable();
-    }
+    encodingFilter.setEncoding("UTF-8");
+    encodingFilter.setForceEncoding(true);
+
+    http.addFilterBefore(restFilter(), UsernamePasswordAuthenticationFilter.class);
+
+    http.headers().frameOptions().disable();
+    http.csrf().disable();
+
+    http.formLogin().loginProcessingUrl("/login").successHandler(authenticationSuccessHandler);
+    http.logout().logoutUrl("/logout").invalidateHttpSession(true).deleteCookies(
+      "JSESSIONID").logoutSuccessHandler(logoutSuccessHandler);
+
+    http.authorizeRequests()
+        .antMatchers("/favicon.ico").permitAll()
+        .antMatchers(
+      "/login").fullyAuthenticated();
+
+    http.exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint);
+  }
 }

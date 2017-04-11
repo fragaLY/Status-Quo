@@ -27,23 +27,26 @@ public class RestAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuc
     HttpServletResponse response,
     Authentication authentication) throws IOException, ServletException {
 
-    SavedRequest savedRequest = requestCache.getRequest(request, response);
+    final SavedRequest savedRequest = requestCache.getRequest(request, response);
 
     if (savedRequest == null) {
+
       clearAuthenticationAttributes(request);
       return;
     }
 
     String targetUrlParam = getTargetUrlParameter();
 
-    if (isAlwaysUseDefaultTargetUrl()
-        || (targetUrlParam != null && StringUtils.hasText(request.getParameter(targetUrlParam)))) {
+    if (isAlwaysUseDefaultTargetUrl()| (targetUrlParam != null && StringUtils.hasText(request.getParameter(targetUrlParam)))) {
+
       requestCache.removeRequest(request, response);
+
       clearAuthenticationAttributes(request);
       return;
     }
 
     clearAuthenticationAttributes(request);
+
   }
 
   public void setRequestCache(RequestCache requestCache) {

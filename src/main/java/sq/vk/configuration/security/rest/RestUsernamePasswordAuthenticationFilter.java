@@ -18,8 +18,6 @@ public class RestUsernamePasswordAuthenticationFilter extends AbstractAuthentica
   public static final String SPRING_SECURITY_FORM_USERNAME_KEY = "j_username";
   public static final String SPRING_SECURITY_FORM_PASSWORD_KEY = "j_password";
 
-  public static final String SPRING_SECURITY_LAST_USERNAME_KEY = "SPRING_SECURITY_LAST_USERNAME";
-
   private boolean postOnly = true;
 
   private String usernameParameter = SPRING_SECURITY_FORM_USERNAME_KEY;
@@ -49,9 +47,8 @@ public class RestUsernamePasswordAuthenticationFilter extends AbstractAuthentica
 
     UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(username, password);
 
-    // Allow subclasses to set the "details" property
     setDetails(request, authRequest);
-    System.out.println("TEEST");
+
     return this.getAuthenticationManager().authenticate(authRequest);
   }
 
