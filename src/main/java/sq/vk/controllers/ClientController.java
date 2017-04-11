@@ -33,12 +33,16 @@ public class ClientController {
     private static final Logger LOG = LoggerFactory.getLogger(ClientController.class);
     private static final ZoneId EUROPE_MOSCOW = ZoneId.of("Europe/Moscow");
 
+    private static final String ROLE_ADMIN = "ROLE_ADMIN";
+    private static final String ROLE_DEVELOPER = "ROLE_DEVELOPER";
+    private static final String ROLE_USER = "ROLE_USER";
+
     @Autowired
     private ClientService clientService;
 
     @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    @Secured("ROLE_ADMIN")
+    @Secured(ROLE_ADMIN)
     public ResponseEntity<List<ClientDto>> getAllClients() {
         LOG.info("Get all clients");
 
@@ -53,7 +57,7 @@ public class ClientController {
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    @Secured("ROLE_ADMIN")
+    @Secured(ROLE_ADMIN)
     public ResponseEntity<ClientDto> getClientById(@Valid @PathVariable("id") int id) {
         LOG.info("Get client by id: '{}'", id);
 
@@ -70,6 +74,7 @@ public class ClientController {
 
     @GetMapping(value = "/profile", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
+    @Secured({ROLE_ADMIN, ROLE_DEVELOPER, ROLE_USER})
     public ResponseEntity<ClientDto> getClientProfile() {
         LOG.info("Get current user info.");
 

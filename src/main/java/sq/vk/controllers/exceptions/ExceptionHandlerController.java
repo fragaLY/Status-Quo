@@ -7,6 +7,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import sq.vk.exceptions.client.ClientNotFoundException;
 import sq.vk.exceptions.statistic.RoomNotFoundException;
@@ -18,6 +19,9 @@ import sq.vk.exceptions.statistic.StatisticNotFoundException;
 @ControllerAdvice
 public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
 
+  private static final HttpStatus NOT_FOUND = HttpStatus.NOT_FOUND;
+  private static final HttpStatus FORBIDDEN = HttpStatus.FORBIDDEN;
+
   @ExceptionHandler(StatisticNotFoundException.class)
   protected ResponseEntity<Object> handleStatisticNotFoundExceptionHandler(
     StatisticNotFoundException ex,
@@ -25,7 +29,7 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
     final String responseBody = "Something went wrong with info of statistic";
     final HttpHeaders httpHeaders = new HttpHeaders();
 
-    return handleExceptionInternal(ex, responseBody, httpHeaders, HttpStatus.NOT_FOUND, request);
+    return handleExceptionInternal(ex, responseBody, httpHeaders, NOT_FOUND, request);
   }
 
   @ExceptionHandler(ClientNotFoundException.class)
@@ -35,7 +39,7 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
     final String responseBody = "Something went wrong with client's info";
     final HttpHeaders httpHeaders = new HttpHeaders();
 
-    return handleExceptionInternal(ex, responseBody, httpHeaders, HttpStatus.NOT_FOUND, request);
+    return handleExceptionInternal(ex, responseBody, httpHeaders, NOT_FOUND, request);
   }
 
   @ExceptionHandler(AccessDeniedException.class)
@@ -43,7 +47,7 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
     final String responseBody = "You do not have sufficient rights to view this page";
     final HttpHeaders httpHeaders = new HttpHeaders();
 
-    return handleExceptionInternal(ex, responseBody, httpHeaders, HttpStatus.FORBIDDEN, request);
+    return handleExceptionInternal(ex, responseBody, httpHeaders, FORBIDDEN, request);
   }
 
   @ExceptionHandler(RoomNotFoundException.class)
@@ -53,7 +57,17 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
     final String responseBody = "Something went wrong with the info of room";
     final HttpHeaders httpHeaders = new HttpHeaders();
 
-    return handleExceptionInternal(ex, responseBody, httpHeaders, HttpStatus.NOT_FOUND, request);
+    return handleExceptionInternal(ex, responseBody, httpHeaders, NOT_FOUND, request);
+  }
+
+  @Override
+  protected ResponseEntity<Object> handleNoHandlerFoundException(
+      NoHandlerFoundException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+
+    final String responseBody = "There is no current page";
+    final HttpHeaders httpHeaders = new HttpHeaders();
+
+    return super.handleExceptionInternal(ex, responseBody, httpHeaders, NOT_FOUND, request);
   }
 
 }

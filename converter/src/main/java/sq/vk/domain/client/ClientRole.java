@@ -10,7 +10,7 @@ public enum ClientRole {
 
     DEVELOPER("ROLE_DEVELOPER"), ADMIN("ROLE_ADMIN"), USER("ROLE_USER");
 
-    private String role;
+    private final String role;
 
     ClientRole(String userRole) {
         this.role = userRole;

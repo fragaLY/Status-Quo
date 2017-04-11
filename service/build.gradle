@@ -21,6 +21,7 @@ ext {
     slf4Version = '1.7.+'
     log4jVersion = '1.2.+'
     jsoupVersion = '1.10.+'
+    httpClientVersion = '4.5.+'
 }
 
 dependencies {
@@ -46,6 +47,9 @@ dependencies {
 
     //Json
     compile group: 'org.json', name: 'json', version: '20160810'
+
+    //Apache http-client
+    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: httpClientVersion
 
     //dao added
     compile project(':dao')
