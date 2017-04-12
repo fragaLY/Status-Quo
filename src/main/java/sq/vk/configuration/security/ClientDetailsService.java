@@ -1,5 +1,8 @@
 package sq.vk.configuration.security;
 
+import java.util.List;
+import java.util.Optional;
+
 import com.google.common.collect.ImmutableList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,11 +14,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import sq.vk.dto.client.ClientDto;
-import sq.vk.service.client.ClientService;
-
-import java.util.List;
-import java.util.Optional;
+import sq.vk.client.dto.ClientDto;
+import sq.vk.client.service.ClientService;
 
 /**
  * Created by Vadzim Kavalkou on 22.03.2017.
@@ -40,7 +40,7 @@ public class ClientDetailsService implements UserDetailsService {
         if (optionalClientDto.isPresent()) {
 
             ClientDto clientDto = optionalClientDto.get();
-            String clientRole = clientDto.getRole();
+            String clientRole = clientDto.getRole().getClientRole();
 
             List<GrantedAuthority> authorities = ImmutableList.of(new SimpleGrantedAuthority(clientRole));
 

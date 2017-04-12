@@ -20,16 +20,12 @@
         <level value="info"/>
     </logger>
 
-    <logger name="sq.vk">
+    <logger name="sq.vk.client" additivity="false">
         <level value="info"/>
     </logger>
 
     <logger name="org.hibernate">
         <level value="info"/>
-    </logger>
-
-    <logger name="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
-        <level value="error"/>
     </logger>
 
     <!-- Root Logger -->

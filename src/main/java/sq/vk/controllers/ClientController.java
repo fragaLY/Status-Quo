@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import sq.vk.dto.client.ClientDto;
-import sq.vk.service.client.ClientService;
+import sq.vk.client.dto.ClientDto;
+import sq.vk.client.service.ClientService;
 
 import static java.time.LocalDateTime.now;
 

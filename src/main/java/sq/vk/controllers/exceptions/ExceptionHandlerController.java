@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import sq.vk.exceptions.client.ClientNotFoundException;
-import sq.vk.exceptions.statistic.RoomNotFoundException;
-import sq.vk.exceptions.statistic.StatisticNotFoundException;
+import sq.vk.client.exceptions.ClientNotFoundException;
+import sq.vk.statistic.exceptions.RoomNotFoundException;
+import sq.vk.statistic.exceptions.StatisticNotFoundException;
 
 /**
  * Created by Vadzim_Kavalkou on 4/10/2017.

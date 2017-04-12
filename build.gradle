@@ -53,17 +53,10 @@ dependencies {
     compile group: 'org.hibernate', name: 'hibernate-core', version: hibernateVersion
     compile group: 'org.hibernate', name: 'hibernate-validator', version: hibernateVersion
 
-    //Thymeleaf dependencies
-    compile group: 'org.thymeleaf', name: 'thymeleaf-spring4', version: thymeleafVersion
-    compile group: 'org.thymeleaf', name: 'thymeleaf', version: thymeleafVersion
-    compile group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-springsecurity4', version: thymeleafVersion
-
     //H2 database dependency
     runtime group: 'com.h2database', name: 'h2', version: h2Version
 
     //Logger
-    compile group: 'org.slf4j', name: 'slf4j-api', version: slf4Version
-    compile group: 'org.slf4j', name: 'jcl-over-slf4j', version: slf4Version
     compile group: 'org.slf4j', name: 'slf4j-log4j12', version: slf4Version
     compile group: 'log4j', name: 'log4j', version: log4jVersion
 
@@ -83,12 +76,10 @@ dependencies {
     testCompile group: 'org.springframework', name: 'spring-test', version: springTestVersion
     compile group: 'org.mockito', name: 'mockito-core', version: mockitoCoreVersion
 
-    //Mail dependencies
-    compile group: 'javax.mail', name: 'javax.mail-api', version: javaMailVersion
-    compile group: 'com.sun.mail', name: 'javax.mail', version: javaMailVersion
     
     //service
-    compile project(':service')
+    compile project(':client-service')
+    compile project(':statistic-service')
 }
 
 buildscript {

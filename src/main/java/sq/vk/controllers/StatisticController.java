@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import sq.vk.domain.statistic.PokerRoomType;
-import sq.vk.dto.statistic.StatisticDto;
-import sq.vk.service.statistic.StatisticService;
+import sq.vk.statistic.domain.PokerRoomType;
+import sq.vk.statistic.dto.StatisticDto;
+import sq.vk.statistic.service.StatisticService;
 
 import static java.time.LocalDateTime.now;
 
