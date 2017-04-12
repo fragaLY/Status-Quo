@@ -20,13 +20,6 @@ public class StatisticDaoImpl extends AbstractDao implements StatisticDao {
   private static final Logger LOG = LoggerFactory.getLogger(StatisticDaoImpl.class);
 
   @Override
-  public Statistic saveItem(Statistic statistic) {
-
-    //TODO VK: implement logic
-    return null;
-  }
-
-  @Override
   public List<Statistic> getAllStatistics() {
 
     LOG.info("Get all items");
@@ -37,6 +30,7 @@ public class StatisticDaoImpl extends AbstractDao implements StatisticDao {
     }
 
     return statistics;
+
   }
 
   @Override
@@ -52,6 +46,7 @@ public class StatisticDaoImpl extends AbstractDao implements StatisticDao {
     }
 
     return statistic;
+
   }
 
   @Override
@@ -67,6 +62,42 @@ public class StatisticDaoImpl extends AbstractDao implements StatisticDao {
     }
 
     return statistic;
+
+  }
+
+  @Override
+  public Statistic saveStatistic(Statistic statistic) {
+
+    LOG.info("Save statistic = [ {} ].", statistic);
+
+    getSession().saveOrUpdate(statistic);
+
+    return statistic;
+
+  }
+
+  @Override
+  public Statistic deleteStatistic(Statistic statistic) {
+
+    LOG.info("Deleting statistic [{}]", statistic);
+
+    getSession().delete(statistic);
+
+    return statistic;
+
+  }
+
+  @Override
+  public Integer deleteStatistic(Integer id) {
+
+    LOG.info("Deleting statistic with id [{}]", id);
+
+    Query query = getSession().createQuery("delete FROM Statistic c WHERE c.id=:id").setParameter("id", id);
+
+    query.executeUpdate();
+
+    return id;
+
   }
 
 }

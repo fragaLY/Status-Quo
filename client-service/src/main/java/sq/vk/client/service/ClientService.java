@@ -15,6 +15,12 @@ public interface ClientService {
 
     ClientDto getClientById(Integer id);
 
-    ClientDto saveClient(ClientDto client);
+    ClientDto saveClient(ClientDto clientDto);
+
+    ClientDto deleteClient(ClientDto clientDto);
+
+    Integer deleteClient(Integer id);
+
+    String deleteClient(String email);
 
 }

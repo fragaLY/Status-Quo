@@ -46,12 +46,8 @@ dependencies {
     //Apache commons lang dependency
     compile group: 'org.apache.commons', name: 'commons-lang3', version: apacheCommonsVersion
 
-    //Apache http libs
-    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.3'
-    compile group: 'org.apache.httpcomponents', name: 'httpcore', version: '4.4.6'
-
-    //Jsoup
-    compile group: 'org.jsoup', name: 'jsoup', version: '1.10.2'
+    //Guava
+    compile group: 'com.google.guava', name: 'guava', version: guavaVersion
 
     //Test dependencies
     testCompile group: 'junit', name: 'junit', version: junitVersion

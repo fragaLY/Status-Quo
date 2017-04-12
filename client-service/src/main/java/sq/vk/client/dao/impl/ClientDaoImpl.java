@@ -23,11 +23,14 @@ public class ClientDaoImpl extends AbstractDao implements ClientDao {
   public List<Client> getAllClients() {
 
     LOG.info("Get all clients.");
+
     final List<Client> clients = getSession().createQuery("FROM Client").list();
 
     if (clients.isEmpty()) {
       throw new ClientNotFoundException("Clients were not found");
     }
+
+    LOG.info("All clients were found.");
 
     return clients;
 
@@ -46,6 +49,8 @@ public class ClientDaoImpl extends AbstractDao implements ClientDao {
       throw new ClientNotFoundException("Client with email '" + email + "' was not found.");
     }
 
+    LOG.info("Client with email = [ {} ] was found.", email);
+
     return client;
 
   }
@@ -61,16 +66,59 @@ public class ClientDaoImpl extends AbstractDao implements ClientDao {
       throw new ClientNotFoundException("Client with id='" + id + "' was not found.");
     }
 
+    LOG.info("Client with id = [ {} ] was found.", id);
+
     return client;
 
   }
 
   @Override
-  public Client saveClient(Client client) {
+  public Client saveClient(final Client client) {
 
     LOG.info("Save client = [ {} ].", client);
-    //TODO VK : implement save logic
-    return null;
+
+    getSession().saveOrUpdate(client);
+
+    return client;
+  }
+
+  @Override
+  public Client deleteClient(final Client client) {
+
+    LOG.info("Deleting client [{}]", client);
+
+    getSession().delete(client);
+
+    return client;
+
+  }
+
+  @Override
+  public Integer deleteClient(final Integer id) {
+
+    LOG.info("Deleting client with id [{}]", id);
+
+    Query query = getSession().createQuery("delete FROM Client c WHERE c.id=:id").setParameter("id", id);
+
+    query.executeUpdate();
+
+    return id;
+
+  }
+
+  @Override
+  public String deleteClient(final String email) {
+
+    LOG.info("Deleting client with email [{}]", email);
+
+    Query query = getSession().createQuery("delete FROM Client c WHERE c.email=:email").setParameter(
+      "email",
+      email);
+
+    query.executeUpdate();
+
+    return email;
+
   }
 
 }

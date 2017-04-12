@@ -28,17 +28,17 @@ public class ClientServiceImpl implements ClientService {
     private ClientConverter converter;
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public List<ClientDto> getAllClients() {
 
         LOG.info("Starting to get all clients.");
-        //TODO VK:         ObjectMapper mapper = new ObjectMapper();
+
         return dao.getAllClients().stream().parallel().map(converter).collect(Collectors.toList());
 
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public ClientDto getClientByEmail(final String email) {
 
         LOG.info("Starting to get client by email = [{}].", email);
@@ -48,7 +48,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
     public ClientDto getClientById(final Integer id) {
 
         LOG.info("Starting to get client by id = [{}].", id);
@@ -58,9 +58,51 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public ClientDto saveClient(ClientDto client) {
+    @Transactional(rollbackFor = Exception.class)
+    public ClientDto saveClient(final ClientDto clientDto) {
 
-        //TODO VK: implement logic
-        return null;
+        LOG.info("Starting to save clientDto [{}].", clientDto);
+
+        dao.saveClient(converter.transform(clientDto));
+
+        return clientDto;
+
     }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public ClientDto deleteClient(final ClientDto clientDto) {
+
+        LOG.info("Starting to delete clientDto [{}].", clientDto);
+
+        dao.deleteClient(converter.transform(clientDto));
+
+        return clientDto;
+
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Integer deleteClient(final Integer id) {
+
+        LOG.info("Starting to delete client with id [{}].", id);
+
+        dao.deleteClient(id);
+
+        return id;
+
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public String deleteClient(final String email) {
+
+        LOG.info("Starting to delete client with email [{}].", email);
+
+        dao.deleteClient(email);
+
+        return email;
+
+    }
+
 }

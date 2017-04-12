@@ -1,8 +1,4 @@
 rootProject.name = 'Status Quo'
-include 'dao'
-include 'service'
-include 'converter'
 include 'client-service'
-include 'room-service'
 include 'statistic-service'
 

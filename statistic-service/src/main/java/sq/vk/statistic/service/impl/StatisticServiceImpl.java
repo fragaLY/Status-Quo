@@ -1,12 +1,8 @@
 package sq.vk.statistic.service.impl;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sq.vk.statistic.conveter.StatisticConverter;
 import sq.vk.statistic.dao.StatisticDao;
-import sq.vk.statistic.domain.PokerRoomType;
-import sq.vk.statistic.domain.Statistic;
 import sq.vk.statistic.dto.StatisticDto;
 import sq.vk.statistic.service.StatisticService;
 
@@ -35,14 +29,8 @@ public class StatisticServiceImpl implements StatisticService {
     private StatisticConverter converter;
 
     @Override
-    public StatisticDto saveItem(final Statistic statistic) {
-
-        return null;
-    }
-
-    @Override
     @Transactional(readOnly = true)
-    public List<StatisticDto> getAllItems() {
+    public List<StatisticDto> getAllStatistics() {
 
         LOG.info("Starting to get all statistics.");
 
@@ -51,7 +39,7 @@ public class StatisticServiceImpl implements StatisticService {
 
     @Override
     @Transactional(readOnly = true)
-    public StatisticDto getItemById(final Integer id) {
+    public StatisticDto getStatisticById(final Integer id) {
 
         LOG.info("Starting to get statistic by id = [{}].", id);
 
@@ -60,24 +48,41 @@ public class StatisticServiceImpl implements StatisticService {
 
     @Override
     @Transactional(readOnly = true)
-    public StatisticDto getItemByName(final String name) {
+    public StatisticDto getStatisticByName(final String name) {
 
         LOG.info("Starting to get statistic by name = [{}].", name);
 
         return converter.apply(dao.getStatisticByName(name));
     }
 
+
     @Override
-    @Transactional(readOnly = false)
-    public Double getTotalProfit(final String name, final PokerRoomType roomType) throws IOException {
+    public StatisticDto saveStatistic(final StatisticDto statisticDto) {
 
-        String view = new StatisticDataExecuter().getHtmlViewForUserAndRoom(name,roomType);
+        LOG.info("Starting to save statistic [{}].", statisticDto);
 
-        Document document = Jsoup.parse(view);
+        dao.saveStatistic(converter.transform(statisticDto));
 
-        Elements select = document.select(TOTAL_PROFIT_SELECTOR);
-        System.out.println(select.toString());
-
-        return 21D;
+        return statisticDto;
     }
+
+    @Override
+    public StatisticDto deleteStatistic(final StatisticDto statisticDto) {
+
+        LOG.info("Starting to delete statistic [{}].", statisticDto);
+
+        dao.deleteStatistic(converter.transform(statisticDto));
+
+        return statisticDto;
+    }
+
+    @Override public Integer deleteStatistic(final Integer id) {
+        LOG.info("Starting to delete statistic with id [{}].", id);
+
+        dao.deleteStatistic(id);
+
+        return id;
+
+    }
+
 }

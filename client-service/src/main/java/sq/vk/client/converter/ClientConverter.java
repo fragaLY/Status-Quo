@@ -17,7 +17,7 @@ public class ClientConverter implements Function<Client, ClientDto> {
     private static final Logger LOG = LoggerFactory.getLogger(ClientConverter.class);
 
     @Override
-    public ClientDto apply(Client client) {
+    public ClientDto apply(final Client client) {
 
         LOG.info("Converts Client = [{}] into ClientDto.", client);
 
@@ -26,11 +26,32 @@ public class ClientConverter implements Function<Client, ClientDto> {
                                 .setFirstName(client.getFirstName())
                                 .setSecondName(client.getSecondName())
                                 .setPassword(client.getPassword())
-                .setRole(client.getRole())
+                                .setRole(client.getRole())
                              .build();
 
         LOG.info("Client was successfully converted into ClientDto = [{}].", clientDto);
 
         return clientDto;
     }
+
+    public Client transform(final ClientDto clientDto) {
+
+
+        LOG.info("Converts ClientDto = [{}] into Client.", clientDto);
+
+        Client client = new Client.Builder(clientDto.getEmail())
+                            .setId(clientDto.getId())
+                            .setFirstName(clientDto.getFirstName())
+                            .setSecondName(clientDto.getSecondName())
+                            .setPassword(clientDto.getPassword())
+                            .setRole(clientDto.getRole())
+                        .build();
+
+
+        LOG.info("ClientDto was successfully converted into Client = [{}].", client);
+
+        return client;
+
+    }
+
 }

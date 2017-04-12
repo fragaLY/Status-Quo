@@ -1,10 +1,7 @@
 package sq.vk.statistic.service;
 
-import java.io.IOException;
 import java.util.List;
 
-import sq.vk.statistic.domain.PokerRoomType;
-import sq.vk.statistic.domain.Statistic;
 import sq.vk.statistic.dto.StatisticDto;
 
 /**
@@ -12,14 +9,16 @@ import sq.vk.statistic.dto.StatisticDto;
  */
 public interface StatisticService {
 
-    StatisticDto saveItem(Statistic statistic);
+    List<StatisticDto> getAllStatistics();
 
-    List<StatisticDto> getAllItems();
+    StatisticDto getStatisticById(Integer id);
 
-    StatisticDto getItemById(Integer id);
+    StatisticDto getStatisticByName(String name);
 
-    StatisticDto getItemByName(String name);
+    StatisticDto saveStatistic(StatisticDto statisticDto);
 
-    Double getTotalProfit(String name, PokerRoomType roomType) throws IOException;
+    StatisticDto deleteStatistic(StatisticDto statisticDto);
+
+    Integer deleteStatistic(Integer id);
 
 }

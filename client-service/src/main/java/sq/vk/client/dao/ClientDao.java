@@ -16,4 +16,10 @@ public interface ClientDao {
     Client getClientById(Integer id);
 
     Client saveClient(Client client);
+
+    Client deleteClient(Client client);
+
+    Integer deleteClient(Integer id);
+
+    String deleteClient(String email);
 }

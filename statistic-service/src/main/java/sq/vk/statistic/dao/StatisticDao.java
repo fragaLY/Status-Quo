@@ -9,12 +9,16 @@ import sq.vk.statistic.domain.Statistic;
  */
 public interface StatisticDao {
 
-    Statistic saveItem(Statistic statistic);
+    Statistic saveStatistic(Statistic statistic);
 
     List<Statistic> getAllStatistics();
 
     Statistic getStatisticById(Integer id);
 
     Statistic getStatisticByName(String name);
+
+    Statistic deleteStatistic(Statistic statistic);
+
+    Integer deleteStatistic(Integer id);
 
 }

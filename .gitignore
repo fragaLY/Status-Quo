@@ -75,3 +75,4 @@ log.txt
 
 */gradle-wrapper.jar
 */gradle-wrapper.properties
+classes/production/*

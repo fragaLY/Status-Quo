@@ -46,6 +46,9 @@ dependencies {
     //Apache commons lang dependency
     compile group: 'org.apache.commons', name: 'commons-lang3', version: apacheCommonsVersion
 
+    //Guava
+    compile group: 'com.google.guava', name: 'guava', version: guavaVersion
+
     //Test dependencies
     testCompile group: 'junit', name: 'junit', version: junitVersion
     testCompile group: 'org.springframework', name: 'spring-test', version: springTestVersion
