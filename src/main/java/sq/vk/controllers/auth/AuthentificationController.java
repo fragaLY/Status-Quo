@@ -14,18 +14,4 @@ public class AuthentificationController {
 
   private static final Logger LOG = LoggerFactory.getLogger(AuthentificationController.class);
 
- /* @GetMapping(value = "/login")
-  public void login(HttpServletResponse response) throws IOException {
-
-    LOG.info("Logging in...");
-
-    final boolean isAnonymous = SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken;
-
-    if (!isAnonymous) {
-
-      response.setStatus(308);
-      response.sendRedirect("http://www.localhost:8080/client/profile");
-    }
-
-  }*/
 }

@@ -1,5 +1,6 @@
 package sq.vk.dto.statistic;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import sq.vk.domain.statistic.PokerRoomType;
@@ -23,6 +24,7 @@ public class StatisticDto {
 
     }
 
+    @JsonProperty("Id")
     public Integer getId() {
         return id;
     }
@@ -31,6 +33,7 @@ public class StatisticDto {
         this.id = id;
     }
 
+    @JsonProperty("Name")
     public String getName() {
         return name;
     }
@@ -39,6 +42,7 @@ public class StatisticDto {
         this.name = name;
     }
 
+    @JsonProperty("Room")
     public PokerRoomType getPokerRoom() {
         return pokerRoom;
     }
@@ -47,6 +51,7 @@ public class StatisticDto {
         this.pokerRoom = pokerRoom;
     }
 
+    @JsonProperty("Profit")
     public double getProfit() {
         return profit;
     }

@@ -1,10 +1,17 @@
 package sq.vk.domain.statistic;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.hibernate.validator.constraints.NotBlank;
-
-import javax.persistence.*;
 
 /**
  * Created by Vadzim_Kavalkou on 4/7/2017.
@@ -52,6 +59,7 @@ public class Statistic {
     }
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "pokerroom")
     public PokerRoomType getPokerRoom() {
         return pokerRoom;
     }

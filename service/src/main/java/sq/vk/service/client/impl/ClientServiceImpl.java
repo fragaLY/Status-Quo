@@ -32,7 +32,7 @@ public class ClientServiceImpl implements ClientService {
     public List<ClientDto> getAllClients() {
 
         LOG.info("Starting to get all clients.");
-
+        //TODO VK:         ObjectMapper mapper = new ObjectMapper();
         return dao.getAllClients().stream().parallel().map(converter).collect(Collectors.toList());
 
     }
