@@ -15,6 +15,7 @@ log.txt
 
 # IDEA
 # ----
+.md
 .idea
 .shelf
 /*.iml
@@ -70,4 +71,7 @@ log.txt
 /*.log
 
 # oh-my-zsh gradle plugin
-.gradletasknamecache
+.gradletasknameca
+
+*/gradle-wrapper.jar
+*/gradle-wrapper.properties
