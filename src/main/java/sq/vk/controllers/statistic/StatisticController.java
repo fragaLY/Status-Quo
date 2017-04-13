@@ -1,8 +1,7 @@
 package sq.vk.controllers.statistic;
 
-import java.io.IOException;
 import java.time.ZoneId;
-import javax.validation.Valid;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,17 +10,18 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import sq.vk.statistic.domain.PokerRoomType;
 import sq.vk.statistic.dto.StatisticDto;
 import sq.vk.statistic.service.StatisticService;
-
-import static java.time.LocalDateTime.now;
 
 /**
  * Created by Vadzim_Kavalkou on 4/7/2017.
@@ -38,29 +38,73 @@ public class StatisticController {
   private static final String ROLE_USER = "ROLE_USER";
 
   @Autowired
-  private StatisticService statisticService;
+  private StatisticService service;
 
-  @GetMapping(value = "/{room}/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
-  @Secured({ ROLE_ADMIN, ROLE_DEVELOPER, ROLE_USER })
-  public ResponseEntity<StatisticDto> getStatisticOfPlayerInRoom(
-    @Valid @PathVariable("room") final String room,
-    @Valid @PathVariable("name") final String name) throws IOException {
+  public ResponseEntity<StatisticDto> getStatisticById(@PathVariable("id") final Integer id) {
 
-    LOG.info("Get statistic by name: '{}'", name);
-    final long currentTime = now().atZone(EUROPE_MOSCOW).toInstant().toEpochMilli();
+    LOG.info("Get statistic by id {}", id);
 
-    HttpStatus httpStatus = HttpStatus.OK;
+    StatisticDto statistic = service.findOne(id);
 
-    final PokerRoomType roomType = PokerRoomType.getRoomAsEnum(room.toUpperCase());
+    return new ResponseEntity<>(statistic, new HttpHeaders(), HttpStatus.OK);
 
-    StatisticDto dto = new StatisticDto.Builder().setName(name).setProfit(5155151).setPokerRoom(
-      roomType).build();
+  }
 
-    HttpHeaders responseHeaders = new HttpHeaders();
-    responseHeaders.setLastModified(currentTime);
+  @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
+  @ResponseBody
+  public ResponseEntity<List<StatisticDto>> getAllStatistic() {
+    LOG.info("Get all statistic");
 
-    return new ResponseEntity<>(dto, responseHeaders, httpStatus);
+    List<StatisticDto> statistics = service.findAll();
+
+    return new ResponseEntity<>(statistics, new HttpHeaders(), HttpStatus.OK);
+
+  }
+
+  @PostMapping
+  public ResponseEntity<?> editStatistic(@RequestBody final StatisticDto statistic) {
+
+    LOG.info("Update statistic {}", statistic);
+
+    service.save(statistic);
+
+    return new ResponseEntity<>(null, new HttpHeaders(), HttpStatus.OK);
+
+  }
+
+  @PutMapping
+  public ResponseEntity<?> createStatistic(@RequestBody final StatisticDto statistic) {
+
+    LOG.info("Create statistic '{}'", statistic);
+
+    service.save(statistic);
+
+    return new ResponseEntity<>(null, new HttpHeaders(), HttpStatus.CREATED);
+
+  }
+
+  @DeleteMapping
+  public ResponseEntity<?> deleteStatistic(@RequestBody final StatisticDto statistic) {
+
+    LOG.info("Delete statistic '{}'", statistic);
+
+    service.delete(statistic);
+
+    return new ResponseEntity<>(null, new HttpHeaders(), HttpStatus.OK);
+
+  }
+
+  @DeleteMapping(value = "/{id}")
+  public ResponseEntity<?> deleteStatisticById(@RequestParam("id") final Integer id) {
+
+    LOG.info("Delete statistic with id '{}'", id);
+
+    service.delete(id);
+
+    return new ResponseEntity<>(null, new HttpHeaders(), HttpStatus.OK);
+
   }
 
 }

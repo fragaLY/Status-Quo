@@ -1,5 +1,7 @@
 package sq.vk.controllers.exceptions;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -68,6 +70,16 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
     final HttpHeaders httpHeaders = new HttpHeaders();
 
     return super.handleExceptionInternal(ex, responseBody, httpHeaders, NOT_FOUND, request);
+  }
+
+  @ExceptionHandler(EntityNotFoundException.class)
+  protected ResponseEntity<Object> handleEntityNotFoundExceptionHandler(
+      EntityNotFoundException ex,
+      WebRequest request) {
+    final String responseBody = "Information was not found";
+    final HttpHeaders httpHeaders = new HttpHeaders();
+
+    return handleExceptionInternal(ex, responseBody, httpHeaders, NOT_FOUND, request);
   }
 
 }

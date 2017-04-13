@@ -1,7 +1,6 @@
 package sq.vk.controllers.client;
 
 import java.net.URI;
-import java.time.ZoneId;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,8 +26,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import sq.vk.client.dto.ClientDto;
 import sq.vk.client.service.ClientService;
 
-import static java.time.LocalDateTime.now;
-
 /**
  * Created by Vadzim Kavalkou on 22.03.2017.
  */
@@ -36,7 +34,6 @@ import static java.time.LocalDateTime.now;
 public class ClientController {
 
   private static final Logger LOG = LoggerFactory.getLogger(ClientController.class);
-  private static final ZoneId EUROPE_MOSCOW = ZoneId.of("Europe/Moscow");
 
   private static final String ROLE_ADMIN = "ROLE_ADMIN";
   private static final String ROLE_DEVELOPER = "ROLE_DEVELOPER";
@@ -52,12 +49,8 @@ public class ClientController {
     LOG.info("Get all clients");
 
     final List<ClientDto> allClients = service.findAll();
-    final long currentTime = now().atZone(EUROPE_MOSCOW).toInstant().toEpochMilli();
 
-    HttpHeaders responseHeaders = new HttpHeaders();
-    responseHeaders.setLastModified(currentTime);
-
-    return new ResponseEntity<>(allClients, responseHeaders, HttpStatus.OK);
+    return new ResponseEntity<>(allClients, new HttpHeaders(), HttpStatus.OK);
 
   }
 
@@ -69,27 +62,21 @@ public class ClientController {
     final HttpStatus httpStatus = HttpStatus.OK;
 
     final ClientDto client = service.findOne(id);
-    final long currentTime = now().atZone(EUROPE_MOSCOW).toInstant().toEpochMilli();
 
-    HttpHeaders responseHeaders = new HttpHeaders();
-    responseHeaders.setLastModified(currentTime);
-
-    return new ResponseEntity<>(client, responseHeaders, httpStatus);
+    return new ResponseEntity<>(client, new HttpHeaders(), httpStatus);
 
   }
 
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
-  public ResponseEntity<ClientDto> getClientById(@RequestParam(value="email") final String email) {
+  public ResponseEntity<ClientDto> getClientByEmail(@RequestParam(value="email") final String email) {
     LOG.info("Get client by email: '{}'", email);
 
     final HttpStatus httpStatus = HttpStatus.OK;
 
     final ClientDto client = service.findOneByEmail(email);
-    final long currentTime = now().atZone(EUROPE_MOSCOW).toInstant().toEpochMilli();
 
     HttpHeaders responseHeaders = new HttpHeaders();
-    responseHeaders.setLastModified(currentTime);
 
     return new ResponseEntity<>(client, responseHeaders, httpStatus);
 
@@ -101,53 +88,66 @@ public class ClientController {
     LOG.info("Get current user info.");
 
     final String email = SecurityContextHolder.getContext().getAuthentication().getName();
+
     final ClientDto currentClient = service.findOneByEmail(email);
 
-    final long currentTime = now().atZone(EUROPE_MOSCOW).toInstant().toEpochMilli();
-
-    HttpHeaders responseHeaders = new HttpHeaders();
-    responseHeaders.setLastModified(currentTime);
-
-    return new ResponseEntity<>(currentClient, responseHeaders, HttpStatus.OK);
+    return new ResponseEntity<>(currentClient,  new HttpHeaders(), HttpStatus.OK);
 
   }
 
-  @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+  @PutMapping
   public ResponseEntity<?> createClient(@RequestBody final ClientDto clientDto) {
 
     LOG.info("Saves client [{}].", clientDto);
 
     final ClientDto client = service.save(clientDto);
-    final long currentTime = now().atZone(EUROPE_MOSCOW).toInstant().toEpochMilli();
-
-    final HttpStatus status = HttpStatus.CREATED;
 
     final URI createdClientUri = ServletUriComponentsBuilder.fromCurrentRequest().path(
-      "/{id}").buildAndExpand(client.getId()).toUri();
+        "/{id}").buildAndExpand(client.getId()).toUri();
 
     final HttpHeaders responseHeaders = new HttpHeaders();
-
-    responseHeaders.setLastModified(currentTime);
     responseHeaders.setLocation(createdClientUri);
 
-    return new ResponseEntity<>(null, responseHeaders, status);
+    return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);
 
   }
 
-  @DeleteMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> deleteClient(@RequestBody final ClientDto clientDto) {
+  @PostMapping
+  public ResponseEntity<?> editClient(@RequestBody final ClientDto clientDto) {
+
+    LOG.info("Saves client [{}].", clientDto);
+
+    final ClientDto client = service.save(clientDto);
+
+    final URI createdClientUri = ServletUriComponentsBuilder.fromCurrentRequest().path(
+        "/{id}").buildAndExpand(client.getId()).toUri();
+
+    final HttpHeaders responseHeaders = new HttpHeaders();
+    responseHeaders.setLocation(createdClientUri);
+
+    return new ResponseEntity<>(null, responseHeaders, HttpStatus.OK);
+
+  }
+
+  @DeleteMapping
+  public ResponseEntity<ClientDto> deleteClient(@RequestBody final ClientDto clientDto) {
 
     LOG.info("Deletes client [{}].", clientDto);
 
     service.delete(clientDto);
-    final long currentTime = now().atZone(EUROPE_MOSCOW).toInstant().toEpochMilli();
 
-    final HttpStatus status = HttpStatus.ACCEPTED;
+    return new ResponseEntity<>(null, new HttpHeaders(), HttpStatus.OK);
 
-    final HttpHeaders responseHeaders = new HttpHeaders();
-    responseHeaders.setLastModified(currentTime);
+  }
 
-    return new ResponseEntity<>(null, responseHeaders, status);
+  @DeleteMapping(value = "/{id}")
+  public ResponseEntity<?> deleteClientById(@PathVariable("id") final Integer id) {
+
+    LOG.info("Deletes client with id [{}].", id);
+
+    service.delete(id);
+
+    return new ResponseEntity<>(null, new HttpHeaders(), HttpStatus.OK);
 
   }
 
