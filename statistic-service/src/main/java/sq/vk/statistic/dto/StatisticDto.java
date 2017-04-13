@@ -23,6 +23,9 @@ public class StatisticDto {
 
     }
 
+    public StatisticDto(){
+    }
+
     public Integer getId() {
         return id;
     }

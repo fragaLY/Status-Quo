@@ -31,7 +31,8 @@ public class HibernateConfiguration {
 
   private static final String CREATE_CLIENTS_TABLE = "sql/create-clients.sql";
   private static final String INIT_CLIENT_TABLE = "sql/init-clients.sql";
-  private static final String CREATE_ITEMS_TABLE = "sql/create-user-statistic.sql";
+  private static final String CREATE_STATISTICS_TABLE = "sql/create-user-statistic.sql";
+  private static final String INIT_STATISTICS_TABLE = "sql/init-statistic.sql";
 
   @Autowired
   private Environment environment;
@@ -46,7 +47,8 @@ public class HibernateConfiguration {
             .setType(EmbeddedDatabaseType.H2)
             .addScript(CREATE_CLIENTS_TABLE)
             .addScript(INIT_CLIENT_TABLE)
-            .addScript(CREATE_ITEMS_TABLE)
+            .addScript(CREATE_STATISTICS_TABLE)
+            .addScript(INIT_STATISTICS_TABLE)
           .build();
   }
 

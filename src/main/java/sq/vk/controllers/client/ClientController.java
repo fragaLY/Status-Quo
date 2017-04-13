@@ -95,7 +95,7 @@ public class ClientController {
 
   }
 
-  @PutMapping
+  @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> createClient(@RequestBody final ClientDto clientDto) {
 
     LOG.info("Saves client [{}].", clientDto);
@@ -112,7 +112,7 @@ public class ClientController {
 
   }
 
-  @PostMapping
+  @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> editClient(@RequestBody final ClientDto clientDto) {
 
     LOG.info("Saves client [{}].", clientDto);

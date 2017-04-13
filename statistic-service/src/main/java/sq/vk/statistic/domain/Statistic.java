@@ -69,7 +69,6 @@ public class Statistic {
     }
 
     @Column(name = "profit")
-    @NotBlank(message = "Profit should not be blank")
     public double getProfit() {
         return profit;
     }

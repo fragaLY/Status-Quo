@@ -1,6 +1,5 @@
 package sq.vk.client.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import sq.vk.client.domain.ClientRole;
@@ -8,7 +7,6 @@ import sq.vk.client.domain.ClientRole;
 /**
  * Created by Vadzim Kavalkou on 22.03.2017.
  */
-
 public class ClientDto {
 
     private String password;
@@ -18,6 +16,9 @@ public class ClientDto {
     private String secondName;
     private ClientRole role;
 
+    public ClientDto() {
+    }
+
     private ClientDto(Builder builder) {
         this.id = builder.id;
         this.email = builder.email;
@@ -25,6 +26,14 @@ public class ClientDto {
         this.firstName = builder.firstName;
         this.secondName = builder.secondName;
         this.role = builder.role;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Integer getId() {
@@ -41,15 +50,6 @@ public class ClientDto {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    @JsonIgnore
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getFirstName() {

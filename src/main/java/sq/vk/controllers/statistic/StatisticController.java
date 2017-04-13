@@ -1,5 +1,6 @@
 package sq.vk.controllers.statistic;
 
+import java.net.URI;
 import java.time.ZoneId;
 import java.util.List;
 
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import sq.vk.statistic.dto.StatisticDto;
 import sq.vk.statistic.service.StatisticService;
 
@@ -63,25 +65,37 @@ public class StatisticController {
 
   }
 
-  @PostMapping
+  @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> editStatistic(@RequestBody final StatisticDto statistic) {
 
     LOG.info("Update statistic {}", statistic);
 
     service.save(statistic);
 
-    return new ResponseEntity<>(null, new HttpHeaders(), HttpStatus.OK);
+    final URI createdClientUri = ServletUriComponentsBuilder.fromCurrentRequest().path(
+      "/{id}").buildAndExpand(statistic.getId()).toUri();
+
+    final HttpHeaders responseHeaders = new HttpHeaders();
+    responseHeaders.setLocation(createdClientUri);
+
+    return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);
 
   }
 
-  @PutMapping
+  @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> createStatistic(@RequestBody final StatisticDto statistic) {
 
     LOG.info("Create statistic '{}'", statistic);
 
     service.save(statistic);
 
-    return new ResponseEntity<>(null, new HttpHeaders(), HttpStatus.CREATED);
+    final URI createdClientUri = ServletUriComponentsBuilder.fromCurrentRequest().path(
+      "/{id}").buildAndExpand(statistic.getId()).toUri();
+
+    final HttpHeaders responseHeaders = new HttpHeaders();
+    responseHeaders.setLocation(createdClientUri);
+
+    return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);
 
   }
 
