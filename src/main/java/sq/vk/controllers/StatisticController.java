@@ -30,37 +30,37 @@ import static java.time.LocalDateTime.now;
 @RequestMapping("/statistic")
 public class StatisticController {
 
-    private static final Logger LOG = LoggerFactory.getLogger(StatisticController.class);
-    private static final ZoneId EUROPE_MOSCOW = ZoneId.of("Europe/Moscow");
+  private static final Logger LOG = LoggerFactory.getLogger(StatisticController.class);
+  private static final ZoneId EUROPE_MOSCOW = ZoneId.of("Europe/Moscow");
 
-    private static final String ROLE_ADMIN = "ROLE_ADMIN";
-    private static final String ROLE_DEVELOPER = "ROLE_DEVELOPER";
-    private static final String ROLE_USER = "ROLE_USER";
+  private static final String ROLE_ADMIN = "ROLE_ADMIN";
+  private static final String ROLE_DEVELOPER = "ROLE_DEVELOPER";
+  private static final String ROLE_USER = "ROLE_USER";
 
-    @Autowired
-    private StatisticService statisticService;
+  @Autowired
+  private StatisticService statisticService;
 
-    @GetMapping(value = "/{room}/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    @Secured({ROLE_ADMIN, ROLE_DEVELOPER, ROLE_USER})
-    public ResponseEntity<StatisticDto> getStatisticOfPlayerInRoom(@Valid @PathVariable("room") String room, @Valid @PathVariable("name") String name)
-            throws IOException {
+  @GetMapping(value = "/{room}/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
+  @ResponseBody
+  @Secured({ ROLE_ADMIN, ROLE_DEVELOPER, ROLE_USER })
+  public ResponseEntity<StatisticDto> getStatisticOfPlayerInRoom(
+    @Valid @PathVariable("room") final String room,
+    @Valid @PathVariable("name") final String name) throws IOException {
 
-        LOG.info("Get statistic by name: '{}'", name);
-        final long currentTime = now().atZone(EUROPE_MOSCOW).toInstant().toEpochMilli();
+    LOG.info("Get statistic by name: '{}'", name);
+    final long currentTime = now().atZone(EUROPE_MOSCOW).toInstant().toEpochMilli();
 
-        HttpStatus httpStatus = HttpStatus.OK;
+    HttpStatus httpStatus = HttpStatus.OK;
 
-        final PokerRoomType roomType = PokerRoomType.getRoomAsEnum(room.toUpperCase());
+    final PokerRoomType roomType = PokerRoomType.getRoomAsEnum(room.toUpperCase());
 
-        double profit = statisticService.getTotalProfit(name, roomType);
+    StatisticDto dto = new StatisticDto.Builder().setName(name).setProfit(5155151).setPokerRoom(
+      roomType).build();
 
-        StatisticDto dto = new StatisticDto.Builder().setName(name).setProfit(profit).setPokerRoom(roomType).build();
+    HttpHeaders responseHeaders = new HttpHeaders();
+    responseHeaders.setLastModified(currentTime);
 
-        HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.setLastModified(currentTime);
-
-        return new ResponseEntity<>(dto, responseHeaders, httpStatus);
-    }
+    return new ResponseEntity<>(dto, responseHeaders, httpStatus);
+  }
 
 }
