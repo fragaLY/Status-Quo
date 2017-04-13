@@ -43,7 +43,7 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
   }
 
   @ExceptionHandler(AccessDeniedException.class)
-  protected ResponseEntity<Object> hanldeAccessDeniedException(AccessDeniedException ex, WebRequest request) {
+  protected ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException ex, WebRequest request) {
     final String responseBody = "You do not have sufficient rights to view this page";
     final HttpHeaders httpHeaders = new HttpHeaders();
 

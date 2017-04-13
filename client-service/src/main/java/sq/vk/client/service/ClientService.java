@@ -9,18 +9,18 @@ import sq.vk.client.dto.ClientDto;
  */
 public interface ClientService {
 
-    List<ClientDto> getAllClients();
+    List<ClientDto> findAll();
 
-    ClientDto getClientByEmail(String email);
+    ClientDto findOneByEmail(String email);
 
-    ClientDto getClientById(Integer id);
+    ClientDto findOne(Integer id);
 
-    ClientDto saveClient(ClientDto clientDto);
+    ClientDto save(ClientDto clientDto);
 
-    ClientDto deleteClient(ClientDto clientDto);
+    ClientDto delete(ClientDto clientDto);
 
-    Integer deleteClient(Integer id);
+    Integer delete(Integer id);
 
-    String deleteClient(String email);
+    String delete(String email);
 
 }

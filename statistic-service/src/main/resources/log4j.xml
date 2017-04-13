@@ -20,7 +20,7 @@
         <level value="info"/>
     </logger>
 
-    <logger name="sq.vk.statistic" additivity="false">
+    <logger name="sq.vk">
         <level value="info"/>
     </logger>
 

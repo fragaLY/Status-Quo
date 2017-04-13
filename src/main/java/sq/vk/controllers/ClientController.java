@@ -3,7 +3,6 @@ package sq.vk.controllers;
 import java.net.URI;
 import java.time.ZoneId;
 import java.util.List;
-import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -51,7 +51,7 @@ public class ClientController {
   public ResponseEntity<List<ClientDto>> getAllClients() {
     LOG.info("Get all clients");
 
-    final List<ClientDto> allClients = service.getAllClients();
+    final List<ClientDto> allClients = service.findAll();
     final long currentTime = now().atZone(EUROPE_MOSCOW).toInstant().toEpochMilli();
 
     HttpHeaders responseHeaders = new HttpHeaders();
@@ -63,12 +63,12 @@ public class ClientController {
 
   @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
-  public ResponseEntity<ClientDto> getClientById(@Valid @PathVariable("id") final int id) {
+  public ResponseEntity<ClientDto> getClientById(@PathVariable("id") final Integer id) {
     LOG.info("Get client by id: '{}'", id);
 
     final HttpStatus httpStatus = HttpStatus.OK;
 
-    final ClientDto client = service.getClientById(id);
+    final ClientDto client = service.findOne(id);
     final long currentTime = now().atZone(EUROPE_MOSCOW).toInstant().toEpochMilli();
 
     HttpHeaders responseHeaders = new HttpHeaders();
@@ -78,14 +78,14 @@ public class ClientController {
 
   }
 
-  @GetMapping(value = "/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
-  public ResponseEntity<ClientDto> getClientById(@Valid @PathVariable("email") final String email) {
+  public ResponseEntity<ClientDto> getClientById(@RequestParam(value="email") final String email) {
     LOG.info("Get client by email: '{}'", email);
 
     final HttpStatus httpStatus = HttpStatus.OK;
 
-    final ClientDto client = service.getClientByEmail(email);
+    final ClientDto client = service.findOneByEmail(email);
     final long currentTime = now().atZone(EUROPE_MOSCOW).toInstant().toEpochMilli();
 
     HttpHeaders responseHeaders = new HttpHeaders();
@@ -101,7 +101,7 @@ public class ClientController {
     LOG.info("Get current user info.");
 
     final String email = SecurityContextHolder.getContext().getAuthentication().getName();
-    final ClientDto currentClient = service.getClientByEmail(email);
+    final ClientDto currentClient = service.findOneByEmail(email);
 
     final long currentTime = now().atZone(EUROPE_MOSCOW).toInstant().toEpochMilli();
 
@@ -117,7 +117,7 @@ public class ClientController {
 
     LOG.info("Saves client [{}].", clientDto);
 
-    final ClientDto client = service.saveClient(clientDto);
+    final ClientDto client = service.save(clientDto);
     final long currentTime = now().atZone(EUROPE_MOSCOW).toInstant().toEpochMilli();
 
     final HttpStatus status = HttpStatus.CREATED;
@@ -139,7 +139,7 @@ public class ClientController {
 
     LOG.info("Saves client [{}].", clientDto);
 
-    service.deleteClient(clientDto);
+    service.delete(clientDto);
     final long currentTime = now().atZone(EUROPE_MOSCOW).toInstant().toEpochMilli();
 
     final HttpStatus status = HttpStatus.ACCEPTED;
@@ -156,7 +156,7 @@ public class ClientController {
 
     LOG.info("Saves client with email [{}].", email);
 
-    service.deleteClient(email);
+    service.delete(email);
     final long currentTime = now().atZone(EUROPE_MOSCOW).toInstant().toEpochMilli();
 
     final HttpStatus status = HttpStatus.ACCEPTED;
@@ -173,7 +173,7 @@ public class ClientController {
 
     LOG.info("Saves client with id [{}].", id);
 
-    service.deleteClient(id);
+    service.delete(id);
     final long currentTime = now().atZone(EUROPE_MOSCOW).toInstant().toEpochMilli();
 
     final HttpStatus status = HttpStatus.ACCEPTED;

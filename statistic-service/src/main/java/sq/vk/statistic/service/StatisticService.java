@@ -9,16 +9,16 @@ import sq.vk.statistic.dto.StatisticDto;
  */
 public interface StatisticService {
 
-    List<StatisticDto> getAllStatistics();
+    List<StatisticDto> findAll();
 
-    StatisticDto getStatisticById(Integer id);
+    StatisticDto findOne(Integer id);
 
-    StatisticDto getStatisticByName(String name);
+    StatisticDto findOne(String name);
 
-    StatisticDto saveStatistic(StatisticDto statisticDto);
+    StatisticDto save(StatisticDto statisticDto);
 
-    StatisticDto deleteStatistic(StatisticDto statisticDto);
+    StatisticDto delete(StatisticDto statisticDto);
 
-    Integer deleteStatistic(Integer id);
+    Integer delete(Integer id);
 
 }

@@ -28,14 +28,14 @@ public class ClientDetailsService implements UserDetailsService {
     @Autowired
     private ClientService clientService;
 
-    public ClientDetailsService(ClientService clientService) {
-        this.clientService = clientService;
+    public ClientDetailsService(){
+
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-        Optional<ClientDto> optionalClientDto = Optional.ofNullable(clientService.getClientByEmail(email));
+        Optional<ClientDto> optionalClientDto = Optional.ofNullable(clientService.findOneByEmail(email));
 
         if (optionalClientDto.isPresent()) {
 
@@ -44,12 +44,14 @@ public class ClientDetailsService implements UserDetailsService {
 
             List<GrantedAuthority> authorities = ImmutableList.of(new SimpleGrantedAuthority(clientRole));
 
-            LOG.info("client with email [ {} ] has {}.", email, clientRole);
+            LOG.info("Client with email [ {} ] has [ {} ].", email, clientRole);
             return new User(email, clientDto.getPassword(), true, true, true, true, authorities);
         }
 
-        LOG.info("client with email [ {} ] has ROLE_SURFER.", email);
+        LOG.info("Client with email [ {} ] has ROLE_ANONYMOUS.", email);
 
-        throw new UsernameNotFoundException(String.format("client with email [ {} ] was not found. Grants ROLE_SURFER.", email));
+        String output = String.format("Client with email ' %s ' was not found. Grants ROLE_ANONYMOUS.", email);
+
+        throw new UsernameNotFoundException(output);
     }
 }

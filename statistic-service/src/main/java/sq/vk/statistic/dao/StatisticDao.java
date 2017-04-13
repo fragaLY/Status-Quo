@@ -2,23 +2,27 @@ package sq.vk.statistic.dao;
 
 import java.util.List;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import sq.vk.statistic.domain.Statistic;
 
 /**
  * Created by Vadzim_Kavalkou on 4/7/2017.
  */
-public interface StatisticDao {
+public interface StatisticDao extends JpaRepository<Statistic, Integer> {
 
-    Statistic saveStatistic(Statistic statistic);
+    Statistic save(Statistic statistic);
 
-    List<Statistic> getAllStatistics();
+    List<Statistic> findAll();
 
-    Statistic getStatisticById(Integer id);
+    Statistic findOne(Integer id);
 
-    Statistic getStatisticByName(String name);
+    @Query("select s from Statistic s where s.name = :name")
+    Statistic findOneByName(@Param("name") String name);
 
-    Statistic deleteStatistic(Statistic statistic);
+    void delete(Statistic statistic);
 
-    Integer deleteStatistic(Integer id);
+    void delete(Integer id);
 
 }

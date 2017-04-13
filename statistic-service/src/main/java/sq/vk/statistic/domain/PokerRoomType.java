@@ -12,9 +12,9 @@ public enum PokerRoomType {
 
     POKERSTARS("POKERSTARS");
 
-    private String pokerRoom;
+    private final String pokerRoom;
 
-    PokerRoomType(String pokerRoom) {
+    PokerRoomType(final String pokerRoom) {
         this.pokerRoom = pokerRoom;
     }
 

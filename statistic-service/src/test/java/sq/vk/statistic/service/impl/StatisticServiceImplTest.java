@@ -16,6 +16,7 @@ import sq.vk.statistic.dto.StatisticDto;
 import sq.vk.statistic.service.StatisticService;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 /**
@@ -60,12 +61,12 @@ public class StatisticServiceImplTest {
     final List<StatisticDto> expectedStatisticDtos = ImmutableList.of(firstStatisticDto, secondStatisticDto);
 
     //when
-    when(dao.getAllStatistics()).thenReturn(statistics);
+    when(dao.findAll()).thenReturn(statistics);
 
     when(converter.apply(firstStatistic)).thenReturn(firstStatisticDto);
     when(converter.apply(secondStatistic)).thenReturn(secondStatisticDto);
 
-    List<StatisticDto> actualStatisticDtos = service.getAllStatistics();
+    List<StatisticDto> actualStatisticDtos = service.findAll();
 
     //then
     assertEquals(expectedStatisticDtos,actualStatisticDtos);
@@ -87,10 +88,10 @@ public class StatisticServiceImplTest {
         role).setProfit(PROFIT).build();
 
     //when
-    when(dao.getStatisticById(id)).thenReturn(statistic);
+    when(dao.findOne(id)).thenReturn(statistic);
     when(converter.apply(statistic)).thenReturn(expectedStatisticDto);
 
-    StatisticDto actualStatistic = service.getStatisticById(id);
+    StatisticDto actualStatistic = service.findOne(id);
 
     //then
     assertEquals(expectedStatisticDto,actualStatistic);
@@ -112,10 +113,10 @@ public class StatisticServiceImplTest {
         role).setProfit(PROFIT).build();
 
     //when
-    when(dao.getStatisticByName(NAME)).thenReturn(statistic);
+    when(dao.findOneByName(NAME)).thenReturn(statistic);
     when(converter.apply(statistic)).thenReturn(expectedStatisticDto);
 
-    StatisticDto actualStatistic = service.getStatisticByName(NAME);
+    StatisticDto actualStatistic = service.findOne(NAME);
 
     //then
     assertEquals(expectedStatisticDto,actualStatistic);
@@ -137,9 +138,9 @@ public class StatisticServiceImplTest {
 
     //when
     when(converter.transform(expectedStatisticDto)).thenReturn(statistic);
-    when(dao.saveStatistic(statistic)).thenReturn(statistic);
+    when(dao.save(statistic)).thenReturn(statistic);
 
-    StatisticDto actualStatisticDto = service.saveStatistic(expectedStatisticDto);
+    StatisticDto actualStatisticDto = service.save(expectedStatisticDto);
 
     //then
     assertEquals(expectedStatisticDto, actualStatisticDto);
@@ -161,9 +162,9 @@ public class StatisticServiceImplTest {
 
     //when
     when(converter.transform(expectedStatisticDto)).thenReturn(statistic);
-    when(dao.deleteStatistic(statistic)).thenReturn(statistic);
+    doNothing().when(dao).delete(statistic);
 
-    StatisticDto actualStatisticDto = service.deleteStatistic(expectedStatisticDto);
+    StatisticDto actualStatisticDto = service.delete(expectedStatisticDto);
 
     //then
     assertEquals(expectedStatisticDto, actualStatisticDto);
@@ -178,9 +179,9 @@ public class StatisticServiceImplTest {
     final Integer id = 1;
 
     //when
-    when(dao.deleteStatistic(id)).thenReturn(id);
+    doNothing().when(dao).delete(id);
 
-    Integer actualId = service.deleteStatistic(id);
+    Integer actualId = service.delete(id);
 
     //then
     assertEquals(id, actualId);

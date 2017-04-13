@@ -2,24 +2,29 @@ package sq.vk.client.dao;
 
 import java.util.List;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import sq.vk.client.domain.Client;
 
 /**
  * Created by Vadzim Kavalkou on 22.03.2017.
  */
-public interface ClientDao {
+public interface ClientDao extends JpaRepository<Client, Integer> {
 
-    List<Client> getAllClients();
+    List<Client> findAll();
 
-    Client getClientByEmail(String email);
+    @Query("select c from Client c where c.email = :email")
+    Client findOneByEmail(@Param("email") String email);
 
-    Client getClientById(Integer id);
+    Client findOne(Integer id);
 
-    Client saveClient(Client client);
+    Client save(Client client);
 
-    Client deleteClient(Client client);
+    void delete(Client client);
 
-    Integer deleteClient(Integer id);
+    void delete(Integer id);
 
-    String deleteClient(String email);
+    @Query("delete from Client c where c.email = :email")
+    void deleteByEmail(@Param("email")String email);
 }

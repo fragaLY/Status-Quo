@@ -16,6 +16,7 @@ import sq.vk.client.dto.ClientDto;
 import sq.vk.client.service.ClientService;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 /**
@@ -64,12 +65,12 @@ public class ClientServiceImplTest {
     List<ClientDto> expectedDtos = ImmutableList.of(firstExpectedClientDto, secondExpectedClientDto);
 
     //when
-    when(dao.getAllClients()).thenReturn(clients);
+    when(dao.findAll()).thenReturn(clients);
 
     when(converter.apply(firstClient)).thenReturn(firstExpectedClientDto);
     when(converter.apply(secondClient)).thenReturn(secondExpectedClientDto);
 
-    List<ClientDto> actualClientDtos = service.getAllClients();
+    List<ClientDto> actualClientDtos = service.findAll();
 
     //then
     assertEquals(expectedDtos, actualClientDtos);
@@ -90,11 +91,11 @@ public class ClientServiceImplTest {
         FIRSTNAME).setSecondName(SECONDNAME).setRole(role).setPassword(PASSWORD).build();
 
     //when
-    when(dao.getClientByEmail(EMAIL)).thenReturn(client);
+    when(dao.findOneByEmail(EMAIL)).thenReturn(client);
 
     when(converter.apply(client)).thenReturn(expectedClientDto);
 
-    ClientDto actualClientDto = service.getClientByEmail(EMAIL);
+    ClientDto actualClientDto = service.findOneByEmail(EMAIL);
 
     //then
     assertEquals(expectedClientDto,actualClientDto);
@@ -115,11 +116,11 @@ public class ClientServiceImplTest {
         FIRSTNAME).setSecondName(SECONDNAME).setRole(role).setPassword(PASSWORD).build();
 
     //when
-    when(dao.getClientById(id)).thenReturn(client);
+    when(dao.getOne(id)).thenReturn(client);
 
     when(converter.apply(client)).thenReturn(expectedClientDto);
 
-    ClientDto actualClientDto = service.getClientById(id);
+    ClientDto actualClientDto = service.findOne(id);
 
     //then
     assertEquals(expectedClientDto,actualClientDto);
@@ -142,9 +143,9 @@ public class ClientServiceImplTest {
     //when
     when(converter.transform(expectedClientDto)).thenReturn(client);
 
-    when(dao.saveClient(client)).thenReturn(client);
+    when(dao.save(client)).thenReturn(client);
 
-    ClientDto actualClientDto = service.saveClient(expectedClientDto);
+    ClientDto actualClientDto = service.save(expectedClientDto);
 
     //then
     assertEquals(expectedClientDto,actualClientDto);
@@ -167,9 +168,9 @@ public class ClientServiceImplTest {
     //when
     when(converter.transform(clientDto)).thenReturn(client);
 
-    when(dao.deleteClient(client)).thenReturn(client);
+    doNothing().when(dao).delete(client);
 
-    ClientDto deletedClientDto = service.deleteClient(clientDto);
+    ClientDto deletedClientDto = service.delete(clientDto);
 
     //then
     assertEquals(clientDto,deletedClientDto);
@@ -183,9 +184,9 @@ public class ClientServiceImplTest {
     final Integer id = 1;
 
     //when
-    when(dao.deleteClient(id)).thenReturn(id);
+    doNothing().when(dao).delete(id);
 
-    Integer expectedId = service.deleteClient(id);
+    Integer expectedId = service.delete(id);
 
     //then
     assertEquals(id,expectedId);
@@ -199,9 +200,9 @@ public class ClientServiceImplTest {
     final String email = EMAIL;
 
     //when
-    when(dao.deleteClient(email)).thenReturn(email);
+    doNothing().when(dao).deleteByEmail(email);
 
-    String actualEmail = service.deleteClient(email);
+    String actualEmail = service.delete(email);
 
     //then
     assertEquals(email,actualEmail);

@@ -20,7 +20,6 @@ import sq.vk.statistic.service.StatisticService;
 public class StatisticServiceImpl implements StatisticService {
 
     private static final Logger LOG = LoggerFactory.getLogger(StatisticServiceImpl.class);
-    private static final String TOTAL_PROFIT_SELECTOR = "#mainplayergrid-row-0 > td:nth-child(9) > div";
 
     @Autowired
     private StatisticDao dao;
@@ -30,56 +29,56 @@ public class StatisticServiceImpl implements StatisticService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<StatisticDto> getAllStatistics() {
+    public List<StatisticDto> findAll() {
 
         LOG.info("Starting to get all statistics.");
 
-        return dao.getAllStatistics().stream().parallel().map(converter).collect(Collectors.toList());
+        return dao.findAll().stream().parallel().map(converter).collect(Collectors.toList());
     }
 
     @Override
     @Transactional(readOnly = true)
-    public StatisticDto getStatisticById(final Integer id) {
+    public StatisticDto findOne(final Integer id) {
 
         LOG.info("Starting to get statistic by id = [{}].", id);
 
-        return converter.apply(dao.getStatisticById(id));
+        return converter.apply(dao.findOne(id));
     }
 
     @Override
     @Transactional(readOnly = true)
-    public StatisticDto getStatisticByName(final String name) {
+    public StatisticDto findOne(final String name) {
 
         LOG.info("Starting to get statistic by name = [{}].", name);
 
-        return converter.apply(dao.getStatisticByName(name));
+        return converter.apply(dao.findOneByName(name));
     }
 
 
     @Override
-    public StatisticDto saveStatistic(final StatisticDto statisticDto) {
+    public StatisticDto save(final StatisticDto statisticDto) {
 
         LOG.info("Starting to save statistic [{}].", statisticDto);
 
-        dao.saveStatistic(converter.transform(statisticDto));
+        dao.save(converter.transform(statisticDto));
 
         return statisticDto;
     }
 
     @Override
-    public StatisticDto deleteStatistic(final StatisticDto statisticDto) {
+    public StatisticDto delete(final StatisticDto statisticDto) {
 
         LOG.info("Starting to delete statistic [{}].", statisticDto);
 
-        dao.deleteStatistic(converter.transform(statisticDto));
+        dao.delete(converter.transform(statisticDto));
 
         return statisticDto;
     }
 
-    @Override public Integer deleteStatistic(final Integer id) {
+    @Override public Integer delete(final Integer id) {
         LOG.info("Starting to delete statistic with id [{}].", id);
 
-        dao.deleteStatistic(id);
+        dao.delete(id);
 
         return id;
 

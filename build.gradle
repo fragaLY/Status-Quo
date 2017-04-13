@@ -47,6 +47,8 @@ dependencies {
     compile group: 'org.springframework.security', name: 'spring-security-config', version: springVersion
     compile group: 'org.springframework.security', name: 'spring-security-taglibs', version: springVersion
     compile group: 'org.springframework', name: 'spring-context-support', version: springVersion
+    compile group: 'org.springframework.data', name: 'spring-data-jpa', version: '1.11.1.RELEASE'
+    compile group: 'org.springframework.data', name: 'spring-data-commons', version: '1.13.1.RELEASE'
 
     //Hibernate and Validation API dependencies
     compile group: 'javax.validation', name: 'validation-api', version: validationApiVersion

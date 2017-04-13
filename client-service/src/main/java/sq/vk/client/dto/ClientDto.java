@@ -129,37 +129,37 @@ public class ClientDto {
     public static class Builder {
 
         private Integer id;
-        private String email;
+        private final String email;
         private String password;
         private String firstName;
         private String secondName;
         private ClientRole role;
 
-        public Builder(String email) {
+        public Builder(final String email) {
             this.email = email;
         }
 
-        public Builder setId(Integer id) {
+        public Builder setId(final Integer id) {
             this.id = id;
             return this;
         }
 
-        public Builder setPassword(String password) {
+        public Builder setPassword(final String password) {
             this.password = password;
             return this;
         }
 
-        public Builder setFirstName(String firstName) {
+        public Builder setFirstName(final String firstName) {
             this.firstName = firstName;
             return this;
         }
 
-        public Builder setSecondName(String secondName) {
+        public Builder setSecondName(final String secondName) {
             this.secondName = secondName;
             return this;
         }
 
-        public Builder setRole(ClientRole role) {
+        public Builder setRole(final ClientRole role) {
             this.role = role;
             return this;
         }

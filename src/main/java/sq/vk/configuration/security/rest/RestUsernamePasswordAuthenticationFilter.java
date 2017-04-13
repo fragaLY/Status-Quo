@@ -15,8 +15,8 @@ import org.springframework.util.Assert;
  */
 public class RestUsernamePasswordAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
-  public static final String SPRING_SECURITY_FORM_USERNAME_KEY = "j_username";
-  public static final String SPRING_SECURITY_FORM_PASSWORD_KEY = "j_password";
+  private static final String SPRING_SECURITY_FORM_USERNAME_KEY = "j_username";
+  private static final String SPRING_SECURITY_FORM_PASSWORD_KEY = "j_password";
 
   private boolean postOnly = true;
 
@@ -52,16 +52,16 @@ public class RestUsernamePasswordAuthenticationFilter extends AbstractAuthentica
     return this.getAuthenticationManager().authenticate(authRequest);
   }
 
-  protected String obtainPassword(HttpServletRequest request) {
+  private String obtainPassword(HttpServletRequest request) {
     return request.getParameter(passwordParameter);
   }
 
 
-  protected String obtainUsername(HttpServletRequest request) {
+  private String obtainUsername(HttpServletRequest request) {
     return request.getParameter(usernameParameter);
   }
 
-  protected void setDetails(HttpServletRequest request, UsernamePasswordAuthenticationToken authRequest) {
+  private void setDetails(HttpServletRequest request, UsernamePasswordAuthenticationToken authRequest) {
     authRequest.setDetails(authenticationDetailsSource.buildDetails(request));
   }
 
