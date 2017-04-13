@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import sq.vk.statistic.domain.Statistic;
 import sq.vk.statistic.dto.StatisticDto;
+import sq.vk.statistic.exceptions.StatisticNotFoundException;
 
 /**
  * Created by Vadzim_Kavalkou on 4/7/2017.
@@ -20,6 +21,13 @@ public class StatisticConverter implements Function<Statistic, StatisticDto> {
     public StatisticDto apply(final Statistic statistic) {
 
         LOG.info("Converts Statistic = [{}] into StatisticDto.", statistic);
+
+        if (statistic == null){
+
+            LOG.info("Statistic is null.");
+
+            throw new StatisticNotFoundException("Statistic was not found");
+        }
 
         StatisticDto statisticDto = new StatisticDto.Builder()
                                         .setId(statistic.getId())

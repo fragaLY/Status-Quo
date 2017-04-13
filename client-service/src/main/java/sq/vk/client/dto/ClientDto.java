@@ -1,8 +1,6 @@
 package sq.vk.client.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import sq.vk.client.domain.ClientRole;
@@ -11,7 +9,6 @@ import sq.vk.client.domain.ClientRole;
  * Created by Vadzim Kavalkou on 22.03.2017.
  */
 
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class ClientDto {
 
     private String password;
@@ -30,7 +27,6 @@ public class ClientDto {
         this.role = builder.role;
     }
 
-    @JsonProperty("Id")
     public Integer getId() {
         return id;
     }
@@ -39,7 +35,6 @@ public class ClientDto {
         this.id = id;
     }
 
-    @JsonProperty("Email")
     public String getEmail() {
         return email;
     }
@@ -57,7 +52,6 @@ public class ClientDto {
         this.password = password;
     }
 
-    @JsonProperty("First name")
     public String getFirstName() {
         return firstName;
     }
@@ -66,7 +60,6 @@ public class ClientDto {
         this.firstName = firstName;
     }
 
-    @JsonProperty("Second name")
     public String getSecondName() {
         return secondName;
     }
@@ -75,7 +68,6 @@ public class ClientDto {
         this.secondName = secondName;
     }
 
-    @JsonProperty("Role")
     public ClientRole getRole() {
         return role;
     }

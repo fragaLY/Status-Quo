@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import sq.vk.client.domain.Client;
 import sq.vk.client.dto.ClientDto;
+import sq.vk.client.exceptions.ClientNotFoundException;
 
 /**
  * Created by Vadzim Kavalkou on 22.03.2017.
@@ -20,6 +21,13 @@ public class ClientConverter implements Function<Client, ClientDto> {
     public ClientDto apply(final Client client) {
 
         LOG.info("Converts Client = [{}] into ClientDto.", client);
+
+        if (client == null){
+
+            LOG.info("Client is null.");
+
+            throw new ClientNotFoundException("Client was not found");
+        }
 
         ClientDto clientDto = new ClientDto.Builder(client.getEmail())
                                 .setId(client.getId())

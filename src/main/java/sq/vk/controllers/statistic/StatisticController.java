@@ -1,4 +1,4 @@
-package sq.vk.controllers;
+package sq.vk.controllers.statistic;
 
 import java.io.IOException;
 import java.time.ZoneId;

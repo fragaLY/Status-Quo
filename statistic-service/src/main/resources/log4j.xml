@@ -20,8 +20,12 @@
         <level value="info"/>
     </logger>
 
-    <logger name="sq.vk">
+    <logger name="sq.vk.statistic">
         <level value="info"/>
+    </logger>
+
+    <logger name="sq.vk.statistic">
+        <level value="warn"/>
     </logger>
 
     <logger name="org.hibernate">

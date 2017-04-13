@@ -24,6 +24,10 @@
         <level value="info"/>
     </logger>
 
+    <logger name="sq.vk.client">
+        <level value="warn"/>
+    </logger>
+
     <logger name="org.hibernate">
         <level value="info"/>
     </logger>

@@ -1,4 +1,4 @@
-package sq.vk.controllers;
+package sq.vk.controllers.client;
 
 import java.net.URI;
 import java.time.ZoneId;
@@ -112,7 +112,7 @@ public class ClientController {
 
   }
 
-  @PostMapping(value = "/create")
+  @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> createClient(@RequestBody final ClientDto clientDto) {
 
     LOG.info("Saves client [{}].", clientDto);
@@ -134,46 +134,12 @@ public class ClientController {
 
   }
 
-  @DeleteMapping(value = "/delete")
+  @DeleteMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> deleteClient(@RequestBody final ClientDto clientDto) {
 
-    LOG.info("Saves client [{}].", clientDto);
+    LOG.info("Deletes client [{}].", clientDto);
 
     service.delete(clientDto);
-    final long currentTime = now().atZone(EUROPE_MOSCOW).toInstant().toEpochMilli();
-
-    final HttpStatus status = HttpStatus.ACCEPTED;
-
-    final HttpHeaders responseHeaders = new HttpHeaders();
-    responseHeaders.setLastModified(currentTime);
-
-    return new ResponseEntity<>(null, responseHeaders, status);
-
-  }
-
-  @DeleteMapping(value = "/delete/{email}")
-  public ResponseEntity<?> deleteClient(@PathVariable("email") final String email) {
-
-    LOG.info("Saves client with email [{}].", email);
-
-    service.delete(email);
-    final long currentTime = now().atZone(EUROPE_MOSCOW).toInstant().toEpochMilli();
-
-    final HttpStatus status = HttpStatus.ACCEPTED;
-
-    final HttpHeaders responseHeaders = new HttpHeaders();
-    responseHeaders.setLastModified(currentTime);
-
-    return new ResponseEntity<>(null, responseHeaders, status);
-
-  }
-
-  @DeleteMapping(value = "/delete/{id}")
-  public ResponseEntity<?> deleteClient(@PathVariable("id") final Integer id) {
-
-    LOG.info("Saves client with id [{}].", id);
-
-    service.delete(id);
     final long currentTime = now().atZone(EUROPE_MOSCOW).toInstant().toEpochMilli();
 
     final HttpStatus status = HttpStatus.ACCEPTED;
