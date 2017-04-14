@@ -1,6 +1,7 @@
 package sq.vk.client.converter;
 
 import java.util.function.Function;
+import javax.persistence.EntityNotFoundException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +19,7 @@ public class ClientConverter implements Function<Client, ClientDto> {
     private static final Logger LOG = LoggerFactory.getLogger(ClientConverter.class);
 
     @Override
-    public ClientDto apply(final Client client) {
+    public ClientDto apply(final Client client) throws EntityNotFoundException {
 
         LOG.info("Converts Client = [{}] into ClientDto.", client);
 
@@ -33,7 +34,6 @@ public class ClientConverter implements Function<Client, ClientDto> {
                                 .setId(client.getId())
                                 .setFirstName(client.getFirstName())
                                 .setSecondName(client.getSecondName())
-                                .setPassword(client.getPassword())
                                 .setRole(client.getRole())
                              .build();
 
@@ -51,7 +51,6 @@ public class ClientConverter implements Function<Client, ClientDto> {
                             .setId(clientDto.getId())
                             .setFirstName(clientDto.getFirstName())
                             .setSecondName(clientDto.getSecondName())
-                            .setPassword(clientDto.getPassword())
                             .setRole(clientDto.getRole())
                         .build();
 

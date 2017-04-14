@@ -2,6 +2,7 @@ package sq.vk.controllers.client;
 
 import java.net.URI;
 import java.util.List;
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -96,7 +97,7 @@ public class ClientController {
   }
 
   @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> createClient(@RequestBody final ClientDto clientDto) {
+  public ResponseEntity<?> createClient(@Valid @RequestBody final ClientDto clientDto) {
 
     LOG.info("Saves client [{}].", clientDto);
 
@@ -113,7 +114,7 @@ public class ClientController {
   }
 
   @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> editClient(@RequestBody final ClientDto clientDto) {
+  public ResponseEntity<?> editClient(@Valid @RequestBody final ClientDto clientDto) {
 
     LOG.info("Saves client [{}].", clientDto);
 
@@ -130,7 +131,7 @@ public class ClientController {
   }
 
   @DeleteMapping
-  public ResponseEntity<ClientDto> deleteClient(@RequestBody final ClientDto clientDto) {
+  public ResponseEntity<ClientDto> deleteClient(@Valid @RequestBody final ClientDto clientDto) {
 
     LOG.info("Deletes client [{}].", clientDto);
 

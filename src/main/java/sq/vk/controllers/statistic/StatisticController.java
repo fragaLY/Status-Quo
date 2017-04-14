@@ -3,6 +3,7 @@ package sq.vk.controllers.statistic;
 import java.net.URI;
 import java.time.ZoneId;
 import java.util.List;
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,7 +67,7 @@ public class StatisticController {
   }
 
   @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> editStatistic(@RequestBody final StatisticDto statistic) {
+  public ResponseEntity<?> editStatistic(@Valid @RequestBody final StatisticDto statistic) {
 
     LOG.info("Update statistic {}", statistic);
 
@@ -83,7 +84,7 @@ public class StatisticController {
   }
 
   @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> createStatistic(@RequestBody final StatisticDto statistic) {
+  public ResponseEntity<?> createStatistic(@Valid @RequestBody final StatisticDto statistic) {
 
     LOG.info("Create statistic '{}'", statistic);
 
@@ -100,7 +101,7 @@ public class StatisticController {
   }
 
   @DeleteMapping
-  public ResponseEntity<?> deleteStatistic(@RequestBody final StatisticDto statistic) {
+  public ResponseEntity<?> deleteStatistic(@Valid @RequestBody final StatisticDto statistic) {
 
     LOG.info("Delete statistic '{}'", statistic);
 

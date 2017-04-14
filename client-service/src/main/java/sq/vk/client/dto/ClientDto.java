@@ -1,5 +1,9 @@
 package sq.vk.client.dto;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import sq.vk.client.domain.ClientRole;
@@ -9,11 +13,21 @@ import sq.vk.client.domain.ClientRole;
  */
 public class ClientDto {
 
-    private String password;
     private Integer id;
+
+    @Pattern(regexp = "\\w+@[a-zA-Z_]+?\\.[a-zA-Z]{2,6}")
+    @Size(min = 7, max = 100)
+    @NotNull
     private String email;
+
+    @Pattern(regexp = "[A-Za-z]+")
+    @Size(min = 2, max = 100)
     private String firstName;
+
+    @Pattern(regexp = "[A-Za-z]+")
+    @Size(min = 2, max = 100)
     private String secondName;
+
     private ClientRole role;
 
     public ClientDto() {
@@ -22,18 +36,9 @@ public class ClientDto {
     private ClientDto(Builder builder) {
         this.id = builder.id;
         this.email = builder.email;
-        this.password = builder.password;
         this.firstName = builder.firstName;
         this.secondName = builder.secondName;
         this.role = builder.role;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public Integer getId() {
@@ -87,7 +92,6 @@ public class ClientDto {
         return new EqualsBuilder()
                 .append(id, clientDto.id)
                 .append(email, clientDto.email)
-                .append(password, clientDto.password)
                 .append(firstName, clientDto.firstName)
                 .append(secondName, clientDto.secondName)
                 .append(role, clientDto.role)
@@ -99,7 +103,6 @@ public class ClientDto {
         return new HashCodeBuilder(17, 37)
                 .append(id)
                 .append(email)
-                .append(password)
                 .append(firstName)
                 .append(secondName)
                 .append(role)
@@ -111,7 +114,6 @@ public class ClientDto {
         return "ClientDto{" +
                 "id=" + id +
                 ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", secondName='" + secondName + '\'' +
                 ", role=" + role +
@@ -122,7 +124,6 @@ public class ClientDto {
 
         private Integer id;
         private final String email;
-        private String password;
         private String firstName;
         private String secondName;
         private ClientRole role;
@@ -133,11 +134,6 @@ public class ClientDto {
 
         public Builder setId(final Integer id) {
             this.id = id;
-            return this;
-        }
-
-        public Builder setPassword(final String password) {
-            this.password = password;
             return this;
         }
 
