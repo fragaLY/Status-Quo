@@ -1,5 +1,8 @@
 package sq.vk.statistic.dto;
 
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import sq.vk.statistic.domain.PokerRoomType;
@@ -10,8 +13,14 @@ import sq.vk.statistic.domain.PokerRoomType;
 public class StatisticDto {
 
     private Integer id;
+
+    @Pattern(regexp = "[A-Za-z0-9_+-.,!@#$%^&*();|<>\"':?=]+")
+    @Size(min = 1, max = 20)
     private String name;
+
     private PokerRoomType pokerRoom;
+
+    @Pattern(regexp = "(?:0)|([1-9][0-9]*)\\.?[0-9]+")
     private double profit;
 
     private StatisticDto(Builder builder) {
