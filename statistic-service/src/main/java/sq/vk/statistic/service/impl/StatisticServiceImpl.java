@@ -1,6 +1,7 @@
 package sq.vk.statistic.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -10,7 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sq.vk.statistic.conveter.StatisticConverter;
 import sq.vk.statistic.dao.StatisticDao;
+import sq.vk.statistic.domain.Statistic;
 import sq.vk.statistic.dto.StatisticDto;
+import sq.vk.statistic.exceptions.StatisticNotFoundException;
 import sq.vk.statistic.service.StatisticService;
 
 /**
@@ -51,7 +54,13 @@ public class StatisticServiceImpl implements StatisticService {
 
         LOG.info("Starting to get statistic by name = [{}].", name);
 
-        return converter.apply(dao.findOneByName(name));
+        Optional<Statistic> statistic = dao.findOneByName(name);
+
+        if(!statistic.isPresent()){
+            throw new StatisticNotFoundException("Statistic Was Not Found.");
+        }
+
+        return converter.apply(statistic.get());
     }
 
 
@@ -76,6 +85,7 @@ public class StatisticServiceImpl implements StatisticService {
     }
 
     @Override public Integer delete(final Integer id) {
+
         LOG.info("Starting to delete statistic with id [{}].", id);
 
         dao.delete(id);

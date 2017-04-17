@@ -5,6 +5,7 @@ import org.junit.Test;
 import sq.vk.client.domain.Client;
 import sq.vk.client.domain.ClientRole;
 import sq.vk.client.dto.ClientDto;
+import sq.vk.client.exceptions.ClientNotFoundException;
 
 import static org.junit.Assert.assertEquals;
 
@@ -33,17 +34,35 @@ public class ClientConverterTest {
     final ClientRole role = ClientRole.DEVELOPER;
     final Integer id = 1;
 
-    final Client client = new Client.Builder(EMAIL).setId(id).setFirstName(FIRSTNAME).setSecondName(
-      SECONDNAME).setRole(role).setPassword(PASSWORD).build();
+    final Client client = new Client.Builder(EMAIL)
+                            .setId(id)
+                            .setFirstName(FIRSTNAME)
+                            .setSecondName(SECONDNAME)
+                            .setRole(role)
+                            .setPassword(PASSWORD)
+                          .build();
 
-    final ClientDto expectedClientDto = new ClientDto.Builder(EMAIL).setId(id).setFirstName(
-      FIRSTNAME).setSecondName(SECONDNAME).setRole(role).setPassword(PASSWORD).build();
+    final ClientDto expectedClientDto = new ClientDto.Builder(EMAIL)
+                                          .setId(id)
+                                          .setFirstName(FIRSTNAME)
+                                          .setSecondName(SECONDNAME)
+                                          .setRole(role)
+                                          .setPassword(PASSWORD)
+                                        .build();
 
     //when
     ClientDto actualClientDto = converter.apply(client);
 
     //then
     assertEquals(expectedClientDto,actualClientDto);
+
+  }
+
+  @Test(expected = ClientNotFoundException.class)
+  public void apply_whenClientIsNull() {
+
+    //when
+    converter.apply(null);
 
   }
 
@@ -54,11 +73,21 @@ public class ClientConverterTest {
     final ClientRole role = ClientRole.DEVELOPER;
     final Integer id = 1;
 
-    final Client expectedClient = new Client.Builder(EMAIL).setId(id).setFirstName(FIRSTNAME).setSecondName(
-        SECONDNAME).setRole(role).setPassword(PASSWORD).build();
+    final Client expectedClient = new Client.Builder(EMAIL)
+                                    .setId(id)
+                                    .setFirstName(FIRSTNAME)
+                                    .setSecondName(SECONDNAME)
+                                    .setRole(role)
+                                    .setPassword(PASSWORD)
+                                  .build();
 
-    final ClientDto clientDto = new ClientDto.Builder(EMAIL).setId(id).setFirstName(
-        FIRSTNAME).setSecondName(SECONDNAME).setRole(role).setPassword(PASSWORD).build();
+    final ClientDto clientDto = new ClientDto.Builder(EMAIL)
+                                  .setId(id)
+                                  .setFirstName(FIRSTNAME)
+                                  .setSecondName(SECONDNAME)
+                                  .setRole(role)
+                                  .setPassword(PASSWORD)
+                                .build();
 
     //when
     Client actualClient = converter.transform(clientDto);

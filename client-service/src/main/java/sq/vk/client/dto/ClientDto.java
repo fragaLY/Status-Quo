@@ -6,6 +6,8 @@ import javax.validation.constraints.Size;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.validator.constraints.NotEmpty;
 import sq.vk.client.domain.ClientRole;
 
 /**
@@ -28,17 +30,23 @@ public class ClientDto {
     @Size(min = 2, max = 100)
     private String secondName;
 
+    @NotEmpty
+    private String password;
+
     private ClientRole role;
 
     public ClientDto() {
     }
 
     private ClientDto(Builder builder) {
+
         this.id = builder.id;
         this.email = builder.email;
         this.firstName = builder.firstName;
         this.secondName = builder.secondName;
         this.role = builder.role;
+        this.password = builder.password;
+
     }
 
     public Integer getId() {
@@ -81,43 +89,56 @@ public class ClientDto {
         this.role = role;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
+  public String getPassword() {
+    return password;
+  }
 
-        if (o == null || getClass() != o.getClass()) return false;
+  public void setPassword(String password) {
+    this.password = password;
+  }
 
-        ClientDto clientDto = (ClientDto) o;
 
-        return new EqualsBuilder()
-                .append(id, clientDto.id)
-                .append(email, clientDto.email)
-                .append(firstName, clientDto.firstName)
-                .append(secondName, clientDto.secondName)
-                .append(role, clientDto.role)
-                .isEquals();
+  @Override
+  public boolean equals(Object o) {
+    if (this == o)
+      return true;
+
+    if (o == null || getClass() != o.getClass())
+      return false;
+
+    ClientDto clientDto = (ClientDto)o;
+
+    return new EqualsBuilder()
+            .append(id, clientDto.id)
+            .append(email, clientDto.email)
+            .append(firstName,clientDto.firstName)
+            .append(secondName, clientDto.secondName)
+            .append(password,clientDto.password)
+            .append(role, clientDto.role)
+          .isEquals();
     }
 
-    @Override
-    public int hashCode() {
-        return new HashCodeBuilder(17, 37)
-                .append(id)
-                .append(email)
-                .append(firstName)
-                .append(secondName)
-                .append(role)
-                .toHashCode();
+  @Override
+  public int hashCode() {
+    return new HashCodeBuilder(17, 37)
+            .append(id)
+            .append(email)
+            .append(firstName)
+            .append(secondName)
+            .append(password)
+            .append(role)
+          .toHashCode();
     }
 
-    @Override
-    public String toString() {
-        return "ClientDto{" +
-                "id=" + id +
-                ", email='" + email + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", secondName='" + secondName + '\'' +
-                ", role=" + role +
-                '}';
+  @Override
+  public String toString() {
+    return new ToStringBuilder(this)
+            .append("id", id)
+            .append("email", email)
+            .append("firstName",firstName)
+            .append("secondName", secondName)
+            .append("role",role)
+          .toString();
     }
 
     public static class Builder {
@@ -127,6 +148,7 @@ public class ClientDto {
         private String firstName;
         private String secondName;
         private ClientRole role;
+        private String password;
 
         public Builder(final String email) {
             this.email = email;
@@ -152,8 +174,15 @@ public class ClientDto {
             return this;
         }
 
-        public ClientDto build() {
-            return new ClientDto(this);
+        public Builder setPassword(String password) {
+          this.password = password;
+          return this;
         }
+
+        public ClientDto build() {
+          return new ClientDto(this);
+        }
+
     }
+
 }

@@ -5,6 +5,7 @@ import org.junit.Test;
 import sq.vk.statistic.domain.PokerRoomType;
 import sq.vk.statistic.domain.Statistic;
 import sq.vk.statistic.dto.StatisticDto;
+import sq.vk.statistic.exceptions.StatisticNotFoundException;
 
 import static org.junit.Assert.assertEquals;
 
@@ -31,17 +32,33 @@ public class StatisticConverterTest {
     final PokerRoomType role = PokerRoomType.POKERSTARS;
     final Integer id = 1;
 
-    final Statistic statistic = new Statistic.Builder().setId(id).setName(NAME).setPokerRoom(role).setProfit(
-      PROFIT).build();
+    final Statistic statistic = new Statistic.Builder()
+                                  .setId(id)
+                                  .setName(NAME)
+                                  .setPokerRoom(role)
+                                  .setProfit(PROFIT)
+                                .build();
 
-    final StatisticDto expectedStatisticDto = new StatisticDto.Builder().setId(id).setName(NAME).setPokerRoom(
-      role).setProfit(PROFIT).build();
+    final StatisticDto expectedStatisticDto = new StatisticDto.Builder()
+                                                .setId(id)
+                                                .setName(NAME)
+                                                .setPokerRoom(role)
+                                                .setProfit(PROFIT)
+                                              .build();
 
     //when
     StatisticDto actualStatisticDto = converter.apply(statistic);
 
     //then
     assertEquals(expectedStatisticDto, actualStatisticDto);
+
+  }
+
+  @Test(expected = StatisticNotFoundException.class)
+  public void apply_whenStatisticIsNull() {
+
+    //when
+    converter.apply(null);
 
   }
 
@@ -52,11 +69,19 @@ public class StatisticConverterTest {
     final PokerRoomType role = PokerRoomType.POKERSTARS;
     final Integer id = 1;
 
-    final Statistic expectedStatistic = new Statistic.Builder().setId(id).setName(NAME).setPokerRoom(role).setProfit(
-        PROFIT).build();
+    final Statistic expectedStatistic = new Statistic.Builder()
+                                          .setId(id)
+                                          .setName(NAME)
+                                          .setPokerRoom(role)
+                                          .setProfit(PROFIT)
+                                        .build();
 
-    final StatisticDto statisticDto = new StatisticDto.Builder().setId(id).setName(NAME).setPokerRoom(
-        role).setProfit(PROFIT).build();
+    final StatisticDto statisticDto = new StatisticDto.Builder()
+                                        .setId(id)
+                                        .setName(NAME)
+                                        .setPokerRoom(role)
+                                        .setProfit(PROFIT)
+                                      .build();
 
     //when
     Statistic actualStatistic = converter.transform(statisticDto);

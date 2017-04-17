@@ -11,6 +11,7 @@ import javax.persistence.Table;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
  * Created by Vadzim_Kavalkou on 4/7/2017.
@@ -95,20 +96,13 @@ public class Statistic {
     return new HashCodeBuilder(17, 37).append(id).append(name).append(pokerRoom).append(profit).toHashCode();
   }
 
-  @Override
-  public String toString() {
-    return "Statistic{"
-           + "id='"
-           + id
-           + '\''
-           + ", name='"
-           + name
-           + '\''
-           + ", pokerRoom="
-           + pokerRoom
-           + ", profit="
-           + profit
-           + '}';
+  @Override public String toString() {
+    return new ToStringBuilder(this)
+            .append("id", id)
+            .append("name", name)
+            .append("pokerRoom",pokerRoom)
+            .append("profit", profit)
+          .toString();
   }
 
   public static class Builder {

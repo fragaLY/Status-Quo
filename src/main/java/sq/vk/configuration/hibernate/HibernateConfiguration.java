@@ -68,11 +68,14 @@ public class HibernateConfiguration {
 
   @Bean
   public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+
     LocalContainerEntityManagerFactoryBean emfb = new LocalContainerEntityManagerFactoryBean();
+
     emfb.setDataSource(getDataSource());
     emfb.setPackagesToScan("sq.vk.statistic","sq.vk.client" );
     emfb.setJpaVendorAdapter(jpaVendorAdapter());
     emfb.setJpaProperties(getHibernateProperties());
+
     return emfb;
   }
 
@@ -83,9 +86,13 @@ public class HibernateConfiguration {
 
   @Bean
   public PlatformTransactionManager transactionManager() {
+
     JpaTransactionManager transactionManager = new JpaTransactionManager();
+
     transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
+
     return transactionManager;
+
   }
 
 }

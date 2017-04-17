@@ -1,6 +1,7 @@
 package sq.vk.client.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.google.common.collect.ImmutableList;
 import org.junit.Test;
@@ -13,6 +14,7 @@ import sq.vk.client.dao.ClientDao;
 import sq.vk.client.domain.Client;
 import sq.vk.client.domain.ClientRole;
 import sq.vk.client.dto.ClientDto;
+import sq.vk.client.exceptions.ClientNotFoundException;
 import sq.vk.client.service.ClientService;
 
 import static org.junit.Assert.assertEquals;
@@ -40,7 +42,7 @@ public class ClientServiceImplTest {
   private ClientService service = new ClientServiceImpl();
 
   @Test
-  public void getAllClients() {
+  public void findAll() {
 
     //given
     final ClientRole role = ClientRole.DEVELOPER;
@@ -48,17 +50,37 @@ public class ClientServiceImplTest {
     final Integer firstID = 1;
     final Integer secondID = 2;
 
-    final Client firstClient = new Client.Builder(EMAIL).setId(firstID).setFirstName(FIRSTNAME).setSecondName(
-      SECONDNAME).setRole(role).setPassword(PASSWORD).build();
+    final Client firstClient = new Client.Builder(EMAIL)
+                                .setId(firstID)
+                                .setFirstName(FIRSTNAME)
+                                .setSecondName(SECONDNAME)
+                                .setRole(role)
+                                .setPassword(PASSWORD)
+                              .build();
 
-    final Client secondClient = new Client.Builder(EMAIL).setId(secondID).setFirstName(
-      FIRSTNAME).setSecondName(SECONDNAME).setRole(role).setPassword(PASSWORD).build();
+    final Client secondClient = new Client.Builder(EMAIL)
+                                  .setId(secondID)
+                                  .setFirstName(FIRSTNAME)
+                                  .setSecondName(SECONDNAME)
+                                  .setRole(role)
+                                  .setPassword(PASSWORD)
+                                .build();
 
-    final ClientDto firstExpectedClientDto = new ClientDto.Builder(EMAIL).setId(firstID).setFirstName(
-      FIRSTNAME).setSecondName(SECONDNAME).setRole(role).setPassword(PASSWORD).build();
+    final ClientDto firstExpectedClientDto = new ClientDto.Builder(EMAIL)
+                                              .setId(firstID)
+                                              .setFirstName(FIRSTNAME)
+                                              .setSecondName(SECONDNAME)
+                                              .setRole(role)
+                                              .setPassword(PASSWORD)
+                                            .build();
 
-    final ClientDto secondExpectedClientDto = new ClientDto.Builder(EMAIL).setId(secondID).setFirstName(
-      FIRSTNAME).setSecondName(SECONDNAME).setRole(role).setPassword(PASSWORD).build();
+    final ClientDto secondExpectedClientDto = new ClientDto.Builder(EMAIL)
+                                                .setId(secondID)
+                                                .setFirstName(FIRSTNAME)
+                                                .setSecondName(SECONDNAME)
+                                                .setRole(role)
+                                                .setPassword(PASSWORD)
+                                              .build();
 
     List<Client> clients = ImmutableList.of(firstClient, secondClient);
 
@@ -78,20 +100,30 @@ public class ClientServiceImplTest {
   }
 
   @Test
-  public void getClientByEmail() {
+  public void findOneByEmail() {
 
     //given
     final ClientRole role = ClientRole.DEVELOPER;
     final Integer id = 1;
 
-    final Client client = new Client.Builder(EMAIL).setId(id).setFirstName(FIRSTNAME).setSecondName(
-        SECONDNAME).setRole(role).setPassword(PASSWORD).build();
+    final Client client = new Client.Builder(EMAIL)
+                            .setId(id)
+                            .setFirstName(FIRSTNAME)
+                            .setSecondName(SECONDNAME)
+                            .setRole(role)
+                            .setPassword(PASSWORD)
+                          .build();
 
-    final ClientDto expectedClientDto = new ClientDto.Builder(EMAIL).setId(id).setFirstName(
-        FIRSTNAME).setSecondName(SECONDNAME).setRole(role).setPassword(PASSWORD).build();
+    final ClientDto expectedClientDto = new ClientDto.Builder(EMAIL)
+                                          .setId(id)
+                                          .setFirstName(FIRSTNAME)
+                                          .setSecondName(SECONDNAME)
+                                          .setRole(role)
+                                          .setPassword(PASSWORD)
+                                        .build();
 
     //when
-    when(dao.findOneByEmail(EMAIL)).thenReturn(client);
+    when(dao.findOneByEmail(EMAIL)).thenReturn(Optional.of(client));
 
     when(converter.apply(client)).thenReturn(expectedClientDto);
 
@@ -102,21 +134,45 @@ public class ClientServiceImplTest {
 
   }
 
+  @Test(expected = ClientNotFoundException.class)
+  public void findOneByEmail_whenClientIsAbsent() {
+
+    //given
+    final Client client = null;
+
+    //when
+    when(dao.findOneByEmail(EMAIL)).thenReturn(Optional.ofNullable(client));
+
+    service.findOneByEmail(EMAIL);
+
+  }
+
+
   @Test
-  public void getClientById() {
+  public void findOneById() {
 
     //given
     final ClientRole role = ClientRole.DEVELOPER;
     final Integer id = 1;
 
-    final Client client = new Client.Builder(EMAIL).setId(id).setFirstName(FIRSTNAME).setSecondName(
-        SECONDNAME).setRole(role).setPassword(PASSWORD).build();
+    final Client client = new Client.Builder(EMAIL)
+                            .setId(id)
+                            .setFirstName(FIRSTNAME)
+                            .setSecondName(SECONDNAME)
+                            .setRole(role)
+                            .setPassword(PASSWORD)
+                          .build();
 
-    final ClientDto expectedClientDto = new ClientDto.Builder(EMAIL).setId(id).setFirstName(
-        FIRSTNAME).setSecondName(SECONDNAME).setRole(role).setPassword(PASSWORD).build();
+    final ClientDto expectedClientDto = new ClientDto.Builder(EMAIL)
+                                          .setId(id)
+                                          .setFirstName(FIRSTNAME)
+                                          .setSecondName(SECONDNAME)
+                                          .setRole(role)
+                                          .setPassword(PASSWORD)
+                                        .build();
 
     //when
-    when(dao.getOne(id)).thenReturn(client);
+    when(dao.findOne(id)).thenReturn(client);
 
     when(converter.apply(client)).thenReturn(expectedClientDto);
 
@@ -128,17 +184,27 @@ public class ClientServiceImplTest {
   }
 
   @Test
-  public void saveClient() {
+  public void save() {
 
     //given
     final ClientRole role = ClientRole.DEVELOPER;
     final Integer id = 1;
 
-    final Client client = new Client.Builder(EMAIL).setId(id).setFirstName(FIRSTNAME).setSecondName(
-        SECONDNAME).setRole(role).setPassword(PASSWORD).build();
+    final Client client = new Client.Builder(EMAIL)
+                            .setId(id)
+                            .setFirstName(FIRSTNAME)
+                            .setSecondName(SECONDNAME)
+                            .setRole(role)
+                            .setPassword(PASSWORD)
+                          .build();
 
-    final ClientDto expectedClientDto = new ClientDto.Builder(EMAIL).setId(id).setFirstName(
-        FIRSTNAME).setSecondName(SECONDNAME).setRole(role).setPassword(PASSWORD).build();
+    final ClientDto expectedClientDto = new ClientDto.Builder(EMAIL)
+                                          .setId(id)
+                                          .setFirstName(FIRSTNAME)
+                                          .setSecondName(SECONDNAME)
+                                          .setRole(role)
+                                          .setPassword(PASSWORD)
+                                        .build();
 
     //when
     when(converter.transform(expectedClientDto)).thenReturn(client);
@@ -153,17 +219,27 @@ public class ClientServiceImplTest {
   }
 
   @Test
-  public void deleteClient() {
+  public void delete() {
 
     //given
     final ClientRole role = ClientRole.DEVELOPER;
     final Integer id = 1;
 
-    final Client client = new Client.Builder(EMAIL).setId(id).setFirstName(FIRSTNAME).setSecondName(
-        SECONDNAME).setRole(role).setPassword(PASSWORD).build();
+    final Client client = new Client.Builder(EMAIL)
+                            .setId(id)
+                            .setFirstName(FIRSTNAME)
+                            .setSecondName(SECONDNAME)
+                            .setRole(role)
+                            .setPassword(PASSWORD)
+                          .build();
 
-    final ClientDto clientDto = new ClientDto.Builder(EMAIL).setId(id).setFirstName(
-        FIRSTNAME).setSecondName(SECONDNAME).setRole(role).setPassword(PASSWORD).build();
+    final ClientDto clientDto = new ClientDto.Builder(EMAIL)
+                                  .setId(id)
+                                  .setFirstName(FIRSTNAME)
+                                  .setSecondName(SECONDNAME)
+                                  .setRole(role)
+                                  .setPassword(PASSWORD)
+                                .build();
 
     //when
     when(converter.transform(clientDto)).thenReturn(client);

@@ -47,6 +47,7 @@ public class ClientController {
   @ResponseBody
   @Secured(ROLE_ADMIN)
   public ResponseEntity<List<ClientDto>> getAllClients() {
+
     LOG.info("Get all clients");
 
     final List<ClientDto> allClients = service.findAll();
@@ -58,6 +59,7 @@ public class ClientController {
   @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
   public ResponseEntity<ClientDto> getClientById(@PathVariable("id") final Integer id) {
+
     LOG.info("Get client by id: '{}'", id);
 
     final HttpStatus httpStatus = HttpStatus.OK;
@@ -71,6 +73,7 @@ public class ClientController {
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
   public ResponseEntity<ClientDto> getClientByEmail(@RequestParam(value="email") final String email) {
+
     LOG.info("Get client by email: '{}'", email);
 
     final HttpStatus httpStatus = HttpStatus.OK;
@@ -86,6 +89,7 @@ public class ClientController {
   @GetMapping(value = "/profile", produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
   public ResponseEntity<ClientDto> getClientProfile() {
+
     LOG.info("Get current user info.");
 
     final String email = SecurityContextHolder.getContext().getAuthentication().getName();

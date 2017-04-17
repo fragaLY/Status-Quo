@@ -57,6 +57,7 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
     final HttpHeaders httpHeaders = new HttpHeaders();
 
     return handleExceptionInternal(ex, responseBody, httpHeaders, NOT_FOUND, req);
+
   }
 
   @ExceptionHandler(ClientNotFoundException.class)
@@ -69,6 +70,7 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
     final HttpHeaders httpHeaders = new HttpHeaders();
 
     return handleExceptionInternal(ex, responseBody, httpHeaders, NOT_FOUND, req);
+
   }
 
   @ExceptionHandler(AccessDeniedException.class)
@@ -81,6 +83,7 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
     final HttpHeaders httpHeaders = new HttpHeaders();
 
     return handleExceptionInternal(ex, responseBody, httpHeaders, FORBIDDEN, req);
+
   }
 
   @ExceptionHandler(RoomNotFoundException.class)
@@ -93,6 +96,7 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
     final HttpHeaders httpHeaders = new HttpHeaders();
 
     return handleExceptionInternal(ex, responseBody, httpHeaders, NOT_FOUND, req);
+
   }
 
   @Override

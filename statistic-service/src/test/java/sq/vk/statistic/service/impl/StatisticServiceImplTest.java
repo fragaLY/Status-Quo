@@ -1,6 +1,7 @@
 package sq.vk.statistic.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.google.common.collect.ImmutableList;
 import org.junit.Test;
@@ -13,6 +14,7 @@ import sq.vk.statistic.dao.StatisticDao;
 import sq.vk.statistic.domain.PokerRoomType;
 import sq.vk.statistic.domain.Statistic;
 import sq.vk.statistic.dto.StatisticDto;
+import sq.vk.statistic.exceptions.StatisticNotFoundException;
 import sq.vk.statistic.service.StatisticService;
 
 import static org.junit.Assert.assertEquals;
@@ -38,24 +40,40 @@ public class StatisticServiceImplTest {
   private StatisticService service = new StatisticServiceImpl();
 
   @Test
-  public void getAllStatistics() {
+  public void findAll() {
 
     //given
     final PokerRoomType role = PokerRoomType.POKERSTARS;
     final Integer firstId = 1;
     final Integer secondId = 1;
 
-    final Statistic firstStatistic = new Statistic.Builder().setId(firstId).setName(NAME).setPokerRoom(
-      role).setProfit(PROFIT).build();
+    final Statistic firstStatistic = new Statistic.Builder()
+                                      .setId(firstId)
+                                      .setName(NAME)
+                                      .setPokerRoom(role)
+                                      .setProfit(PROFIT)
+                                    .build();
 
-    final Statistic secondStatistic = new Statistic.Builder().setId(secondId).setName(NAME).setPokerRoom(
-      role).setProfit(PROFIT).build();
+    final Statistic secondStatistic = new Statistic.Builder()
+                                        .setId(secondId)
+                                        .setName(NAME)
+                                        .setPokerRoom(role)
+                                        .setProfit(PROFIT)
+                                      .build();
 
-    final StatisticDto firstStatisticDto = new StatisticDto.Builder().setId(firstId).setName(
-      NAME).setPokerRoom(role).setProfit(PROFIT).build();
+    final StatisticDto firstStatisticDto = new StatisticDto.Builder()
+                                            .setId(firstId)
+                                            .setName(NAME)
+                                            .setPokerRoom(role)
+                                            .setProfit(PROFIT)
+                                          .build();
 
-    final StatisticDto secondStatisticDto = new StatisticDto.Builder().setId(secondId).setName(
-      NAME).setPokerRoom(role).setProfit(PROFIT).build();
+    final StatisticDto secondStatisticDto = new StatisticDto.Builder()
+                                              .setId(secondId)
+                                              .setName(NAME)
+                                              .setPokerRoom(role)
+                                              .setProfit(PROFIT)
+                                            .build();
 
     final List<Statistic> statistics = ImmutableList.of(firstStatistic, secondStatistic);
     final List<StatisticDto> expectedStatisticDtos = ImmutableList.of(firstStatisticDto, secondStatisticDto);
@@ -75,17 +93,25 @@ public class StatisticServiceImplTest {
 
 
   @Test
-  public void getStatisticById() {
+  public void findOneById() {
 
     //given
     final PokerRoomType role = PokerRoomType.POKERSTARS;
     final Integer id = 1;
 
-    final Statistic statistic = new Statistic.Builder().setId(id).setName(NAME).setPokerRoom(role).setProfit(
-        PROFIT).build();
+    final Statistic statistic = new Statistic.Builder()
+                                  .setId(id)
+                                  .setName(NAME)
+                                  .setPokerRoom(role)
+                                  .setProfit(PROFIT)
+                                .build();
 
-    final StatisticDto expectedStatisticDto = new StatisticDto.Builder().setId(id).setName(NAME).setPokerRoom(
-        role).setProfit(PROFIT).build();
+    final StatisticDto expectedStatisticDto = new StatisticDto.Builder()
+                                                .setId(id)
+                                                .setName(NAME)
+                                                .setPokerRoom(role)
+                                                .setProfit(PROFIT)
+                                              .build();
 
     //when
     when(dao.findOne(id)).thenReturn(statistic);
@@ -98,22 +124,43 @@ public class StatisticServiceImplTest {
 
   }
 
+  @Test(expected = StatisticNotFoundException.class)
+  public void findOneByName_whenStatisticIsAbsent() {
+
+    //given
+    Statistic statistic = null;
+
+    //when
+    when(dao.findOneByName(NAME)).thenReturn(Optional.ofNullable(statistic));
+
+    service.findOne(NAME);
+
+  }
+
 
   @Test
-  public void getStatisticByName() {
+  public void findOneByName() {
 
     //given
     final PokerRoomType role = PokerRoomType.POKERSTARS;
     final Integer id = 1;
 
-    final Statistic statistic = new Statistic.Builder().setId(id).setName(NAME).setPokerRoom(role).setProfit(
-        PROFIT).build();
+    final Statistic statistic = new Statistic.Builder()
+                                  .setId(id)
+                                  .setName(NAME)
+                                  .setPokerRoom(role)
+                                  .setProfit(PROFIT)
+                                .build();
 
-    final StatisticDto expectedStatisticDto = new StatisticDto.Builder().setId(id).setName(NAME).setPokerRoom(
-        role).setProfit(PROFIT).build();
+    final StatisticDto expectedStatisticDto = new StatisticDto.Builder()
+                                                .setId(id)
+                                                .setName(NAME)
+                                                .setPokerRoom(role)
+                                                .setProfit(PROFIT)
+                                              .build();
 
     //when
-    when(dao.findOneByName(NAME)).thenReturn(statistic);
+    when(dao.findOneByName(NAME)).thenReturn(Optional.of(statistic));
     when(converter.apply(statistic)).thenReturn(expectedStatisticDto);
 
     StatisticDto actualStatistic = service.findOne(NAME);
@@ -123,18 +170,27 @@ public class StatisticServiceImplTest {
 
   }
 
+
   @Test
-  public void saveStatistic() {
+  public void save() {
 
     //given
     final PokerRoomType role = PokerRoomType.POKERSTARS;
     final Integer id = 1;
 
-    final Statistic statistic = new Statistic.Builder().setId(id).setName(NAME).setPokerRoom(role).setProfit(
-      PROFIT).build();
+    final Statistic statistic = new Statistic.Builder()
+                                  .setId(id)
+                                  .setName(NAME)
+                                  .setPokerRoom(role)
+                                  .setProfit(PROFIT)
+                                .build();
 
-    final StatisticDto expectedStatisticDto = new StatisticDto.Builder().setId(id).setName(NAME).setPokerRoom(
-      role).setProfit(PROFIT).build();
+    final StatisticDto expectedStatisticDto = new StatisticDto.Builder()
+                                                .setId(id)
+                                                .setName(NAME)
+                                                .setPokerRoom(role)
+                                                .setProfit(PROFIT)
+                                              .build();
 
     //when
     when(converter.transform(expectedStatisticDto)).thenReturn(statistic);
@@ -148,17 +204,25 @@ public class StatisticServiceImplTest {
   }
 
   @Test
-  public void deleteStatistic() {
+  public void delete() {
 
     //given
     final PokerRoomType role = PokerRoomType.POKERSTARS;
     final Integer id = 1;
 
-    final Statistic statistic = new Statistic.Builder().setId(id).setName(NAME).setPokerRoom(role).setProfit(
-      PROFIT).build();
+    final Statistic statistic = new Statistic.Builder()
+                                  .setId(id)
+                                  .setName(NAME)
+                                  .setPokerRoom(role)
+                                  .setProfit(PROFIT)
+                                .build();
 
-    final StatisticDto expectedStatisticDto = new StatisticDto.Builder().setId(id).setName(NAME).setPokerRoom(
-      role).setProfit(PROFIT).build();
+    final StatisticDto expectedStatisticDto = new StatisticDto.Builder()
+                                                .setId(id)
+                                                .setName(NAME)
+                                                .setPokerRoom(role)
+                                                .setProfit(PROFIT)
+                                              .build();
 
     //when
     when(converter.transform(expectedStatisticDto)).thenReturn(statistic);
@@ -173,7 +237,7 @@ public class StatisticServiceImplTest {
 
 
   @Test
-  public void deleteStatisticById() {
+  public void deleteById() {
 
     //given
     final Integer id = 1;

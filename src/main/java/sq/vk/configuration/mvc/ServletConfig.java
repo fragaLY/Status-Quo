@@ -35,6 +35,7 @@ public class ServletConfig extends WebMvcConfigurerAdapter implements Applicatio
 
     @Bean
     public ViewResolver contentNegotiationResolver(ContentNegotiationManager cnm) {
+
         ContentNegotiatingViewResolver resolver = new ContentNegotiatingViewResolver();
 
         resolver.setContentNegotiationManager(cnm);
@@ -43,13 +44,18 @@ public class ServletConfig extends WebMvcConfigurerAdapter implements Applicatio
         resolver.setDefaultViews(Lists.newArrayList(getJsonView()));
 
         return resolver;
+
     }
 
     private MappingJackson2JsonView getJsonView() {
+
         MappingJackson2JsonView view = new MappingJackson2JsonView();
+
         view.setPrettyPrint(true);
         view.setEncoding(JsonEncoding.UTF8);
+
         return view;
+
     }
 
     @Override
