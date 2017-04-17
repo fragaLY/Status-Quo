@@ -22,6 +22,9 @@ public class ClientDto {
     @NotNull
     private String email;
 
+    @NotEmpty
+    private String password;
+
     @Pattern(regexp = "[A-Za-z]+")
     @Size(min = 2, max = 100)
     private String firstName;
@@ -29,9 +32,6 @@ public class ClientDto {
     @Pattern(regexp = "[A-Za-z]+")
     @Size(min = 2, max = 100)
     private String secondName;
-
-    @NotEmpty
-    private String password;
 
     private ClientRole role;
 
