@@ -1,4 +1,5 @@
 rootProject.name = 'Status Quo'
 include 'client-service'
 include 'statistic-service'
+include 'player-service'
 
