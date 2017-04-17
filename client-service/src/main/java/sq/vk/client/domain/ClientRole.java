@@ -8,7 +8,7 @@ import java.util.Optional;
  */
 public enum ClientRole {
 
-    DEVELOPER("ROLE_DEVELOPER"), ADMIN("ROLE_ADMIN"), USER("ROLE_USER");
+    DEVELOPER("ROLE_DEVELOPER"), ADMIN("ROLE_ADMIN"), USER("ROLE_USER"), ANONYMOUS("ROLE_ANONYMOUS");
 
     private final String role;
 

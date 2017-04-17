@@ -5,6 +5,7 @@ import javax.validation.constraints.Size;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import sq.vk.statistic.domain.PokerRoomType;
 
 /**
@@ -76,34 +77,34 @@ public class StatisticDto {
         StatisticDto that = (StatisticDto) o;
 
         return new EqualsBuilder()
-                .append(profit, that.profit)
-                .append(id, that.id)
-                .append(name, that.name)
-                .append(pokerRoom, that.pokerRoom)
-                .isEquals();
+                   .append(profit, that.profit)
+                   .append(id, that.id)
+                   .append(name, that.name)
+                   .append(pokerRoom, that.pokerRoom)
+               .isEquals();
     }
 
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
-                .append(id)
-                .append(name)
-                .append(pokerRoom)
-                .append(profit)
-                .toHashCode();
+                   .append(id)
+                   .append(name)
+                   .append(pokerRoom)
+                   .append(profit)
+               .toHashCode();
     }
 
-    @Override
-    public String toString() {
-        return "StatisticDto{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", pokerRoom=" + pokerRoom +
-                ", profit=" + profit +
-                '}';
+    @Override public String toString() {
+        return new ToStringBuilder(this)
+                   .append("id", id)
+                   .append("name", name)
+                   .append("pokerRoom",pokerRoom)
+                   .append("profit", profit)
+               .toString();
     }
 
     public static class Builder {
+
         private Integer id;
         private String name;
         private PokerRoomType pokerRoom;
@@ -134,4 +135,5 @@ public class StatisticDto {
         }
 
     }
+
 }

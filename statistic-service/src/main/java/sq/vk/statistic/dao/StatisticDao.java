@@ -1,6 +1,7 @@
 package sq.vk.statistic.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -19,7 +20,7 @@ public interface StatisticDao extends JpaRepository<Statistic, Integer> {
     Statistic findOne(Integer id);
 
     @Query("select s from Statistic s where s.name = :name")
-    Statistic findOneByName(@Param("name") String name);
+    Optional<Statistic> findOneByName(@Param("name") String name);
 
     void delete(Statistic statistic);
 

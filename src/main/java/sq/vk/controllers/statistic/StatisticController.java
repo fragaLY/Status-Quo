@@ -58,6 +58,7 @@ public class StatisticController {
   @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
   public ResponseEntity<List<StatisticDto>> getAllStatistic() {
+
     LOG.info("Get all statistic");
 
     List<StatisticDto> statistics = service.findAll();

@@ -60,9 +60,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     http.addFilterBefore(restFilter(), UsernamePasswordAuthenticationFilter.class);
 
     http.headers().frameOptions().disable();
+
     http.csrf().disable();
 
     http.formLogin().loginProcessingUrl("/login").successHandler(authenticationSuccessHandler);
+
     http.logout().logoutUrl("/logout").invalidateHttpSession(true).deleteCookies(
       "JSESSIONID").logoutSuccessHandler(logoutSuccessHandler);
 
@@ -72,5 +74,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
       "/login").fullyAuthenticated();
 
     http.exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint);
+
   }
+
 }

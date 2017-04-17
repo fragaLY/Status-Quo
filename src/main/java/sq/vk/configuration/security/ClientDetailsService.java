@@ -46,10 +46,10 @@ public class ClientDetailsService implements UserDetailsService {
 
             LOG.info("Client with email [ {} ] has [ {} ].", email, clientRole);
             return new User(email, clientDto.getPassword(), true, true, true, true, authorities);
+
         }
 
         LOG.info("Client with email [ {} ] has ROLE_ANONYMOUS.", email);
-
         String output = String.format("Client with email ' %s ' was not found. Grants ROLE_ANONYMOUS.", email);
 
         throw new UsernameNotFoundException(output);

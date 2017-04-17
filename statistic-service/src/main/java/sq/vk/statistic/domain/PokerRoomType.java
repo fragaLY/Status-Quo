@@ -10,7 +10,7 @@ import sq.vk.statistic.exceptions.RoomNotFoundException;
  */
 public enum PokerRoomType {
 
-    POKERSTARS("POKERSTARS");
+    POKERSTARS("POKERSTARS"),EIGHTS("888");
 
     private final String pokerRoom;
 
@@ -21,16 +21,16 @@ public enum PokerRoomType {
     public static PokerRoomType getRoomAsEnum(String roomType_) {
 
         Optional<PokerRoomType> room = Arrays.stream(values())
-                .parallel()
-                .filter(clientRole -> clientRole.getValue().equals(roomType_))
-                .findFirst();
-
+                                       .parallel()
+                                       .filter(clientRole -> clientRole.getValue().equals(roomType_))
+                                       .findFirst();
 
         if (room.isPresent()) {
             return room.get();
         } else {
             throw new RoomNotFoundException("PokerRoom: '" + roomType_ + "' was not found.");
         }
+
     }
 
     public String getValue() {

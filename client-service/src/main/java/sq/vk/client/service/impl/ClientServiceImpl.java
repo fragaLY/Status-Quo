@@ -1,6 +1,7 @@
 package sq.vk.client.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -10,7 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sq.vk.client.converter.ClientConverter;
 import sq.vk.client.dao.ClientDao;
+import sq.vk.client.domain.Client;
 import sq.vk.client.dto.ClientDto;
+import sq.vk.client.exceptions.ClientNotFoundException;
 import sq.vk.client.service.ClientService;
 
 /**
@@ -43,7 +46,14 @@ public class ClientServiceImpl implements ClientService {
 
         LOG.info("Starting to get client by email = [{}].", email);
 
-        return converter.apply(dao.findOneByEmail(email));
+        final Optional<Client> client = dao.findOneByEmail(email);
+
+        if(!client.isPresent()){
+
+            throw new ClientNotFoundException("Client Was Not Found");
+        }
+
+        return converter.apply(client.get());
 
     }
 
@@ -53,7 +63,7 @@ public class ClientServiceImpl implements ClientService {
 
         LOG.info("Starting to get client by id = [{}].", id);
 
-        return converter.apply(dao.getOne(id));
+        return converter.apply(dao.findOne(id));
 
     }
 

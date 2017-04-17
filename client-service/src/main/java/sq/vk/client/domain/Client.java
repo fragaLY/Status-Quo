@@ -105,17 +105,25 @@ public class Client {
 
     Client client = (Client)o;
 
-    return new EqualsBuilder().append(id, client.id).append(email, client.email).append(
-      password,
-      client.password).append(firstName, client.firstName).append(secondName, client.secondName).append(
-        role,
-        client.role).isEquals();
+    return new EqualsBuilder()
+            .append(id, client.id)
+            .append(email, client.email)
+            .append(firstName,client.firstName)
+            .append(secondName, client.secondName)
+            .append(role,client.role)
+          .isEquals();
   }
 
   @Override
   public int hashCode() {
-    return new HashCodeBuilder(17, 37).append(id).append(email).append(password).append(firstName).append(
-      secondName).append(role).toHashCode();
+    return new HashCodeBuilder(17, 37)
+            .append(id)
+            .append(email)
+            .append(password)
+            .append(firstName)
+            .append(secondName)
+            .append(role)
+          .toHashCode();
   }
 
 

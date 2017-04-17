@@ -60,13 +60,18 @@ public class ErrorDetail {
 
   @Override
   public String toString() {
-    return new ToStringBuilder(this).append("developerMessage", developerMessage).append(
-      "status",
-      status).append("propertyPath", propertyPath).append("outputMessage", outputMessage).toString();
+
+    return new ToStringBuilder(this)
+            .append("developerMessage", developerMessage)
+            .append("status",status)
+            .append("propertyPath", propertyPath)
+            .append("outputMessage", outputMessage)
+          .toString();
   }
 
   @Override
   public boolean equals(Object o) {
+
     if (this == o)
       return true;
 
@@ -75,14 +80,22 @@ public class ErrorDetail {
 
     ErrorDetail that = (ErrorDetail)o;
 
-    return new EqualsBuilder().append(status, that.status).append(propertyPath, that.propertyPath).append(
-      outputMessage,
-      that.outputMessage).isEquals();
+    return new EqualsBuilder()
+            .append(status, that.status)
+            .append(propertyPath, that.propertyPath)
+            .append(outputMessage,that.outputMessage)
+          .isEquals();
   }
 
   @Override
   public int hashCode() {
-    return new HashCodeBuilder(17, 37).append(status).append(propertyPath).append(outputMessage).toHashCode();
+
+    return new HashCodeBuilder(17, 37)
+            .append(status)
+            .append(propertyPath)
+            .append(outputMessage)
+          .toHashCode();
+
   }
 
   public static final class Builder {

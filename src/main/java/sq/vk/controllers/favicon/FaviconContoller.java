@@ -11,10 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("favicon.ico")
 public class FaviconContoller {
 
+  private static final String FORWARD_FAVICON = "forward:/resources/images/favicon.ico";
+
   @GetMapping
   public String favicon() {
 
-    return "forward:/resources/images/favicon.ico";
+    return FORWARD_FAVICON;
+
   }
 
 }

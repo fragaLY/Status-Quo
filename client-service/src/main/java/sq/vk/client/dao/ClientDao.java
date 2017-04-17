@@ -1,6 +1,7 @@
 package sq.vk.client.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,7 +16,7 @@ public interface ClientDao extends JpaRepository<Client, Integer> {
     List<Client> findAll();
 
     @Query("select c from Client c where c.email = :email")
-    Client findOneByEmail(@Param("email") String email);
+    Optional<Client> findOneByEmail(@Param("email") String email);
 
     Client findOne(Integer id);
 

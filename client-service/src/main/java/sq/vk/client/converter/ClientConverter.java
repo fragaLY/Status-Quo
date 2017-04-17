@@ -35,6 +35,7 @@ public class ClientConverter implements Function<Client, ClientDto> {
                                 .setFirstName(client.getFirstName())
                                 .setSecondName(client.getSecondName())
                                 .setRole(client.getRole())
+                                .setPassword(client.getPassword())
                              .build();
 
         LOG.info("Client was successfully converted into ClientDto = [{}].", clientDto);
@@ -52,6 +53,7 @@ public class ClientConverter implements Function<Client, ClientDto> {
                             .setFirstName(clientDto.getFirstName())
                             .setSecondName(clientDto.getSecondName())
                             .setRole(clientDto.getRole())
+                            .setPassword(clientDto.getPassword())
                         .build();
 
 
