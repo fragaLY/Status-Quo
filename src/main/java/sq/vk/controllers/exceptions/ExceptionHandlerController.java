@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
 import org.springframework.core.env.Environment;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -130,7 +131,7 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
   }
 
   @ExceptionHandler({ConstraintViolationException.class, RollbackException.class})
-  protected ResponseEntity<Object> handleEntityNotFoundException(
+  protected ResponseEntity<Object> handlConstraintViolationAndRollBackExceptions(
     ConstraintViolationException ex,
     WebRequest req) {
 
@@ -161,6 +162,26 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
     }
 
     return handleExceptionInternal(ex, errorDetails, httpHeaders, BAD_REQUEST, req);
+
+  }
+
+  @ExceptionHandler(EmptyResultDataAccessException.class)
+  protected ResponseEntity<Object> handleEmptyResultDataAccessException(
+      EmptyResultDataAccessException ex,
+      WebRequest req) {
+
+    final HttpHeaders httpHeaders = new HttpHeaders();
+
+    LOG.info("EmptyResultDataAccessException error: {}", ex.toString());
+
+    ErrorDetail error = new ErrorDetail();
+    error.setPropertyPath(ex.toString());
+    error.setStatus(BAD_REQUEST);
+    error.setOutputMessage("Bad request");
+    error.setDeveloperMessage(ex.getClass().toString());
+
+
+    return handleExceptionInternal(ex, error, httpHeaders, BAD_REQUEST, req);
 
   }
 

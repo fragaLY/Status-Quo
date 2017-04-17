@@ -1,13 +1,12 @@
 package sq.vk.client.dto;
 
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.hibernate.validator.constraints.NotEmpty;
 import sq.vk.client.domain.ClientRole;
 
 /**
@@ -19,10 +18,9 @@ public class ClientDto {
 
     @Pattern(regexp = "\\w+@[a-zA-Z_]+?\\.[a-zA-Z]{2,6}")
     @Size(min = 7, max = 100)
-    @NotNull
     private String email;
 
-    @NotEmpty
+    @JsonIgnore
     private String password;
 
     @Pattern(regexp = "[A-Za-z]+")
