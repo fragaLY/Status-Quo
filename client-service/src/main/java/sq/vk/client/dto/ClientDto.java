@@ -1,6 +1,5 @@
 package sq.vk.client.dto;
 
-import java.util.Set;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -9,7 +8,6 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import sq.vk.client.domain.ClientRole;
-import sq.vk.statistic.domain.Statistic;
 
 /**
  * Created by Vadzim Kavalkou on 22.03.2017.
@@ -37,8 +35,6 @@ public class ClientDto {
   @Size(min = 2, max = 20)
   private ClientRole role;
 
-  private Set<Statistic> statistics;
-
   public ClientDto() {
   }
 
@@ -50,7 +46,6 @@ public class ClientDto {
     this.secondName = builder.secondName;
     this.role = builder.role;
     this.password = builder.password;
-    this.statistics = builder.statistics;
 
   }
 
@@ -102,14 +97,6 @@ public class ClientDto {
     this.password = password;
   }
 
-  public Set<Statistic> getStatistics() {
-    return statistics;
-  }
-
-  public void setStatistics(Set<Statistic> statistics) {
-    this.statistics = statistics;
-  }
-
   @Override
   public boolean equals(Object o) {
     if (this == o)
@@ -127,7 +114,6 @@ public class ClientDto {
             .append(firstName,clientDto.firstName)
             .append(secondName, clientDto.secondName)
             .append(role, clientDto.role)
-            .append(statistics,clientDto.statistics)
           .isEquals();
 
   }
@@ -142,7 +128,6 @@ public class ClientDto {
             .append(firstName)
             .append(secondName)
             .append(role)
-            .append(statistics)
           .toHashCode();
 
   }
@@ -157,7 +142,6 @@ public class ClientDto {
             .append("firstName", firstName)
             .append("secondName", secondName)
             .append("role", role)
-            .append("statistics",statistics)
           .toString();
 
   }
@@ -170,7 +154,6 @@ public class ClientDto {
     private String secondName;
     private ClientRole role;
     private String password;
-    private Set<Statistic> statistics;
 
     public Builder(final String email) {
       this.email = email;
@@ -198,11 +181,6 @@ public class ClientDto {
 
     public Builder setPassword(String password) {
       this.password = password;
-      return this;
-    }
-
-    public Builder setStatistics(Set<Statistic> statistics) {
-      this.statistics = statistics;
       return this;
     }
 

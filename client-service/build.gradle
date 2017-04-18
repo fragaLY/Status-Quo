@@ -56,6 +56,4 @@ dependencies {
     testCompile group: 'org.springframework', name: 'spring-test', version: springTestVersion
     compile group: 'org.mockito', name: 'mockito-core', version: mockitoCoreVersion
 
-    compile project(":statistic-service")
-
 }

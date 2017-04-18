@@ -81,8 +81,8 @@ dependencies {
     
     //service
     compile project(':client-service')
-    compile project(':statistic-service')
     compile project(':gameinfo-service')
+    compile project(':statistic-service')
 }
 
 buildscript {
