@@ -1,6 +1,6 @@
 package sq.vk.statistic.dto;
 
-import java.time.LocalDate;
+import java.util.Date;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -32,10 +32,10 @@ public class StatisticDto {
     private Client client;
 
     @NotNull
-    private LocalDate from;
+    private Date from;
 
     @NotNull
-    private LocalDate to;
+    private Date to;
 
     public StatisticDto(){
     }
@@ -92,19 +92,19 @@ public class StatisticDto {
         this.client = client;
     }
 
-    public LocalDate getFrom() {
+    public Date getFrom() {
         return from;
     }
 
-    public void setFrom(LocalDate from) {
+    public void setFrom(Date from) {
         this.from = from;
     }
 
-    public LocalDate getTo() {
+    public Date getTo() {
         return to;
     }
 
-    public void setTo(LocalDate to) {
+    public void setTo(Date to) {
         this.to = to;
     }
 
@@ -129,8 +129,15 @@ public class StatisticDto {
     }
 
     @Override public int hashCode() {
-        return new HashCodeBuilder(17,
-            37).append(id).append(name).append(profit).append(gameInfo).append(client).append(from).append(to).toHashCode();
+        return new HashCodeBuilder(17,37)
+                   .append(id)
+                   .append(name)
+                   .append(profit)
+                   .append(gameInfo)
+                   .append(client)
+                   .append(from)
+                   .append(to)
+               .toHashCode();
     }
 
     @Override public String toString() {
@@ -152,8 +159,8 @@ public class StatisticDto {
         private double profit;
         private GameInfo gameInfo;
         private Client client;
-        private LocalDate from;
-        private LocalDate to;
+        private Date from;
+        private Date to;
 
         public Builder setId(Integer id) {
             this.id = id;
@@ -180,12 +187,12 @@ public class StatisticDto {
             return this;
         }
 
-        public Builder setFrom(LocalDate from) {
+        public Builder setFrom(Date from) {
             this.from = from;
             return this;
         }
 
-        public Builder setTo(LocalDate to) {
+        public Builder setTo(Date to) {
             this.to = to;
             return this;
         }

@@ -78,10 +78,7 @@ dependencies {
     testCompile group: 'org.springframework', name: 'spring-test', version: springTestVersion
     compile group: 'org.mockito', name: 'mockito-core', version: mockitoCoreVersion
 
-    
     //service
-    compile project(':client-service')
-    compile project(':gameinfo-service')
     compile project(':statistic-service')
 }
 

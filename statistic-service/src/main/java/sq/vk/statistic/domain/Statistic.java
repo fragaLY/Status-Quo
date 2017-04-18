@@ -1,6 +1,6 @@
 package sq.vk.statistic.domain;
 
-import java.time.LocalDate;
+import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -33,8 +33,8 @@ public class Statistic {
   private double profit;
   private GameInfo gameInfo;
   private Client client;
-  private LocalDate from;
-  private LocalDate to;
+  private Date from;
+  private Date to;
 
   public Statistic() {
   }
@@ -106,22 +106,72 @@ public class Statistic {
 
   @Temporal(TemporalType.DATE)
   @Column(name = "from")
-  public LocalDate getFrom() {
+  public Date getFrom() {
     return from;
   }
 
-  public void setFrom(LocalDate from) {
+  public void setFrom(Date from) {
     this.from = from;
   }
 
   @Temporal(TemporalType.DATE)
   @Column(name = "to")
-  public LocalDate getTo() {
+  public Date getTo() {
     return to;
   }
 
-  public void setTo(LocalDate to) {
+  public void setTo(Date to) {
     this.to = to;
+  }
+
+  @Override public boolean equals(Object o) {
+
+    if (this == o)
+      return true;
+
+    if (o == null || getClass() != o.getClass())
+      return false;
+
+    Statistic statistic = (Statistic)o;
+
+    return new EqualsBuilder()
+             .append(profit, statistic.profit)
+             .append(id, statistic.id)
+             .append(name,statistic.name)
+             .append(gameInfo, statistic.gameInfo)
+             .append(client, statistic.client)
+             .append(from,statistic.from)
+             .append(to, statistic.to)
+           .isEquals();
+
+  }
+
+  @Override public int hashCode() {
+
+    return new HashCodeBuilder(17,37)
+            .append(id)
+            .append(name)
+            .append(profit)
+            .append(gameInfo)
+            .append(client)
+            .append(from)
+            .append(to)
+          .toHashCode();
+
+  }
+
+  @Override public String toString() {
+
+    return new ToStringBuilder(this)
+            .append("id", id)
+            .append("name", name)
+            .append("profit", profit)
+            .append("gameInfo",gameInfo)
+            .append("client", client)
+            .append("from", from)
+            .append("to", to)
+          .toString();
+
   }
 
   public static class Builder {
@@ -131,60 +181,8 @@ public class Statistic {
     private double profit;
     private GameInfo gameInfo;
     private Client client;
-    private LocalDate from;
-    private LocalDate to;
-
-    @Override
-    public boolean equals(Object o) {
-
-      if (this == o)
-        return true;
-
-      if (o == null || getClass() != o.getClass())
-        return false;
-
-      Builder builder = (Builder)o;
-
-      return new EqualsBuilder()
-              .append(profit, builder.profit)
-              .append(id, builder.id)
-              .append(name,builder.name)
-              .append(gameInfo, builder.gameInfo)
-              .append(client, builder.client)
-              .append(from,builder.from)
-              .append(to, builder.to)
-            .isEquals();
-
-    }
-
-    @Override
-    public int hashCode() {
-
-      return new HashCodeBuilder(17, 37)
-              .append(id)
-              .append(name)
-              .append(profit)
-              .append(gameInfo)
-              .append(client)
-              .append(from)
-              .append(to)
-            .toHashCode();
-
-    }
-
-    @Override
-    public String toString() {
-
-      return new ToStringBuilder(this)
-              .append("id", id)
-              .append("name", name)
-              .append("profit", profit)
-              .append("gameInfo",gameInfo)
-              .append("client", client)
-              .append("from", from)
-              .append("to", to)
-            .toString();
-    }
+    private Date from;
+    private Date to;
 
     public Builder setId(Integer id) {
       this.id = id;
@@ -211,12 +209,12 @@ public class Statistic {
       return this;
     }
 
-    public Builder setFrom(LocalDate from) {
+    public Builder setFrom(Date from) {
       this.from = from;
       return this;
     }
 
-    public Builder setTo(LocalDate to) {
+    public Builder setTo(Date to) {
       this.to = to;
       return this;
     }

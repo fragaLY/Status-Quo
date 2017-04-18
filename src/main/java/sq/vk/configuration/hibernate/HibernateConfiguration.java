@@ -78,7 +78,7 @@ public class HibernateConfiguration {
     LocalContainerEntityManagerFactoryBean emfb = new LocalContainerEntityManagerFactoryBean();
 
     emfb.setDataSource(getDataSource());
-    emfb.setPackagesToScan("sq.vk.statistic","sq.vk.client" );
+    emfb.setPackagesToScan("sq.vk.statistic","sq.vk.client","sq.vk.gameinfo" );
     emfb.setJpaVendorAdapter(jpaVendorAdapter());
     emfb.setJpaProperties(getHibernateProperties());
 
