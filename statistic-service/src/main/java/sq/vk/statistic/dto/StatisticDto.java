@@ -22,7 +22,7 @@ public class StatisticDto {
     @Size(min = 1, max = 20)
     private String name;
 
-    @Pattern(regexp = "(?:0)|([1-9][0-9]*)\\.?[0-9]+")//TODO VK: add minus into the pattern
+    @Pattern(regexp = "(-?0\\.[0-9]*[1-9]+[0-9]*)|(-?[1-9]+[0-9]*((\\.[0-9]*[1-9]+[0-9]*)|(\\.[0-9]+)))|(-?[1-9]+[0-9]*)|(0)")
     private double profit;
 
     @NotNull

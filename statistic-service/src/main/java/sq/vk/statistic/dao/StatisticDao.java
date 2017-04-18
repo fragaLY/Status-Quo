@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import sq.vk.client.domain.Client;
 import sq.vk.statistic.domain.Statistic;
 
 /**
@@ -26,6 +27,6 @@ public interface StatisticDao extends JpaRepository<Statistic, Integer> {
 
     void delete(Integer id);
 
-    //TODO VK: add implementation for search by client
-
+    @Query("select s from Statistic s where s.client = :client")
+    Statistic findOneByClient(@Param("client") Client client);
 }

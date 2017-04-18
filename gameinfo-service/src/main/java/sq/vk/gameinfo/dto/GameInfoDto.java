@@ -13,7 +13,6 @@ import sq.vk.gameinfo.domain.Type;
 /**
  * Created by Vadzim_Kavalkou on 4/17/2017.
  */
-//TODO VK: implement validations
 public class GameInfoDto {
 
   private Integer id;

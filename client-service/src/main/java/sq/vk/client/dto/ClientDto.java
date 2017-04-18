@@ -12,7 +12,6 @@ import sq.vk.client.domain.ClientRole;
 /**
  * Created by Vadzim Kavalkou on 22.03.2017.
  */
-//TODO VK: implement validations
 public class ClientDto {
 
   private Integer id;
