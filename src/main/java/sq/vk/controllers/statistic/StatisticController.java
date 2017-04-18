@@ -61,6 +61,8 @@ public class StatisticController {
 
     LOG.info("Get all statistic");
 
+    //TODO VK: add implementation for search by client
+
     List<StatisticDto> statistics = service.findAll();
 
     return new ResponseEntity<>(statistics, new HttpHeaders(), HttpStatus.OK);

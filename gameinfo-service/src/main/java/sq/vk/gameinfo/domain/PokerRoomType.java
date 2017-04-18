@@ -1,9 +1,7 @@
-package sq.vk.statistic.domain;
+package sq.vk.gameinfo.domain;
 
 import java.util.Arrays;
 import java.util.Optional;
-
-import sq.vk.statistic.exceptions.RoomNotFoundException;
 
 /**
  * Created by Vadzim Kavalkou on 08.04.2017.
@@ -28,7 +26,7 @@ public enum PokerRoomType {
         if (room.isPresent()) {
             return room.get();
         } else {
-            throw new RoomNotFoundException("PokerRoom: '" + roomType_ + "' was not found.");
+            throw new RuntimeException("PokerRoom: '" + roomType_ + "' was not found.");
         }
 
     }

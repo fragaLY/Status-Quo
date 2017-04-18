@@ -20,11 +20,11 @@
         <level value="info"/>
     </logger>
 
-    <logger name="sq.vk.playerstatistic" additivity="false">
+    <logger name="sq.vk.gameinfo" additivity="false">
         <level value="info"/>
     </logger>
 
-    <logger name="sq.vk.playerstatistic">
+    <logger name="sq.vk.gameinfo">
         <level value="warn"/>
     </logger>
 

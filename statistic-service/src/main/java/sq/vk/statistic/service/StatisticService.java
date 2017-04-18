@@ -21,4 +21,6 @@ public interface StatisticService {
 
     Integer delete(Integer id);
 
+    //TODO VK: add implementation for search by client
+
 }

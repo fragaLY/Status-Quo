@@ -1,4 +1,4 @@
-package sq.vk.playerstatistic.domain;
+package sq.vk.gameinfo.domain;
 
 import java.util.Arrays;
 import java.util.Optional;

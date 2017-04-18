@@ -1,5 +1,6 @@
 package sq.vk.client.dto;
 
+import java.util.Set;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -8,84 +9,90 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import sq.vk.client.domain.ClientRole;
+import sq.vk.statistic.domain.Statistic;
 
 /**
  * Created by Vadzim Kavalkou on 22.03.2017.
  */
+//TODO VK: implement validations
 public class ClientDto {
 
-    private Integer id;
+  private Integer id;
 
-    @Pattern(regexp = "\\w+@[a-zA-Z_]+?\\.[a-zA-Z]{2,6}")
-    @Size(min = 7, max = 100)
-    private String email;
+  @Pattern(regexp = "\\w+@[a-zA-Z_]+?\\.[a-zA-Z]{2,6}")
+  @Size(min = 7, max = 100)
+  private String email;
 
-    @JsonIgnore
-    private String password;
+  @JsonIgnore
+  private String password;
 
-    @Pattern(regexp = "[A-Za-z]+")
-    @Size(min = 2, max = 100)
-    private String firstName;
+  @Pattern(regexp = "[A-Za-z]+")
+  @Size(min = 2, max = 100)
+  private String firstName;
 
-    @Pattern(regexp = "[A-Za-z]+")
-    @Size(min = 2, max = 100)
-    private String secondName;
+  @Pattern(regexp = "[A-Za-z]+")
+  @Size(min = 2, max = 100)
+  private String secondName;
 
-    private ClientRole role;
+  @Size(min = 2, max = 20)
+  private ClientRole role;
 
-    public ClientDto() {
-    }
+  private Set<Statistic> statistics;
 
-    private ClientDto(Builder builder) {
+  public ClientDto() {
+  }
 
-        this.id = builder.id;
-        this.email = builder.email;
-        this.firstName = builder.firstName;
-        this.secondName = builder.secondName;
-        this.role = builder.role;
-        this.password = builder.password;
+  private ClientDto(Builder builder) {
 
-    }
+    this.id = builder.id;
+    this.email = builder.email;
+    this.firstName = builder.firstName;
+    this.secondName = builder.secondName;
+    this.role = builder.role;
+    this.password = builder.password;
+    this.statistics = builder.statistics;
 
-    public Integer getId() {
-        return id;
-    }
+  }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+  public Integer getId() {
+    return id;
+  }
 
-    public String getEmail() {
-        return email;
-    }
+  public void setId(Integer id) {
+    this.id = id;
+  }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+  public String getEmail() {
+    return email;
+  }
 
-    public String getFirstName() {
-        return firstName;
-    }
+  public void setEmail(String email) {
+    this.email = email;
+  }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+  public String getFirstName() {
+    return firstName;
+  }
 
-    public String getSecondName() {
-        return secondName;
-    }
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
+  }
 
-    public void setSecondName(String secondName) {
-        this.secondName = secondName;
-    }
+  public String getSecondName() {
+    return secondName;
+  }
 
-    public ClientRole getRole() {
-        return role;
-    }
+  public void setSecondName(String secondName) {
+    this.secondName = secondName;
+  }
 
-    public void setRole(ClientRole role) {
-        this.role = role;
-    }
+  public ClientRole getRole() {
+    return role;
+  }
+
+  public void setRole(ClientRole role) {
+    this.role = role;
+  }
 
   public String getPassword() {
     return password;
@@ -95,6 +102,13 @@ public class ClientDto {
     this.password = password;
   }
 
+  public Set<Statistic> getStatistics() {
+    return statistics;
+  }
+
+  public void setStatistics(Set<Statistic> statistics) {
+    this.statistics = statistics;
+  }
 
   @Override
   public boolean equals(Object o) {
@@ -109,78 +123,93 @@ public class ClientDto {
     return new EqualsBuilder()
             .append(id, clientDto.id)
             .append(email, clientDto.email)
+            .append(password,clientDto.password)
             .append(firstName,clientDto.firstName)
             .append(secondName, clientDto.secondName)
-            .append(password,clientDto.password)
             .append(role, clientDto.role)
+            .append(statistics,clientDto.statistics)
           .isEquals();
-    }
+
+  }
 
   @Override
   public int hashCode() {
+
     return new HashCodeBuilder(17, 37)
             .append(id)
             .append(email)
+            .append(password)
             .append(firstName)
             .append(secondName)
-            .append(password)
             .append(role)
+            .append(statistics)
           .toHashCode();
-    }
+
+  }
 
   @Override
   public String toString() {
+
     return new ToStringBuilder(this)
             .append("id", id)
             .append("email", email)
-            .append("firstName",firstName)
+            .append("password",password)
+            .append("firstName", firstName)
             .append("secondName", secondName)
-            .append("role",role)
+            .append("role", role)
+            .append("statistics",statistics)
           .toString();
+
+  }
+
+  public static class Builder {
+
+    private final String email;
+    private Integer id;
+    private String firstName;
+    private String secondName;
+    private ClientRole role;
+    private String password;
+    private Set<Statistic> statistics;
+
+    public Builder(final String email) {
+      this.email = email;
     }
 
-    public static class Builder {
-
-        private Integer id;
-        private final String email;
-        private String firstName;
-        private String secondName;
-        private ClientRole role;
-        private String password;
-
-        public Builder(final String email) {
-            this.email = email;
-        }
-
-        public Builder setId(final Integer id) {
-            this.id = id;
-            return this;
-        }
-
-        public Builder setFirstName(final String firstName) {
-            this.firstName = firstName;
-            return this;
-        }
-
-        public Builder setSecondName(final String secondName) {
-            this.secondName = secondName;
-            return this;
-        }
-
-        public Builder setRole(final ClientRole role) {
-            this.role = role;
-            return this;
-        }
-
-        public Builder setPassword(String password) {
-          this.password = password;
-          return this;
-        }
-
-        public ClientDto build() {
-          return new ClientDto(this);
-        }
-
+    public Builder setId(final Integer id) {
+      this.id = id;
+      return this;
     }
+
+    public Builder setFirstName(final String firstName) {
+      this.firstName = firstName;
+      return this;
+    }
+
+    public Builder setSecondName(final String secondName) {
+      this.secondName = secondName;
+      return this;
+    }
+
+    public Builder setRole(final ClientRole role) {
+      this.role = role;
+      return this;
+    }
+
+    public Builder setPassword(String password) {
+      this.password = password;
+      return this;
+    }
+
+    public Builder setStatistics(Set<Statistic> statistics) {
+      this.statistics = statistics;
+      return this;
+    }
+
+    public ClientDto build() {
+      return new ClientDto(this);
+    }
+
+  }
 
 }

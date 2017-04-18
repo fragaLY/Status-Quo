@@ -1,4 +1,4 @@
-package sq.vk.playerstatistic.domain;
+package sq.vk.gameinfo.domain;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -8,7 +8,7 @@ import java.util.Optional;
  */
 public enum Type {
 
-  MTT("MTT"), SNG("SNG");
+  MTT("MTT"), SNG("SNG"), ALL("ALL");
 
   private final String type;
 

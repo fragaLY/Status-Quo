@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS STATISTICS
+(
+  ID            INT           PRIMARY KEY AUTO_INCREMENT,
+  NAME          VARCHAR(100)  NOT NULL,
+  PROFIT        DECIMAL(10,2) DEFAULT 0.00,
+  FROM          DATE          NOT NULL,
+  TO            DATE          NOT NULL
+);

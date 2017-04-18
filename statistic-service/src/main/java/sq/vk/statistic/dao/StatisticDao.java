@@ -26,4 +26,6 @@ public interface StatisticDao extends JpaRepository<Statistic, Integer> {
 
     void delete(Integer id);
 
+    //TODO VK: add implementation for search by client
+
 }

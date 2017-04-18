@@ -24,15 +24,19 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories({ "sq.vk.client.dao", "sq.vk.statistic.dao" })
+@EnableJpaRepositories({ "sq.vk.client.dao", "sq.vk.statistic.dao", "sq.vk.gameinfo.dao" })
 @PropertySource("classpath:properties/jdbc.properties")
-@ComponentScan({"sq.vk.client","sq.vk.statistic"})
+@ComponentScan({ "sq.vk.client","sq.vk.statistic", "sq.vk.gameinfo" })
 public class HibernateConfiguration {
 
   private static final String CREATE_CLIENTS_TABLE = "sql/create-clients.sql";
+  private static final String CREATE_GAMEINFO_TABLE = "sql/create-gameinfo.sql";
+  private static final String CREATE_STATISTICS_TABLE = "sql/create-statistics.sql";
+
+  private static final String CREATE_STATISTIC_CLIENT_TABLE = "sql/create-statistics-clients.sql";
+  private static final String CREATE_STATISTIC_GAMEINFO_TABLE = "sql/create-statistics-gameinfo.sql";
+
   private static final String INIT_CLIENT_TABLE = "sql/init-clients.sql";
-  private static final String CREATE_STATISTICS_TABLE = "sql/create-user-statistic.sql";
-  private static final String INIT_STATISTICS_TABLE = "sql/init-statistic.sql";
 
   @Autowired
   private Environment environment;
@@ -46,9 +50,11 @@ public class HibernateConfiguration {
             .continueOnError(true)
             .setType(EmbeddedDatabaseType.H2)
             .addScript(CREATE_CLIENTS_TABLE)
-            .addScript(INIT_CLIENT_TABLE)
+            .addScript(CREATE_GAMEINFO_TABLE)
             .addScript(CREATE_STATISTICS_TABLE)
-            .addScript(INIT_STATISTICS_TABLE)
+            .addScript(CREATE_STATISTIC_CLIENT_TABLE)
+            .addScript(CREATE_STATISTIC_GAMEINFO_TABLE)
+            .addScript(INIT_CLIENT_TABLE)
           .build();
   }
 

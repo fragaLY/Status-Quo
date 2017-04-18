@@ -31,7 +31,7 @@ public class ClientServiceImpl implements ClientService {
     private ClientConverter converter;
 
     @Override
-    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    @Transactional(readOnly = true, rollbackFor = Throwable.class)
     public List<ClientDto> findAll() {
 
         LOG.info("Starting to get all clients.");
@@ -41,7 +41,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    @Transactional(readOnly = true, rollbackFor = Throwable.class)
     public ClientDto findOneByEmail(final String email) {
 
         LOG.info("Starting to get client by email = [{}].", email);
@@ -58,7 +58,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    @Transactional(readOnly = true, rollbackFor = Throwable.class)
     public ClientDto findOne(final Integer id) {
 
         LOG.info("Starting to get client by id = [{}].", id);
@@ -68,7 +68,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Throwable.class)
     public ClientDto save(final ClientDto clientDto) {
 
         LOG.info("Starting to save clientDto [{}].", clientDto);
@@ -80,7 +80,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Throwable.class)
     public ClientDto delete(final ClientDto clientDto) {
 
         LOG.info("Starting to delete clientDto [{}].", clientDto);
@@ -92,7 +92,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Throwable.class)
     public Integer delete(final Integer id) {
 
         LOG.info("Starting to delete client with id [{}].", id);
@@ -104,7 +104,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Throwable.class)
     public String delete(final String email) {
 
         LOG.info("Starting to delete client with email [{}].", email);

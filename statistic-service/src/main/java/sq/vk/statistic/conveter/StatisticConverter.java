@@ -32,8 +32,11 @@ public class StatisticConverter implements Function<Statistic, StatisticDto> {
         StatisticDto statisticDto = new StatisticDto.Builder()
                                         .setId(statistic.getId())
                                         .setName(statistic.getName())
-                                        .setPokerRoom(statistic.getPokerRoom())
                                         .setProfit(statistic.getProfit())
+                                        .setGameInfo(statistic.getGameInfo())
+                                        .setClient(statistic.getClient())
+                                        .setFrom(statistic.getFrom())
+                                        .setTo(statistic.getTo())
                                     .build();
 
         LOG.info("Statistic was successfully converted into statisticDto = [{}].", statisticDto);
@@ -48,8 +51,11 @@ public class StatisticConverter implements Function<Statistic, StatisticDto> {
         Statistic statistic = new Statistic.Builder()
                                  .setId(statisticDto.getId())
                                  .setName(statisticDto.getName())
-                                 .setPokerRoom(statisticDto.getPokerRoom())
                                  .setProfit(statisticDto.getProfit())
+                                 .setGameInfo(statisticDto.getGameInfo())
+                                 .setClient(statisticDto.getClient())
+                                 .setFrom(statisticDto.getFrom())
+                                 .setTo(statisticDto.getTo())
                              .build();
 
         LOG.info("StatisticDto was successfully converted into Statistic = [{}].", statistic);
