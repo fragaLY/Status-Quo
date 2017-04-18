@@ -1,15 +1,23 @@
 package sq.vk.statistic.service.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import com.google.common.collect.ImmutableList;
-import org.junit.Ignore;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import sq.vk.client.domain.Client;
+import sq.vk.client.domain.ClientRole;
+import sq.vk.gameinfo.domain.GameInfo;
+import sq.vk.gameinfo.domain.PokerRoomType;
+import sq.vk.gameinfo.domain.Speed;
+import sq.vk.gameinfo.domain.TableSize;
+import sq.vk.gameinfo.domain.Type;
 import sq.vk.statistic.conveter.StatisticConverter;
 import sq.vk.statistic.dao.StatisticDao;
 import sq.vk.statistic.domain.Statistic;
@@ -27,9 +35,14 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class StatisticServiceImplTest {
 
-  //TODO VK:implements logic
   private static final String NAME = "USER";
   private static final double PROFIT = 20_000D;
+
+  private static final Date from = new Date(2017,4,18);
+  private static final Date to = new Date(2017,4,19);
+
+  private Client client;
+  private GameInfo gameInfo;
 
   @Mock
   private StatisticDao dao;
@@ -40,8 +53,28 @@ public class StatisticServiceImplTest {
   @InjectMocks
   private StatisticService service = new StatisticServiceImpl();
 
+  @Before
+  public void setUp(){
+
+    client = new Client.Builder("email@email.com")
+        .setRole(ClientRole.USER)
+        .setPassword("PSW*&!A")
+        .setId(15)
+        .setFirstName("VAD")
+        .setSecondName("KO")
+        .build();
+
+    gameInfo = new GameInfo.Builder()
+        .setType(Type.ALL)
+        .setSpeed(Speed.NORMAL)
+        .setRoomType(PokerRoomType.POKERSTARS)
+        .setSize(TableSize.HEADSUP)
+        .setId(154)
+        .build();
+
+  }
+
   @Test
-  @Ignore
   public void findAll() {
 
     //given
@@ -49,27 +82,43 @@ public class StatisticServiceImplTest {
     final Integer secondId = 1;
 
     final Statistic firstStatistic = new Statistic.Builder()
-                                      .setId(firstId)
-                                      .setName(NAME)
-                                      .setProfit(PROFIT)
-                                    .build();
+                                       .setId(firstId)
+                                       .setName(NAME)
+                                       .setProfit(PROFIT)
+                                       .setClient(client)
+                                       .setGameInfo(gameInfo)
+                                       .setFrom(from)
+                                       .setTo(to)
+                                     .build();
 
     final Statistic secondStatistic = new Statistic.Builder()
                                         .setId(secondId)
                                         .setName(NAME)
                                         .setProfit(PROFIT)
+                                        .setClient(client)
+                                        .setGameInfo(gameInfo)
+                                        .setFrom(from)
+                                        .setTo(to)
                                       .build();
 
     final StatisticDto firstStatisticDto = new StatisticDto.Builder()
-                                            .setId(firstId)
-                                            .setName(NAME)
-                                            .setProfit(PROFIT)
-                                          .build();
+                                             .setId(firstId)
+                                             .setName(NAME)
+                                             .setProfit(PROFIT)
+                                             .setClient(client)
+                                             .setGameInfo(gameInfo)
+                                             .setFrom(from)
+                                             .setTo(to)
+                                           .build();
 
     final StatisticDto secondStatisticDto = new StatisticDto.Builder()
                                               .setId(secondId)
                                               .setName(NAME)
                                               .setProfit(PROFIT)
+                                              .setClient(client)
+                                              .setGameInfo(gameInfo)
+                                              .setFrom(from)
+                                              .setTo(to)
                                             .build();
 
     final List<Statistic> statistics = ImmutableList.of(firstStatistic, secondStatistic);
@@ -88,9 +137,7 @@ public class StatisticServiceImplTest {
 
   }
 
-
   @Test
-  @Ignore
   public void findOneById() {
 
     //given
@@ -100,12 +147,20 @@ public class StatisticServiceImplTest {
                                   .setId(id)
                                   .setName(NAME)
                                   .setProfit(PROFIT)
+                                  .setClient(client)
+                                  .setGameInfo(gameInfo)
+                                  .setFrom(from)
+                                  .setTo(to)
                                 .build();
 
     final StatisticDto expectedStatisticDto = new StatisticDto.Builder()
                                                 .setId(id)
                                                 .setName(NAME)
                                                 .setProfit(PROFIT)
+                                                .setClient(client)
+                                                .setGameInfo(gameInfo)
+                                                .setFrom(from)
+                                                .setTo(to)
                                               .build();
 
     //when
@@ -120,7 +175,6 @@ public class StatisticServiceImplTest {
   }
 
   @Test(expected = StatisticNotFoundException.class)
-  @Ignore
   public void findOneByName_whenStatisticIsAbsent() {
 
     //given
@@ -133,9 +187,7 @@ public class StatisticServiceImplTest {
 
   }
 
-
   @Test
-  @Ignore
   public void findOneByName() {
 
     //given
@@ -145,12 +197,20 @@ public class StatisticServiceImplTest {
                                   .setId(id)
                                   .setName(NAME)
                                   .setProfit(PROFIT)
+                                  .setClient(client)
+                                  .setGameInfo(gameInfo)
+                                  .setFrom(from)
+                                  .setTo(to)
                                 .build();
 
     final StatisticDto expectedStatisticDto = new StatisticDto.Builder()
                                                 .setId(id)
                                                 .setName(NAME)
                                                 .setProfit(PROFIT)
+                                                .setClient(client)
+                                                .setGameInfo(gameInfo)
+                                                .setFrom(from)
+                                                .setTo(to)
                                               .build();
 
     //when
@@ -164,9 +224,7 @@ public class StatisticServiceImplTest {
 
   }
 
-
   @Test
-  @Ignore
   public void save() {
 
     //given
@@ -176,12 +234,20 @@ public class StatisticServiceImplTest {
                                   .setId(id)
                                   .setName(NAME)
                                   .setProfit(PROFIT)
+                                  .setClient(client)
+                                  .setGameInfo(gameInfo)
+                                  .setFrom(from)
+                                  .setTo(to)
                                 .build();
 
     final StatisticDto expectedStatisticDto = new StatisticDto.Builder()
                                                 .setId(id)
                                                 .setName(NAME)
                                                 .setProfit(PROFIT)
+                                                .setClient(client)
+                                                .setGameInfo(gameInfo)
+                                                .setFrom(from)
+                                                .setTo(to)
                                               .build();
 
     //when
@@ -196,7 +262,6 @@ public class StatisticServiceImplTest {
   }
 
   @Test
-  @Ignore
   public void delete() {
 
     //given
@@ -206,12 +271,20 @@ public class StatisticServiceImplTest {
                                   .setId(id)
                                   .setName(NAME)
                                   .setProfit(PROFIT)
+                                  .setClient(client)
+                                  .setGameInfo(gameInfo)
+                                  .setFrom(from)
+                                  .setTo(to)
                                 .build();
 
     final StatisticDto expectedStatisticDto = new StatisticDto.Builder()
                                                 .setId(id)
                                                 .setName(NAME)
                                                 .setProfit(PROFIT)
+                                                .setClient(client)
+                                                .setGameInfo(gameInfo)
+                                                .setFrom(from)
+                                                .setTo(to)
                                               .build();
 
     //when
@@ -225,9 +298,7 @@ public class StatisticServiceImplTest {
 
   }
 
-
   @Test
-  @Ignore
   public void deleteById() {
 
     //given

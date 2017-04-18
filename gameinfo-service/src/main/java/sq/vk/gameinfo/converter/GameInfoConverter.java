@@ -45,7 +45,6 @@ public class GameInfoConverter implements Function<GameInfo, GameInfoDto> {
 
     public GameInfo transform(final GameInfoDto dto) {
 
-
         LOG.info("Converts GameInfoDto = [{}] into GameInfo.", dto);
 
         GameInfo gameInfo = new GameInfo.Builder()

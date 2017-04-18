@@ -105,7 +105,7 @@ public class Statistic {
   }
 
   @Temporal(TemporalType.DATE)
-  @Column(name = "from")
+  @Column(name = "date_from")
   public Date getFrom() {
     return from;
   }
@@ -115,7 +115,7 @@ public class Statistic {
   }
 
   @Temporal(TemporalType.DATE)
-  @Column(name = "to")
+  @Column(name = "date_to")
   public Date getTo() {
     return to;
   }
