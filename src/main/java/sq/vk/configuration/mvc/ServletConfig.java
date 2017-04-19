@@ -2,13 +2,17 @@ package sq.vk.configuration.mvc;
 
 import com.fasterxml.jackson.core.JsonEncoding;
 import com.google.common.collect.Lists;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
 import org.springframework.http.MediaType;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 import org.springframework.web.accept.ContentNegotiationManager;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
@@ -67,6 +71,22 @@ public class ServletConfig extends WebMvcConfigurerAdapter implements Applicatio
                 .defaultContentType(MediaType.APPLICATION_JSON)
                 .parameterName("mediaType")
                 .mediaType("json", MediaType.APPLICATION_JSON);
+    }
+
+    @Bean
+    public LocalValidatorFactoryBean getValidator() {
+        LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
+        validator.setParameterNameDiscoverer(new LocalVariableTableParameterNameDiscoverer());
+        return validator;
+
+    }
+
+    @Bean
+    @Autowired
+    public MethodValidationPostProcessor getValidationPostProcessor(LocalValidatorFactoryBean validator) {
+        MethodValidationPostProcessor processor = new MethodValidationPostProcessor();
+        processor.setValidator(validator);
+        return processor;
     }
 
 }

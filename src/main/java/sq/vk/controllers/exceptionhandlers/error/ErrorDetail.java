@@ -1,4 +1,4 @@
-package sq.vk.controllers.exceptions.error;
+package sq.vk.controllers.exceptionhandlers.error;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;

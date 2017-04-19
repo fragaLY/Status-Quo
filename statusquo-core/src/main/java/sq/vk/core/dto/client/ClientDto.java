@@ -1,6 +1,7 @@
 package sq.vk.core.dto.client;
 
 import java.util.Set;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -33,7 +34,7 @@ public class ClientDto {
   @Size(min = 2, max = 100)
   private String secondName;
 
-  @Size(min = 2, max = 20)
+  @NotNull
   private ClientRole role;
 
   private Set<Statistic> statistics;

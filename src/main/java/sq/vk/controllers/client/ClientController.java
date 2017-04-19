@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
 
+import org.hibernate.validator.constraints.Range;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,6 +33,7 @@ import sq.vk.service.client.ClientService;
  */
 @RestController
 @RequestMapping("/clients")
+@Validated
 public class ClientController {
 
   private static final Logger LOG = LoggerFactory.getLogger(ClientController.class);
@@ -56,7 +59,7 @@ public class ClientController {
 
   @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
-  public ResponseEntity<ClientDto> getClientById(@PathVariable("id") final Integer id) {
+  public ResponseEntity<ClientDto> getClientById(@Range(min=1) @PathVariable("id") final Integer id) {
 
     LOG.info("Get client by id: '{}'", id);
 
