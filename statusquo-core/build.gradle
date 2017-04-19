@@ -18,7 +18,6 @@ ext {
     springVersion = '4.+'
     hibernateVersion = '5.+'
     slf4Version = '1.7.+'
-    log4jVersion = '1.2.+'
     apacheCommonsVersion = '3.+'
     junitVersion = '4.+'
     jacksonVersion = '2.8.+'
@@ -26,26 +25,32 @@ ext {
 
 dependencies {
 
-    //Spring dependencies
-    compile group: 'org.springframework', name: 'spring-webmvc', version: springVersion
-    compile group: 'org.springframework.data', name: 'spring-data-jpa', version: '1.11.1.RELEASE'
-    compile group: 'org.springframework.data', name: 'spring-data-commons', version: '1.13.1.RELEASE'
+    //Spring
+    compile ('org.springframework.data:spring-data-jpa:1.11.1.RELEASE') {
+        exclude group: "org.springframework"
+        exclude group: "org.slf4j"
+    }
 
-    //Hibernate and Validation API dependencies
+    compile group: 'org.springframework', name: 'spring-web', version: springVersion
+
+    compile ('org.springframework:spring-context:'+springVersion){
+        exclude group: "org.springframework"
+    }
+
+    //Hibernate and Validation API
     compile group: 'org.hibernate', name: 'hibernate-core', version: hibernateVersion
     compile group: 'org.hibernate', name: 'hibernate-validator', version: hibernateVersion
 
     //Logger
     compile group: 'org.slf4j', name: 'slf4j-log4j12', version: slf4Version
-    compile group: 'log4j', name: 'log4j', version: log4jVersion
 
-    //Apache commons lang dependency
+    //Apache commons lang
     compile group: 'org.apache.commons', name: 'commons-lang3', version: apacheCommonsVersion
 
     //Jackson
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: jacksonVersion
 
-    //Test dependencies
+    //Test
     testCompile group: 'junit', name: 'junit', version: junitVersion
 
 }

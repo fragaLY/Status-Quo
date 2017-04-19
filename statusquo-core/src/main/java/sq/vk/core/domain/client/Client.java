@@ -1,17 +1,21 @@
 package sq.vk.core.domain.client;
 
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import sq.vk.core.domain.statistic.Statistic;
 
 /**
  * Created by Vadzim Kavalkou on 22.03.2017.
@@ -26,11 +30,13 @@ public class Client {
   private String firstName;
   private String secondName;
   private ClientRole role;
+  private Set<Statistic> statistics;
 
   public Client() {
   }
 
   private Client(Builder builder) {
+
 
     this.id = builder.id;
     this.email = builder.email;
@@ -38,6 +44,7 @@ public class Client {
     this.firstName = builder.firstName;
     this.secondName = builder.secondName;
     this.role = builder.role;
+    this.statistics = builder.statistics;
 
   }
 
@@ -98,6 +105,15 @@ public class Client {
     this.role = role;
   }
 
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "client")
+  public Set<Statistic> getStatistics() {
+    return statistics;
+  }
+
+  public void setStatistics(Set<Statistic> statistics) {
+    this.statistics = statistics;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o)
@@ -115,6 +131,7 @@ public class Client {
             .append(firstName, client.firstName)
             .append(secondName,client.secondName)
             .append(role, client.role)
+            .append(statistics,client.statistics)
           .isEquals();
   }
 
@@ -127,6 +144,7 @@ public class Client {
             .append(firstName)
             .append(secondName)
             .append(role)
+            .append(statistics)
           .toHashCode();
   }
 
@@ -138,6 +156,7 @@ public class Client {
             .append("firstName", firstName)
             .append("secondName", secondName)
             .append("role", role)
+            .append("statistics",statistics)
           .toString();
   }
 
@@ -149,6 +168,7 @@ public class Client {
     private String firstName;
     private String secondName;
     private ClientRole role;
+    private Set<Statistic> statistics;
 
     public Builder(final String email) {
       this.email = email;
@@ -176,6 +196,11 @@ public class Client {
 
     public Builder setRole(final ClientRole role) {
       this.role = role;
+      return this;
+    }
+
+    public Builder setStatistics(Set<Statistic> statistics) {
+      this.statistics = statistics;
       return this;
     }
 
