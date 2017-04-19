@@ -1,4 +1,4 @@
 rootProject.name = 'Status Quo'
-include 'client-service'
-include 'statistic-service'
-include 'gameinfo-service'
+include 'statusquo-core'
+include 'statusquo-service'
+

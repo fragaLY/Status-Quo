@@ -23,10 +23,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import sq.vk.client.exceptions.ClientNotFoundException;
 import sq.vk.controllers.exceptions.error.ErrorDetail;
-import sq.vk.gameinfo.exceptions.GameInfoNotFound;
-import sq.vk.statistic.exceptions.StatisticNotFoundException;
+import sq.vk.core.exceptions.client.ClientNotFoundException;
+import sq.vk.core.exceptions.gameinfo.GameInfoNotFound;
+import sq.vk.core.exceptions.statistic.StatisticNotFoundException;
 
 /**
  * Created by Vadzim_Kavalkou on 4/10/2017.

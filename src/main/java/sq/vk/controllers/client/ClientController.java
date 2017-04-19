@@ -3,6 +3,7 @@ package sq.vk.controllers.client;
 import java.net.URI;
 import java.util.List;
 import javax.validation.Valid;
+import javax.validation.constraints.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +12,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,18 +20,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import sq.vk.client.dto.ClientDto;
-import sq.vk.client.service.ClientService;
+import sq.vk.core.dto.client.ClientDto;
+import sq.vk.service.client.ClientService;
 
 /**
  * Created by Vadzim Kavalkou on 22.03.2017.
  */
 @RestController
-@RequestMapping("/client")
+@RequestMapping("/clients")
 public class ClientController {
 
   private static final Logger LOG = LoggerFactory.getLogger(ClientController.class);
@@ -43,9 +42,8 @@ public class ClientController {
   @Autowired
   private ClientService service;
 
-  @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
-  @Secured(ROLE_ADMIN)
   public ResponseEntity<List<ClientDto>> getAllClients() {
 
     LOG.info("Get all clients");
@@ -70,22 +68,6 @@ public class ClientController {
 
   }
 
-  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-  @ResponseBody
-  public ResponseEntity<ClientDto> getClientByEmail(@RequestParam(value="email") final String email) {
-
-    LOG.info("Get client by email: '{}'", email);
-
-    final HttpStatus httpStatus = HttpStatus.OK;
-
-    final ClientDto client = service.findOneByEmail(email);
-
-    HttpHeaders responseHeaders = new HttpHeaders();
-
-    return new ResponseEntity<>(client, responseHeaders, httpStatus);
-
-  }
-
   @GetMapping(value = "/profile", produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
   public ResponseEntity<ClientDto> getClientProfile() {
@@ -96,7 +78,7 @@ public class ClientController {
 
     final ClientDto currentClient = service.findOneByEmail(email);
 
-    return new ResponseEntity<>(currentClient,  new HttpHeaders(), HttpStatus.OK);
+    return new ResponseEntity<>(currentClient, new HttpHeaders(), HttpStatus.OK);
 
   }
 
@@ -108,7 +90,7 @@ public class ClientController {
     final ClientDto client = service.save(clientDto);
 
     final URI createdClientUri = ServletUriComponentsBuilder.fromCurrentRequest().path(
-        "/{id}").buildAndExpand(client.getId()).toUri();
+      "/{id}").buildAndExpand(client.getId()).toUri();
 
     final HttpHeaders responseHeaders = new HttpHeaders();
     responseHeaders.setLocation(createdClientUri);
@@ -125,7 +107,7 @@ public class ClientController {
     final ClientDto client = service.save(clientDto);
 
     final URI createdClientUri = ServletUriComponentsBuilder.fromCurrentRequest().path(
-        "/{id}").buildAndExpand(client.getId()).toUri();
+      "/{id}").buildAndExpand(client.getId()).toUri();
 
     final HttpHeaders responseHeaders = new HttpHeaders();
     responseHeaders.setLocation(createdClientUri);
@@ -146,7 +128,8 @@ public class ClientController {
   }
 
   @DeleteMapping(value = "/{id}")
-  public ResponseEntity<?> deleteClientById(@PathVariable("id") final Integer id) {
+  public ResponseEntity<?> deleteClientById(
+    @Pattern(regexp = "[1-9]+") @PathVariable("id") final Integer id) {
 
     LOG.info("Deletes client with id [{}].", id);
 

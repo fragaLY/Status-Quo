@@ -19,7 +19,6 @@ repositories {
 //Dynamic versions of dependencies
 ext {
     springVersion = '4.+'
-    thymeleafVersion = '3.+'
     hibernateVersion = '5.+'
     h2Version = '1.+'
     slf4Version = '1.7.+'
@@ -29,8 +28,6 @@ ext {
     springTestVersion = '4.3.+'
     validationApiVersion = '1.1.0.Final'
     mockitoCoreVersion = '2.+'
-    javaMailVersion = '1.5.+'
-    ehCacheVersion = '2.+'
     guavaVersion = '+'
     jacksonVersion = '2.8.+'
 }
@@ -76,10 +73,10 @@ dependencies {
     //Test dependencies
     testCompile group: 'junit', name: 'junit', version: junitVersion
     testCompile group: 'org.springframework', name: 'spring-test', version: springTestVersion
-    compile group: 'org.mockito', name: 'mockito-core', version: mockitoCoreVersion
+    testCompile group: 'org.mockito', name: 'mockito-core', version: mockitoCoreVersion
 
-    //service
-    compile project(':statistic-service')
+    compile project(":statusquo-service")
+    compile project(":statusquo-core")
 }
 
 buildscript {

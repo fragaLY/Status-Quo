@@ -24,9 +24,12 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories({ "sq.vk.client.dao", "sq.vk.statistic.dao", "sq.vk.gameinfo.dao" })
+@EnableJpaRepositories({"sq.vk.core.dao.client.",
+                        "sq.vk.core.dao.statistic.",
+                        "sq.vk.core.dao.gameinfo."})
 @PropertySource("classpath:properties/jdbc.properties")
-@ComponentScan({ "sq.vk.client","sq.vk.statistic", "sq.vk.gameinfo" })
+@ComponentScan({"sq.vk.core",
+                "sq.vk.service"})
 public class HibernateConfiguration {
 
   private static final String CREATE_CLIENTS_TABLE = "sql/create-clients.sql";
@@ -78,7 +81,9 @@ public class HibernateConfiguration {
     LocalContainerEntityManagerFactoryBean emfb = new LocalContainerEntityManagerFactoryBean();
 
     emfb.setDataSource(getDataSource());
-    emfb.setPackagesToScan("sq.vk.statistic","sq.vk.client","sq.vk.gameinfo" );
+    emfb.setPackagesToScan("sq.vk.core.domain.client",
+                           "sq.vk.core.domain.gameinfo",
+                           "sq.vk.core.domain.statistic");
     emfb.setJpaVendorAdapter(jpaVendorAdapter());
     emfb.setJpaProperties(getHibernateProperties());
 

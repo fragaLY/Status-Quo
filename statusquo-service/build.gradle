@@ -1,0 +1,26 @@
+group 'by.integrated'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+ext {
+
+    mockitoCoreVersion = '2.7.+'
+    junitVersion = '4.+'
+}
+
+dependencies {
+
+    //Test dependencies
+    testCompile group: 'org.mockito', name: 'mockito-core', version: mockitoCoreVersion
+    testCompile group: 'junit', name: 'junit', version: junitVersion
+
+    compile project(":statusquo-core")
+}
