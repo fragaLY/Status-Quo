@@ -14,8 +14,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import sq.vk.client.dto.ClientDto;
-import sq.vk.client.service.ClientService;
+import sq.vk.core.dto.client.ClientDto;
+import sq.vk.service.client.ClientService;
 
 /**
  * Created by Vadzim Kavalkou on 22.03.2017.

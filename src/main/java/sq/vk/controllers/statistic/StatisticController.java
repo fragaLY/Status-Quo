@@ -4,6 +4,7 @@ import java.net.URI;
 import java.time.ZoneId;
 import java.util.List;
 import javax.validation.Valid;
+import javax.validation.constraints.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,14 +24,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import sq.vk.statistic.dto.StatisticDto;
-import sq.vk.statistic.service.StatisticService;
+import sq.vk.core.dto.statistic.StatisticDto;
+import sq.vk.service.statistic.StatisticService;
 
 /**
  * Created by Vadzim_Kavalkou on 4/7/2017.
  */
 @RestController
-@RequestMapping("/statistic")
+@RequestMapping("/statistics")
 public class StatisticController {
 
   private static final Logger LOG = LoggerFactory.getLogger(StatisticController.class);
@@ -45,7 +46,7 @@ public class StatisticController {
 
   @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
-  public ResponseEntity<StatisticDto> getStatisticById(@PathVariable("id") final Integer id) {
+  public ResponseEntity<StatisticDto> getStatisticById(@Pattern(regexp = "[1-9]+") @PathVariable("id") final Integer id) {
 
     LOG.info("Get statistic by id {}", id);
 
@@ -55,7 +56,7 @@ public class StatisticController {
 
   }
 
-  @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
   public ResponseEntity<List<StatisticDto>> getAllStatistic() {
 
@@ -113,7 +114,7 @@ public class StatisticController {
   }
 
   @DeleteMapping(value = "/{id}")
-  public ResponseEntity<?> deleteStatisticById(@RequestParam("id") final Integer id) {
+  public ResponseEntity<?> deleteStatisticById(@Pattern(regexp = "[1-9]+") @RequestParam("id") final Integer id) {
 
     LOG.info("Delete statistic with id '{}'", id);
 

@@ -1,7 +1,0 @@
-CREATE TABLE IF NOT EXISTS Statistics
-(
-  Id         INT PRIMARY KEY AUTO_INCREMENT,
-  Name       VARCHAR(100) NOT NULL,
-  PokerRoom  VARCHAR(60)  NOT NULL,
-  Profit     DECIMAL(10,2) NOT NULL
-);

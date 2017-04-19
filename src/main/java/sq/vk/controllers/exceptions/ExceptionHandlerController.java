@@ -23,10 +23,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import sq.vk.client.exceptions.ClientNotFoundException;
 import sq.vk.controllers.exceptions.error.ErrorDetail;
-import sq.vk.statistic.exceptions.RoomNotFoundException;
-import sq.vk.statistic.exceptions.StatisticNotFoundException;
+import sq.vk.core.exceptions.client.ClientNotFoundException;
+import sq.vk.core.exceptions.gameinfo.GameInfoNotFound;
+import sq.vk.core.exceptions.statistic.StatisticNotFoundException;
 
 /**
  * Created by Vadzim_Kavalkou on 4/10/2017.
@@ -74,6 +74,19 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
 
   }
 
+  @ExceptionHandler(GameInfoNotFound.class)
+  protected ResponseEntity<?> handleClientNotFoundException(GameInfoNotFound ex, WebRequest req) {
+
+    final String responseBody = "GameInfo was not found.";
+
+    LOG.info(responseBody);
+
+    final HttpHeaders httpHeaders = new HttpHeaders();
+
+    return handleExceptionInternal(ex, responseBody, httpHeaders, NOT_FOUND, req);
+
+  }
+
   @ExceptionHandler(AccessDeniedException.class)
   protected ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException ex, WebRequest req) {
 
@@ -84,19 +97,6 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
     final HttpHeaders httpHeaders = new HttpHeaders();
 
     return handleExceptionInternal(ex, responseBody, httpHeaders, FORBIDDEN, req);
-
-  }
-
-  @ExceptionHandler(RoomNotFoundException.class)
-  protected ResponseEntity<Object> handleClientNotFoundException(RoomNotFoundException ex, WebRequest req) {
-
-    final String responseBody = "Room was not found.";
-
-    LOG.info(responseBody);
-
-    final HttpHeaders httpHeaders = new HttpHeaders();
-
-    return handleExceptionInternal(ex, responseBody, httpHeaders, NOT_FOUND, req);
 
   }
 

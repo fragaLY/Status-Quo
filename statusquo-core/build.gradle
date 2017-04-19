@@ -1,0 +1,56 @@
+group 'by.integrated'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'idea'
+
+compileJava {
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+ext {
+    springVersion = '4.+'
+    hibernateVersion = '5.+'
+    slf4Version = '1.7.+'
+    apacheCommonsVersion = '3.+'
+    junitVersion = '4.+'
+    jacksonVersion = '2.8.+'
+}
+
+dependencies {
+
+    //Spring
+    compile ('org.springframework.data:spring-data-jpa:1.11.1.RELEASE') {
+        exclude group: "org.springframework"
+        exclude group: "org.slf4j"
+    }
+
+    compile group: 'org.springframework', name: 'spring-web', version: springVersion
+
+    compile ('org.springframework:spring-context:'+springVersion){
+        exclude group: "org.springframework"
+    }
+
+    //Hibernate and Validation API
+    compile group: 'org.hibernate', name: 'hibernate-core', version: hibernateVersion
+    compile group: 'org.hibernate', name: 'hibernate-validator', version: hibernateVersion
+
+    //Logger
+    compile group: 'org.slf4j', name: 'slf4j-log4j12', version: slf4Version
+
+    //Apache commons lang
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: apacheCommonsVersion
+
+    //Jackson
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: jacksonVersion
+
+    //Test
+    testCompile group: 'junit', name: 'junit', version: junitVersion
+
+}

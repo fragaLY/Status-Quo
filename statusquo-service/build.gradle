@@ -1,0 +1,41 @@
+group 'by.integrated'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'idea'
+
+compileJava {
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+}
+
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+ext {
+    springVersion = '4.+'
+    guavaVersion = '+'
+    mockitoCoreVersion = '2.7.+'
+    junitVersion = '4.+'
+}
+
+dependencies {
+
+    //Spring
+    compile ('org.springframework:spring-tx:'+springVersion){
+        exclude group: "org.springframework"
+    }
+
+    //Guava
+    compile group: 'com.google.guava', name: 'guava', version: guavaVersion
+
+    //Test
+    testCompile group: 'org.mockito', name: 'mockito-core', version: mockitoCoreVersion
+    testCompile group: 'junit', name: 'junit', version: junitVersion
+
+    //Modules
+    compile project(":statusquo-core")
+}

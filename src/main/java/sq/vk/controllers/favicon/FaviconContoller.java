@@ -14,7 +14,7 @@ public class FaviconContoller {
   private static final String FORWARD_FAVICON = "forward:/resources/images/favicon.ico";
 
   @GetMapping
-  public String favicon() {
+  public String getFavicon() {
 
     return FORWARD_FAVICON;
 
