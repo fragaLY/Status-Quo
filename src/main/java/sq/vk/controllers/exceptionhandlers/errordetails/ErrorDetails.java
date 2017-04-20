@@ -1,5 +1,7 @@
 package sq.vk.controllers.exceptionhandlers.errordetails;
 
+import java.util.Set;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -19,6 +21,7 @@ public class ErrorDetails {
 
   private HttpStatus status;
   private String outputMessage;
+  private Set<String> errors;
 
   public ErrorDetails() {
   }
@@ -63,6 +66,14 @@ public class ErrorDetails {
     this.propertyPath = propertyPath;
   }
 
+  public Set<String> getErrors() {
+    return errors;
+  }
+
+  public void setErrors(Set<String> errors) {
+    this.errors = errors;
+  }
+
   @Override
   public String toString() {
 
@@ -71,6 +82,7 @@ public class ErrorDetails {
             .append("status",status)
             .append("propertyPath", propertyPath)
             .append("outputMessage", outputMessage)
+            .append("errors",errors)
           .toString();
   }
 
@@ -89,6 +101,7 @@ public class ErrorDetails {
             .append(status, that.status)
             .append(propertyPath, that.propertyPath)
             .append(outputMessage,that.outputMessage)
+            .append(errors,that.errors)
           .isEquals();
   }
 
@@ -99,6 +112,7 @@ public class ErrorDetails {
             .append(status)
             .append(propertyPath)
             .append(outputMessage)
+            .append(errors)
           .toHashCode();
 
   }
@@ -109,6 +123,8 @@ public class ErrorDetails {
     private HttpStatus status;
     private String propertyPath;
     private String outputMessage;
+
+    private Set<String> errors;
 
     public Builder setOutputMessage(String outputMessage) {
       this.outputMessage = outputMessage;
@@ -127,6 +143,11 @@ public class ErrorDetails {
 
     public Builder setPropertyPath(String propertyPath) {
       this.propertyPath = propertyPath;
+      return this;
+    }
+
+    public Builder setErrors(Set<String> errors) {
+      this.errors = errors;
       return this;
     }
 
