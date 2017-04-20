@@ -1,5 +1,6 @@
-package sq.vk.controllers.exceptionhandlers.error;
+package sq.vk.controllers.exceptionhandlers.errordetails;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -8,17 +9,21 @@ import org.springframework.http.HttpStatus;
 /**
  * Created by Vadzim_Kavalkou on 4/14/2017.
  */
-public class ErrorDetail {
+public class ErrorDetails {
 
+  @JsonIgnore
   private String developerMessage;
-  private HttpStatus status;
+
+  @JsonIgnore
   private String propertyPath;
+
+  private HttpStatus status;
   private String outputMessage;
 
-  public ErrorDetail() {
+  public ErrorDetails() {
   }
 
-  public ErrorDetail(Builder builder) {
+  public ErrorDetails(Builder builder) {
 
     this.developerMessage = builder.developerMessage;
     this.status = builder.status;
@@ -78,7 +83,7 @@ public class ErrorDetail {
     if (o == null || getClass() != o.getClass())
       return false;
 
-    ErrorDetail that = (ErrorDetail)o;
+    ErrorDetails that = (ErrorDetails)o;
 
     return new EqualsBuilder()
             .append(status, that.status)
@@ -125,8 +130,8 @@ public class ErrorDetail {
       return this;
     }
 
-    public ErrorDetail build() {
-      return new ErrorDetail(this);
+    public ErrorDetails build() {
+      return new ErrorDetails(this);
     }
 
   }
