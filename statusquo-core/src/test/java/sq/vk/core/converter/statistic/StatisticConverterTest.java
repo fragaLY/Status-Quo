@@ -1,6 +1,6 @@
 package sq.vk.core.converter.statistic;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -25,8 +25,8 @@ public class StatisticConverterTest {
   private static final String NAME = "USER";
   private static final double PROFIT = 20_000D;
 
-  private static final Date from = new Date(2017,4,18);
-  private static final Date to = new Date(2017,4,19);
+  private static final LocalDate from = LocalDate.now();
+  private static final LocalDate to = from.plusMonths(3);
 
   private Client client;
   private GameInfo gameInfo;

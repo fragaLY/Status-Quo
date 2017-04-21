@@ -49,7 +49,7 @@ public class StatisticConverter implements Function<Statistic, StatisticDto> {
         LOG.info("Converts StatisticDto = [{}] into Statistic.", statisticDto);
 
         Statistic statistic = new Statistic.Builder()
-                                 .setId(statisticDto.getId())
+                                 .setId(statisticDto.getStatisticId())
                                  .setName(statisticDto.getName())
                                  .setProfit(statisticDto.getProfit())
                                  .setGameInfo(statisticDto.getGameInfo())

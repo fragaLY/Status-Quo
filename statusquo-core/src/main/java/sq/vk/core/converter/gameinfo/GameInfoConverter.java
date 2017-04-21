@@ -48,7 +48,7 @@ public class GameInfoConverter implements Function<GameInfo, GameInfoDto> {
         LOG.info("Converts GameInfoDto = [{}] into GameInfo.", dto);
 
         GameInfo gameInfo = new GameInfo.Builder()
-                            .setId(dto.getId())
+                            .setId(dto.getGameInfoId())
                             .setRoomType(dto.getRoomType())
                             .setSize(dto.getSize())
                             .setSpeed(dto.getSpeed())

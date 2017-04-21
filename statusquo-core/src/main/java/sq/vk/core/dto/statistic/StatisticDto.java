@@ -1,6 +1,6 @@
 package sq.vk.core.dto.statistic;
 
-import java.util.Date;
+import java.time.LocalDate;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -8,13 +8,14 @@ import javax.validation.constraints.Size;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.springframework.hateoas.ResourceSupport;
 import sq.vk.core.domain.client.Client;
 import sq.vk.core.domain.gameinfo.GameInfo;
 
 /**
  * Created by Vadzim_Kavalkou on 4/7/2017.
  */
-public class StatisticDto {
+public class StatisticDto extends ResourceSupport {
 
     private Integer id;
 
@@ -32,10 +33,10 @@ public class StatisticDto {
     private Client client;
 
     @NotNull
-    private Date from;
+    private LocalDate from;
 
     @NotNull
-    private Date to;
+    private LocalDate to;
 
     public StatisticDto(){
     }
@@ -52,7 +53,7 @@ public class StatisticDto {
 
     }
 
-    public Integer getId() {
+    public Integer getStatisticId() {
         return id;
     }
 
@@ -92,19 +93,19 @@ public class StatisticDto {
         this.client = client;
     }
 
-    public Date getFrom() {
+    public LocalDate getFrom() {
         return from;
     }
 
-    public void setFrom(Date from) {
+    public void setFrom(LocalDate from) {
         this.from = from;
     }
 
-    public Date getTo() {
+    public LocalDate getTo() {
         return to;
     }
 
-    public void setTo(Date to) {
+    public void setTo(LocalDate to) {
         this.to = to;
     }
 
@@ -159,8 +160,8 @@ public class StatisticDto {
         private double profit;
         private GameInfo gameInfo;
         private Client client;
-        private Date from;
-        private Date to;
+        private LocalDate from;
+        private LocalDate to;
 
         public Builder setId(Integer id) {
             this.id = id;
@@ -187,12 +188,12 @@ public class StatisticDto {
             return this;
         }
 
-        public Builder setFrom(Date from) {
+        public Builder setFrom(LocalDate from) {
             this.from = from;
             return this;
         }
 
-        public Builder setTo(Date to) {
+        public Builder setTo(LocalDate to) {
             this.to = to;
             return this;
         }
