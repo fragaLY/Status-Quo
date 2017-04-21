@@ -76,7 +76,7 @@ public class StatisticController {
     service.save(statistic);
 
     final URI createdClientUri = ServletUriComponentsBuilder.fromCurrentRequest().path(
-      "/{id}").buildAndExpand(statistic.getId()).toUri();
+      "/{id}").buildAndExpand(statistic.getStatisticId()).toUri();
 
     final HttpHeaders responseHeaders = new HttpHeaders();
     responseHeaders.setLocation(createdClientUri);
@@ -93,7 +93,7 @@ public class StatisticController {
     service.save(statistic);
 
     final URI createdClientUri = ServletUriComponentsBuilder.fromCurrentRequest().path(
-      "/{id}").buildAndExpand(statistic.getId()).toUri();
+      "/{id}").buildAndExpand(statistic.getStatisticId()).toUri();
 
     final HttpHeaders responseHeaders = new HttpHeaders();
     responseHeaders.setLocation(createdClientUri);

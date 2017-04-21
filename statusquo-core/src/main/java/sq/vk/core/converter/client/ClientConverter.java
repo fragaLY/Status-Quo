@@ -50,7 +50,7 @@ public class ClientConverter implements Function<Client, ClientDto> {
         LOG.info("Converts ClientDto = [{}] into Client.", clientDto);
 
         Client client = new Client.Builder(clientDto.getEmail())
-                            .setId(clientDto.getId())
+                            .setId(clientDto.getClientId())
                             .setFirstName(clientDto.getFirstName())
                             .setSecondName(clientDto.getSecondName())
                             .setRole(clientDto.getRole())

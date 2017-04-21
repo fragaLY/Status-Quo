@@ -33,6 +33,9 @@ import sq.vk.controllers.exceptionhandlers.errordetails.ErrorDetails;
 import sq.vk.core.dto.client.ClientDto;
 import sq.vk.service.client.ClientService;
 
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+
 /**
  * Created by Vadzim Kavalkou on 22.03.2017.
  */
@@ -67,6 +70,8 @@ public class ClientController {
     LOG.info("Get all clients");
 
     final List<ClientDto> allClients = service.findAll();
+    allClients.stream().parallel().forEach(dto -> dto.add(linkTo(methodOn(ClientController.class).getAllClients())
+                                                      .slash(dto.getClientId()).withSelfRel()));
 
     return new ResponseEntity<>(allClients, new HttpHeaders(), HttpStatus.OK);
 
@@ -90,6 +95,7 @@ public class ClientController {
     final HttpStatus httpStatus = HttpStatus.OK;
 
     final ClientDto client = service.findOne(id);
+    client.add(linkTo(methodOn(ClientController.class).getAllClients()).slash(client.getClientId()).withSelfRel());
 
     return new ResponseEntity<>(client, new HttpHeaders(), httpStatus);
 
@@ -134,7 +140,7 @@ public class ClientController {
     final ClientDto client = service.save(clientDto);
 
     final URI createdClientUri = ServletUriComponentsBuilder.fromCurrentRequest()
-                                 .path("/{id}").buildAndExpand(client.getId()).toUri();
+                                 .path("/{id}").buildAndExpand(client.getClientId()).toUri();
 
     final HttpHeaders responseHeaders = new HttpHeaders();
     responseHeaders.setLocation(createdClientUri);
@@ -159,7 +165,7 @@ public class ClientController {
     final ClientDto client = service.save(clientDto);
 
     final URI createdClientUri = ServletUriComponentsBuilder.fromCurrentRequest()
-                                 .path("/{id}").buildAndExpand(client.getId()).toUri();
+                                 .path("/{id}").buildAndExpand(client.getClientId()).toUri();
 
     final HttpHeaders responseHeaders = new HttpHeaders();
     responseHeaders.setLocation(createdClientUri);
