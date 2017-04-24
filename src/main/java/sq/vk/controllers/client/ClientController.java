@@ -70,7 +70,7 @@ public class ClientController {
     LOG.info("Get all clients");
 
     final List<ClientDto> allClients = service.findAll();
-    allClients.stream().parallel().forEach(dto -> dto.add(linkTo(methodOn(ClientController.class).getAllClients())
+    allClients.stream().forEach(dto -> dto.add(linkTo(methodOn(ClientController.class).getAllClients())
                                                       .slash(dto.getClientId()).withSelfRel()));
 
     return new ResponseEntity<>(allClients, new HttpHeaders(), HttpStatus.OK);
