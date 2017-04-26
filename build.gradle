@@ -44,6 +44,9 @@ dependencies {
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: jacksonVersion
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: jacksonVersion
 
+    //Javax inject
+    compile group: 'javax.inject', name: 'javax.inject', version: '1'
+
     compile project(":statusquo-service")
 }
 
