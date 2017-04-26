@@ -20,6 +20,8 @@ import sq.vk.core.domain.statistic.Statistic;
 
 /**
  * Created by Vadzim Kavalkou on 22.03.2017.
+ *
+ * Client repository.
  */
 @Entity
 @Table(name = "clients")

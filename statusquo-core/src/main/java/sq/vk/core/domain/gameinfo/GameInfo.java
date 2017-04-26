@@ -15,6 +15,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
  * Created by Vadzim_Kavalkou on 4/17/2017.
+ *
+ * GameInfo repository.
  */
 @Entity
 @Table(name = "gameInfo")
@@ -29,7 +31,7 @@ public class GameInfo {
   public GameInfo() {
   }
 
-  public GameInfo(Builder builder) {
+  private GameInfo(Builder builder) {
 
     this.id = builder.id;
     this.roomType = builder.roomType;

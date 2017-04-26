@@ -18,6 +18,8 @@ import sq.vk.service.client.ClientService;
 
 /**
  * Created by Vadzim Kavalkou on 22.03.2017.
+ *
+ * ClientService implementation.
  */
 @Service("ClientService")
 public class ClientServiceImpl implements ClientService {

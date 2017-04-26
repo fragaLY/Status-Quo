@@ -15,6 +15,8 @@ import org.springframework.util.StringUtils;
 
 /**
  * Created by Vadzim_Kavalkou on 4/10/2017.
+ *
+ * RestAuthenticationSuccessHandler.class
  */
 @Component
 public class RestAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {

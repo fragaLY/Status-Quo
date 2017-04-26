@@ -18,20 +18,26 @@ import sq.vk.configuration.security.rest.RestUsernamePasswordAuthenticationFilte
 
 /**
  * Created by Vadzim Kavalkou on 13.11.2016.
+ *
+ * Security configuration.
  */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+  @SuppressWarnings("SpringJavaAutowiringInspection")
   @Autowired
   private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
 
+  @SuppressWarnings("SpringJavaAutowiringInspection")
   @Autowired
   private RestAuthenticationSuccessHandler authenticationSuccessHandler;
 
+  @SuppressWarnings("SpringJavaAutowiringInspection")
   @Autowired
   private RestLogoutSuccessHandler logoutSuccessHandler;
 
+  @SuppressWarnings("SpringJavaAutowiringInspection")
   @Autowired
   private ClientDetailsService clientDetailsService;
 

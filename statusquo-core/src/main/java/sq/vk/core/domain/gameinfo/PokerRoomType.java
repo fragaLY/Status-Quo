@@ -5,6 +5,8 @@ import java.util.Optional;
 
 /**
  * Created by Vadzim Kavalkou on 08.04.2017.
+ *
+ * All sites we can choose.
  */
 public enum PokerRoomType {
 

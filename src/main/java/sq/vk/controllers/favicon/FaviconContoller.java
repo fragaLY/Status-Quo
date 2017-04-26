@@ -12,6 +12,8 @@ import sq.vk.core.dto.statistic.StatisticDto;
 
 /**
  * Created by Vadzim_Kavalkou on 4/11/2017.
+ *
+ * Controller to fix warning about favicon was not found.
  */
 @Controller
 @Api(value = "favicon", description = "Favicon API")

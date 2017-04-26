@@ -36,7 +36,7 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
  */
 @Configuration
 @EnableWebMvc
-@EnableGlobalMethodSecurity(securedEnabled = true)
+@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 @ComponentScan("sq.vk.controllers")
 @Import(SwaggerConfig.class)
 public class ServletConfig extends WebMvcConfigurerAdapter implements ApplicationContextAware {

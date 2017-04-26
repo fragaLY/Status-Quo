@@ -12,6 +12,8 @@ import org.springframework.util.Assert;
 
 /**
  * Created by Vadzim_Kavalkou on 4/10/2017.
+ *
+ * RestUsernamePasswordAuthenticationFilter.class
  */
 public class RestUsernamePasswordAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 

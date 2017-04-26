@@ -21,6 +21,8 @@ import sq.vk.core.domain.gameinfo.GameInfo;
 
 /**
  * Created by Vadzim_Kavalkou on 4/7/2017.
+ *
+ * Statistic repository.
  */
 @Entity
 @Table(name = "statistics")

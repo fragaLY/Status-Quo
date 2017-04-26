@@ -21,12 +21,14 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * Created by Vadzim Kavalkou on 23.03.2016.
+ *
+ * Hibernate configurations.
  */
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories({"sq.vk.core.dao.client.",
-                        "sq.vk.core.dao.statistic.",
-                        "sq.vk.core.dao.gameinfo."})
+@EnableJpaRepositories({"sq.vk.core.dao.client",
+                        "sq.vk.core.dao.statistic",
+                        "sq.vk.core.dao.gameinfo"})
 @PropertySource("classpath:properties/jdbc.properties")
 @ComponentScan({"sq.vk.core",
                 "sq.vk.service"})
@@ -41,8 +43,12 @@ public class HibernateConfiguration {
 
   private static final String INIT_CLIENT_TABLE = "sql/init-clients.sql";
 
+  private final Environment environment;
+
   @Autowired
-  private Environment environment;
+  public HibernateConfiguration(Environment environment) {
+    this.environment = environment;
+  }
 
   @Bean(name = "dataSource")
   public DataSource getDataSource() {
