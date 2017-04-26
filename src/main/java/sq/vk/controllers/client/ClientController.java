@@ -1,6 +1,7 @@
 package sq.vk.controllers.client;
 
 import java.net.URI;
+import java.time.ZoneId;
 import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
@@ -46,6 +47,8 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 public class ClientController {
 
   private static final Logger LOG = LoggerFactory.getLogger(ClientController.class);
+
+  private static final ZoneId EUROPE_MOSCOW = ZoneId.of("Europe/Moscow");
 
   private static final String ROLE_ADMIN = "ROLE_ADMIN";
   private static final String ROLE_DEVELOPER = "ROLE_DEVELOPER";
@@ -183,7 +186,7 @@ public class ClientController {
       @ApiResponse(code = 204, message = "No Content", response = ErrorDetails.class),
       @ApiResponse(code = 401, message = "Unauthorized client", response = ErrorDetails.class),
       @ApiResponse(code = 403, message = "Access denied", response = ErrorDetails.class),
-      @ApiResponse(code = 500, message = "Error updating client", response = ErrorDetails.class)} )
+      @ApiResponse(code = 500, message = "Error deleting client", response = ErrorDetails.class)} )
   public ResponseEntity<ClientDto> deleteClient(@Valid @RequestBody final ClientDto clientDto) {
 
     LOG.info("Deletes client [{}].", clientDto);
@@ -203,7 +206,7 @@ public class ClientController {
       @ApiResponse(code = 204, message = "No Content", response = ErrorDetails.class),
       @ApiResponse(code = 401, message = "Unauthorized client", response = ErrorDetails.class),
       @ApiResponse(code = 403, message = "Access denied", response = ErrorDetails.class),
-      @ApiResponse(code = 500, message = "Error updating client", response = ErrorDetails.class)} )
+      @ApiResponse(code = 500, message = "Error deleting client", response = ErrorDetails.class)} )
   public ResponseEntity<?> deleteClientById(
     @Pattern(regexp = "[1-9]+") @PathVariable("id") final Integer id) {
 
