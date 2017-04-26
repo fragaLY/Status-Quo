@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -58,6 +57,7 @@ public class StatisticController {
   @Autowired
   private StatisticService service;
 
+  @Secured({ROLE_ADMIN, ROLE_DEVELOPER})
   @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
   @ApiOperation(value = "Retrieves statistic by id",
       notes = "Statistic will be sent in the location response",
@@ -187,6 +187,7 @@ public class StatisticController {
 
   }
 
+  @Secured({ROLE_ADMIN, ROLE_DEVELOPER})
   @DeleteMapping(value = "/{id}")
   @ApiOperation(value = "Deletes statistic by id",
       notes = "Statistic will be deleted by id",
@@ -197,7 +198,7 @@ public class StatisticController {
       @ApiResponse(code = 401, message = "Unauthorized client", response = ErrorDetails.class),
       @ApiResponse(code = 403, message = "Access denied", response = ErrorDetails.class),
       @ApiResponse(code = 500, message = "Error deleting statistic", response = ErrorDetails.class)} )
-  public ResponseEntity<?> deleteStatisticById(@Pattern(regexp = "[1-9]+") @RequestParam("id") final Integer id) {
+  public ResponseEntity<?> deleteStatisticById(@Pattern(regexp = "[1-9]+") @PathVariable("id") final Integer id) {
 
     LOG.info("Delete statistic with id '{}'", id);
     final long now = now().atZone(EUROPE_MOSCOW).toInstant().toEpochMilli();

@@ -48,6 +48,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 @Api(value = "clients", description = "Client API")
 @RequestMapping("/clients")
 @Validated
+@Secured({"ROLE_DEVELOPER", "ROLE_ADMIN", "ROLE_USER"})
 public class ClientController {
 
   private static final Logger LOG = LoggerFactory.getLogger(ClientController.class);
@@ -56,7 +57,6 @@ public class ClientController {
 
   private static final String ROLE_ADMIN = "ROLE_ADMIN";
   private static final String ROLE_DEVELOPER = "ROLE_DEVELOPER";
-  //private static final String ROLE_USER = "ROLE_USER";
 
   @Autowired
   private ClientService service;
@@ -88,6 +88,7 @@ public class ClientController {
 
   }
 
+  @Secured({ROLE_DEVELOPER, ROLE_ADMIN})
   @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
   @ApiOperation(value = "Retrieves client by id",
                 notes = "Client will be sent in the location response",
@@ -143,7 +144,7 @@ public class ClientController {
 
   }
 
-  @Secured(ROLE_ADMIN)
+  @Secured({ROLE_DEVELOPER, ROLE_ADMIN})
   @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
   @ApiOperation(value = "Saves client",
                 notes = "Client will be saved",
@@ -171,6 +172,7 @@ public class ClientController {
 
   }
 
+  @Secured({ROLE_DEVELOPER, ROLE_ADMIN})
   @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
   @ApiOperation(value = "Updates client",
       notes = "Client will be updated",
@@ -198,7 +200,7 @@ public class ClientController {
 
   }
 
-  @Secured(ROLE_ADMIN)
+  @Secured({ROLE_DEVELOPER, ROLE_ADMIN})
   @DeleteMapping
   @ApiOperation(value = "Deletes client",
       notes = "Client will be deleted",
@@ -222,7 +224,7 @@ public class ClientController {
 
   }
 
-  @Secured(ROLE_ADMIN)
+  @Secured({ROLE_DEVELOPER, ROLE_ADMIN})
   @DeleteMapping(value = "/{id}")
   @ApiOperation(value = "Deletes client by id",
       notes = "Client will be deleted by id",
