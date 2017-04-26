@@ -14,6 +14,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * Created by Vadzim_Kavalkou on 4/20/2017.
+ *
+ * SpringFox configuration.
  */
 @Configuration
 @EnableWebMvc

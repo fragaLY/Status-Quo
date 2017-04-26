@@ -14,6 +14,8 @@ import sq.vk.core.domain.gameinfo.GameInfo;
 
 /**
  * Created by Vadzim_Kavalkou on 4/7/2017.
+ *
+ * StatisticDto.class
  */
 public class StatisticDto extends ResourceSupport {
 
@@ -37,9 +39,6 @@ public class StatisticDto extends ResourceSupport {
 
     @NotNull
     private LocalDate to;
-
-    public StatisticDto(){
-    }
 
     private StatisticDto(Builder builder) {
 

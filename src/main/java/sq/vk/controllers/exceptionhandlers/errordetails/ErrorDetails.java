@@ -26,52 +26,17 @@ public class ErrorDetails {
   public ErrorDetails() {
   }
 
-  public ErrorDetails(Builder builder) {
+  private ErrorDetails(Builder builder) {
 
     this.developerMessage = builder.developerMessage;
     this.status = builder.status;
     this.propertyPath = builder.propertyPath;
     this.outputMessage = builder.outputMessage;
-  }
-
-  public String getOutputMessage() {
-    return outputMessage;
-  }
-
-  public void setOutputMessage(String outputMessage) {
-    this.outputMessage = outputMessage;
-  }
-
-  public String getDeveloperMessage() {
-    return developerMessage;
-  }
-
-  public void setDeveloperMessage(String developerMessage) {
-    this.developerMessage = developerMessage;
+    this.errors = builder.errors;
   }
 
   public HttpStatus getStatus() {
     return status;
-  }
-
-  public void setStatus(HttpStatus status) {
-    this.status = status;
-  }
-
-  public String getPropertyPath() {
-    return propertyPath;
-  }
-
-  public void setPropertyPath(String propertyPath) {
-    this.propertyPath = propertyPath;
-  }
-
-  public Set<String> getErrors() {
-    return errors;
-  }
-
-  public void setErrors(Set<String> errors) {
-    this.errors = errors;
   }
 
   @Override
@@ -79,10 +44,10 @@ public class ErrorDetails {
 
     return new ToStringBuilder(this)
             .append("developerMessage", developerMessage)
-            .append("status",status)
+            .append("status", status)
             .append("propertyPath", propertyPath)
             .append("outputMessage", outputMessage)
-            .append("errors",errors)
+            .append("errors", errors)
           .toString();
   }
 
@@ -100,8 +65,8 @@ public class ErrorDetails {
     return new EqualsBuilder()
             .append(status, that.status)
             .append(propertyPath, that.propertyPath)
-            .append(outputMessage,that.outputMessage)
-            .append(errors,that.errors)
+            .append(outputMessage, that.outputMessage)
+            .append(errors, that.errors)
           .isEquals();
   }
 
@@ -156,4 +121,5 @@ public class ErrorDetails {
     }
 
   }
+
 }

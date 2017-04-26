@@ -5,6 +5,8 @@ import java.util.Optional;
 
 /**
  * Created by Vadzim_Kavalkou on 4/17/2017.
+ *
+ * All types of game.
  */
 public enum Type {
 

@@ -6,6 +6,7 @@ import sq.vk.core.dto.client.ClientDto;
 
 /**
  * Created by Vadzim Kavalkou on 22.03.2017.
+ * ClientService interface.
  */
 public interface ClientService {
 

@@ -9,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
 import org.springframework.core.env.Environment;
@@ -32,6 +31,8 @@ import sq.vk.controllers.exceptionhandlers.errordetails.ErrorDetails;
 
 /**
  * Created by Vadzim_Kavalkou on 4/10/2017.
+ *
+ * The most exceptions handler.
  */
 @ControllerAdvice
 @PropertySources(@PropertySource("classpath:i18n/validation_errors_en.properties"))
@@ -41,9 +42,6 @@ public class CommonExceptionsHandler extends ResponseEntityExceptionHandler {
 
   @Autowired
   private Environment env;
-
-  @Autowired
-  private MessageSource messageSource;
 
   //404
   @Override
@@ -80,16 +78,16 @@ public class CommonExceptionsHandler extends ResponseEntityExceptionHandler {
     final Set<String> errors = Sets.newConcurrentHashSet();
     final String path = ex.getClass().getSimpleName().toLowerCase();
 
-    ex.getBindingResult().getFieldErrors().stream()
+    ex.getBindingResult().getFieldErrors()
         .forEach(error -> errors.add(error.getField() + ": " + error.getDefaultMessage()));
 
-    ex.getBindingResult().getGlobalErrors().stream()
+    ex.getBindingResult().getGlobalErrors()
         .forEach(error -> errors.add(error.getObjectName() + ": " + error.getDefaultMessage()));
 
     final ErrorDetails ed = new ErrorDetails.Builder()
                               .setPropertyPath(path)
                               .setDeveloperMessage(ex.getClass().toString())
-                              .setStatus(HttpStatus.BAD_REQUEST)
+                              .setStatus(HttpStatus.CONFLICT)
                               .setOutputMessage(ex.getLocalizedMessage())
                               .setErrors(errors)
                             .build();
@@ -110,10 +108,10 @@ public class CommonExceptionsHandler extends ResponseEntityExceptionHandler {
     final Set<String> errors = Sets.newConcurrentHashSet();
     final String path = ex.getClass().getSimpleName().toLowerCase();
 
-    ex.getBindingResult().getFieldErrors().stream()
+    ex.getBindingResult().getFieldErrors()
         .forEach(error -> errors.add(error.getField() + ": " + error.getDefaultMessage()));
 
-    ex.getBindingResult().getGlobalErrors().stream()
+    ex.getBindingResult().getGlobalErrors()
         .forEach(error -> errors.add(error.getObjectName() + ": " + error.getDefaultMessage()));
 
     final ErrorDetails ed = new ErrorDetails.Builder()
@@ -137,12 +135,11 @@ public class CommonExceptionsHandler extends ResponseEntityExceptionHandler {
     final WebRequest request) {
 
     final String path = ex.getClass().getSimpleName().toLowerCase();
-    final String error = new StringBuilder(ex.getValue().toString())
-                           .append(" value for ")
-                           .append(ex.getPropertyName())
-                           .append(" should be of type ")
-                           .append(ex.getRequiredType())
-                         .toString();
+    final String error = ex.getValue().toString()
+                         + " value for "
+                         + ex.getPropertyName()
+                         + " should be of type "
+                         + ex.getRequiredType();
 
     final Set<String> errors = Sets.newHashSet(error);
 
@@ -209,8 +206,7 @@ public class CommonExceptionsHandler extends ResponseEntityExceptionHandler {
 
   @ExceptionHandler({ MethodArgumentTypeMismatchException.class })
   public ResponseEntity<Object> handleMethodArgumentTypeMismatch(
-    final MethodArgumentTypeMismatchException ex,
-    final WebRequest request) {
+      final MethodArgumentTypeMismatchException ex) {
 
     final String path = ex.getClass().getSimpleName().toLowerCase();
     final String error = ex.getName() + " should be of type " + ex.getRequiredType().getName();
@@ -231,17 +227,11 @@ public class CommonExceptionsHandler extends ResponseEntityExceptionHandler {
 
   @ExceptionHandler({ ConstraintViolationException.class })
   public ResponseEntity<Object> handleConstraintViolation(
-    final ConstraintViolationException ex,
-    final WebRequest request) {
+      final ConstraintViolationException ex) {
 
     final String path = ex.getClass().getSimpleName().toLowerCase();
     final Set<String> errors = ex.getConstraintViolations().stream()
-        .map(cv -> new StringBuilder()
-            .append(cv.getRootBeanClass().getName())
-            .append(" ")
-            .append(cv.getPropertyPath())
-            .append(": ")
-            .append(cv.getMessage()).toString())
+        .map(cv -> cv.getRootBeanClass().getName() + " " + cv.getPropertyPath() + ": " + cv.getMessage())
         .collect(Collectors.toCollection(Sets::newConcurrentHashSet));
 
     final ErrorDetails ed = new ErrorDetails.Builder()
@@ -319,7 +309,7 @@ public class CommonExceptionsHandler extends ResponseEntityExceptionHandler {
 
   //500
   @ExceptionHandler({ Exception.class })
-  public ResponseEntity<Object> handleAll(final Exception ex, final WebRequest request) {
+  public ResponseEntity<Object> handleAll(final Exception ex) {
 
     final String path = ex.getClass().getSimpleName().toLowerCase();
     final Set<String> errors = Sets.newHashSet();

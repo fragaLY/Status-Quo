@@ -11,6 +11,8 @@ import sq.vk.core.exceptions.statistic.StatisticNotFoundException;
 
 /**
  * Created by Vadzim_Kavalkou on 4/7/2017.
+ *
+ * StatisticConverter.class
  */
 @Component("StatisticConverter")
 public class StatisticConverter implements Function<Statistic, StatisticDto> {

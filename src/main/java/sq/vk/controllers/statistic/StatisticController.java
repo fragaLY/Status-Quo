@@ -17,6 +17,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,13 +35,18 @@ import sq.vk.core.dto.client.ClientDto;
 import sq.vk.core.dto.statistic.StatisticDto;
 import sq.vk.service.statistic.StatisticService;
 
+import static java.time.LocalDateTime.now;
+
 /**
  * Created by Vadzim_Kavalkou on 4/7/2017.
+ *
+ * Statistics controller.
  */
 @RestController
 @Api(value = "statistics", description = "Statistic API")
 @RequestMapping("/statistics")
 @Validated
+@Secured({"ROLE_DEVELOPER", "ROLE_ADMIN", "ROLE_USER"})
 public class StatisticController {
 
   private static final Logger LOG = LoggerFactory.getLogger(StatisticController.class);
@@ -48,7 +54,6 @@ public class StatisticController {
 
   private static final String ROLE_ADMIN = "ROLE_ADMIN";
   private static final String ROLE_DEVELOPER = "ROLE_DEVELOPER";
-  private static final String ROLE_USER = "ROLE_USER";
 
   @Autowired
   private StatisticService service;
@@ -67,13 +72,18 @@ public class StatisticController {
   public ResponseEntity<StatisticDto> getStatisticById(@Pattern(regexp = "[1-9]+") @PathVariable("id") final Integer id) {
 
     LOG.info("Get statistic by id {}", id);
+    final long now = now().atZone(EUROPE_MOSCOW).toInstant().toEpochMilli();
 
-    StatisticDto statistic = service.findOne(id);
+    final StatisticDto statistic = service.findOne(id);
 
-    return new ResponseEntity<>(statistic, new HttpHeaders(), HttpStatus.OK);
+    final HttpHeaders responseHeader = new HttpHeaders();
+    responseHeader.setLastModified(now);
+
+    return new ResponseEntity<>(statistic, responseHeader, HttpStatus.OK);
 
   }
 
+  @Secured({ROLE_ADMIN, ROLE_DEVELOPER})
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
   @ApiOperation(value = "Retrieves all statistics",
       notes = "Clients will be sent in the location response",
@@ -88,10 +98,14 @@ public class StatisticController {
   public ResponseEntity<List<StatisticDto>> getAllStatistic() {
 
     LOG.info("Get all statistic");
+    final long now = now().atZone(EUROPE_MOSCOW).toInstant().toEpochMilli();
 
-    List<StatisticDto> statistics = service.findAll();
+    final List<StatisticDto> statistics = service.findAll();
 
-    return new ResponseEntity<>(statistics, new HttpHeaders(), HttpStatus.OK);
+    final HttpHeaders responseHeader = new HttpHeaders();
+    responseHeader.setLastModified(now);
+
+    return new ResponseEntity<>(statistics, responseHeader, HttpStatus.OK);
 
   }
 
@@ -107,6 +121,7 @@ public class StatisticController {
   public ResponseEntity<?> editStatistic(@Valid @RequestBody final StatisticDto statistic) {
 
     LOG.info("Update statistic {}", statistic);
+    final long now = now().atZone(EUROPE_MOSCOW).toInstant().toEpochMilli();
 
     service.save(statistic);
 
@@ -115,6 +130,7 @@ public class StatisticController {
 
     final HttpHeaders responseHeaders = new HttpHeaders();
     responseHeaders.setLocation(createdClientUri);
+    responseHeaders.setLastModified(now);
 
     return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);
 
@@ -132,6 +148,7 @@ public class StatisticController {
   public ResponseEntity<?> createStatistic(@Valid @RequestBody final StatisticDto statistic) {
 
     LOG.info("Create statistic '{}'", statistic);
+    final long now = now().atZone(EUROPE_MOSCOW).toInstant().toEpochMilli();
 
     service.save(statistic);
 
@@ -140,6 +157,7 @@ public class StatisticController {
 
     final HttpHeaders responseHeaders = new HttpHeaders();
     responseHeaders.setLocation(createdClientUri);
+    responseHeaders.setLastModified(now);
 
     return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);
 
@@ -158,10 +176,14 @@ public class StatisticController {
   public ResponseEntity<?> deleteStatistic(@Valid @RequestBody final StatisticDto statistic) {
 
     LOG.info("Delete statistic '{}'", statistic);
+    final long now = now().atZone(EUROPE_MOSCOW).toInstant().toEpochMilli();
 
     service.delete(statistic);
 
-    return new ResponseEntity<>(null, new HttpHeaders(), HttpStatus.OK);
+    final HttpHeaders responseHeader = new HttpHeaders();
+    responseHeader.setLastModified(now);
+
+    return new ResponseEntity<>(null, responseHeader, HttpStatus.OK);
 
   }
 
@@ -178,10 +200,14 @@ public class StatisticController {
   public ResponseEntity<?> deleteStatisticById(@Pattern(regexp = "[1-9]+") @RequestParam("id") final Integer id) {
 
     LOG.info("Delete statistic with id '{}'", id);
+    final long now = now().atZone(EUROPE_MOSCOW).toInstant().toEpochMilli();
 
     service.delete(id);
 
-    return new ResponseEntity<>(null, new HttpHeaders(), HttpStatus.OK);
+    final HttpHeaders responseHeader = new HttpHeaders();
+    responseHeader.setLastModified(now);
+
+    return new ResponseEntity<>(null, responseHeader, HttpStatus.OK);
 
   }
 

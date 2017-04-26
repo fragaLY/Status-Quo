@@ -19,6 +19,8 @@ import sq.vk.service.client.ClientService;
 
 /**
  * Created by Vadzim Kavalkou on 22.03.2017.
+ *
+ * Implementation of UserDetailsService to use custom security configuration.
  */
 @Service("ClientDetailsService")
 public class ClientDetailsService implements UserDetailsService {

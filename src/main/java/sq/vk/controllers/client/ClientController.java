@@ -18,6 +18,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -34,11 +35,14 @@ import sq.vk.controllers.exceptionhandlers.errordetails.ErrorDetails;
 import sq.vk.core.dto.client.ClientDto;
 import sq.vk.service.client.ClientService;
 
+import static java.time.LocalDateTime.now;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 /**
  * Created by Vadzim Kavalkou on 22.03.2017.
+ *
+ * Client's controllers.
  */
 @RestController
 @Api(value = "clients", description = "Client API")
@@ -52,11 +56,12 @@ public class ClientController {
 
   private static final String ROLE_ADMIN = "ROLE_ADMIN";
   private static final String ROLE_DEVELOPER = "ROLE_DEVELOPER";
-  private static final String ROLE_USER = "ROLE_USER";
+  //private static final String ROLE_USER = "ROLE_USER";
 
   @Autowired
   private ClientService service;
 
+  @Secured({ROLE_DEVELOPER, ROLE_ADMIN})
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
   @ApiOperation(value = "Retrieves all clients",
                 notes = "Clients will be sent in the location response",
@@ -71,12 +76,15 @@ public class ClientController {
   public ResponseEntity<List<ClientDto>> getAllClients() {
 
     LOG.info("Get all clients");
+    final long now = now().atZone(EUROPE_MOSCOW).toInstant().toEpochMilli();
 
     final List<ClientDto> allClients = service.findAll();
-    allClients.stream().forEach(dto -> dto.add(linkTo(methodOn(ClientController.class).getAllClients())
+    allClients.forEach(dto -> dto.add(linkTo(methodOn(ClientController.class).getAllClients())
                                                       .slash(dto.getClientId()).withSelfRel()));
+    final HttpHeaders responseHeader = new HttpHeaders();
+    responseHeader.setLastModified(now);
 
-    return new ResponseEntity<>(allClients, new HttpHeaders(), HttpStatus.OK);
+    return new ResponseEntity<>(allClients, responseHeader, HttpStatus.OK);
 
   }
 
@@ -94,13 +102,17 @@ public class ClientController {
   public ResponseEntity<ClientDto> getClientById(@Range(min=1) @PathVariable("id") final Integer id) {
 
     LOG.info("Get client by id: '{}'", id);
+    final long now = now().atZone(EUROPE_MOSCOW).toInstant().toEpochMilli();
 
     final HttpStatus httpStatus = HttpStatus.OK;
 
     final ClientDto client = service.findOne(id);
     client.add(linkTo(methodOn(ClientController.class).getAllClients()).slash(client.getClientId()).withSelfRel());
 
-    return new ResponseEntity<>(client, new HttpHeaders(), httpStatus);
+    final HttpHeaders responseHeader = new HttpHeaders();
+    responseHeader.setLastModified(now);
+
+    return new ResponseEntity<>(client, responseHeader, httpStatus);
 
   }
 
@@ -118,15 +130,20 @@ public class ClientController {
   public ResponseEntity<ClientDto> getClientProfile() {
 
     LOG.info("Get current user info.");
+    final long now = now().atZone(EUROPE_MOSCOW).toInstant().toEpochMilli();
 
     final String email = SecurityContextHolder.getContext().getAuthentication().getName();
 
     final ClientDto currentClient = service.findOneByEmail(email);
 
-    return new ResponseEntity<>(currentClient, new HttpHeaders(), HttpStatus.OK);
+    final HttpHeaders responseHeader = new HttpHeaders();
+    responseHeader.setLastModified(now);
+
+    return new ResponseEntity<>(currentClient, responseHeader, HttpStatus.OK);
 
   }
 
+  @Secured(ROLE_ADMIN)
   @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
   @ApiOperation(value = "Saves client",
                 notes = "Client will be saved",
@@ -139,6 +156,7 @@ public class ClientController {
   public ResponseEntity<?> createClient(@Valid @RequestBody final ClientDto clientDto) {
 
     LOG.info("Saves client [{}].", clientDto);
+    final long now = now().atZone(EUROPE_MOSCOW).toInstant().toEpochMilli();
 
     final ClientDto client = service.save(clientDto);
 
@@ -147,6 +165,7 @@ public class ClientController {
 
     final HttpHeaders responseHeaders = new HttpHeaders();
     responseHeaders.setLocation(createdClientUri);
+    responseHeaders.setLastModified(now);
 
     return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);
 
@@ -164,6 +183,7 @@ public class ClientController {
   public ResponseEntity<?> editClient(@Valid @RequestBody final ClientDto clientDto) {
 
     LOG.info("Saves client [{}].", clientDto);
+    final long now = now().atZone(EUROPE_MOSCOW).toInstant().toEpochMilli();
 
     final ClientDto client = service.save(clientDto);
 
@@ -172,11 +192,13 @@ public class ClientController {
 
     final HttpHeaders responseHeaders = new HttpHeaders();
     responseHeaders.setLocation(createdClientUri);
+    responseHeaders.setLastModified(now);
 
     return new ResponseEntity<>(null, responseHeaders, HttpStatus.OK);
 
   }
 
+  @Secured(ROLE_ADMIN)
   @DeleteMapping
   @ApiOperation(value = "Deletes client",
       notes = "Client will be deleted",
@@ -190,13 +212,17 @@ public class ClientController {
   public ResponseEntity<ClientDto> deleteClient(@Valid @RequestBody final ClientDto clientDto) {
 
     LOG.info("Deletes client [{}].", clientDto);
+    final long now = now().atZone(EUROPE_MOSCOW).toInstant().toEpochMilli();
 
     service.delete(clientDto);
+    final HttpHeaders responseHeaders = new HttpHeaders();
+    responseHeaders.setLastModified(now);
 
-    return new ResponseEntity<>(null, new HttpHeaders(), HttpStatus.OK);
+    return new ResponseEntity<>(null, responseHeaders, HttpStatus.OK);
 
   }
 
+  @Secured(ROLE_ADMIN)
   @DeleteMapping(value = "/{id}")
   @ApiOperation(value = "Deletes client by id",
       notes = "Client will be deleted by id",
@@ -211,10 +237,14 @@ public class ClientController {
     @Pattern(regexp = "[1-9]+") @PathVariable("id") final Integer id) {
 
     LOG.info("Deletes client with id [{}].", id);
+    final long now = now().atZone(EUROPE_MOSCOW).toInstant().toEpochMilli();
 
     service.delete(id);
 
-    return new ResponseEntity<>(null, new HttpHeaders(), HttpStatus.OK);
+    final HttpHeaders responseHeaders = new HttpHeaders();
+    responseHeaders.setLastModified(now);
+
+    return new ResponseEntity<>(null, responseHeaders, HttpStatus.OK);
 
   }
 

@@ -11,6 +11,8 @@ import org.springframework.stereotype.Component;
 
 /**
  * Created by Vadzim_Kavalkou on 4/10/2017.
+ *
+ * RestAuthenticationEntryPoint.class
  */
 @Component
 public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {

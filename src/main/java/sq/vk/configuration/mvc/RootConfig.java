@@ -7,6 +7,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 /**
  * Created by Vadzim Kavalkou on 23.03.2016.
+ *
+ * Root configuration.
  */
 @Configuration
 @ComponentScan(basePackages = {"sq.vk"},
