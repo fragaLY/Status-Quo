@@ -6,6 +6,10 @@ import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +17,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +29,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import sq.vk.controllers.exceptionhandlers.errordetails.ErrorDetails;
+import sq.vk.core.dto.client.ClientDto;
 import sq.vk.core.dto.statistic.StatisticDto;
 import sq.vk.service.statistic.StatisticService;
 
@@ -31,7 +38,9 @@ import sq.vk.service.statistic.StatisticService;
  * Created by Vadzim_Kavalkou on 4/7/2017.
  */
 @RestController
+@Api(value = "statistics", description = "Statistic API")
 @RequestMapping("/statistics")
+@Validated
 public class StatisticController {
 
   private static final Logger LOG = LoggerFactory.getLogger(StatisticController.class);
@@ -45,6 +54,15 @@ public class StatisticController {
   private StatisticService service;
 
   @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+  @ApiOperation(value = "Retrieves statistic by id",
+      notes = "Statistic will be sent in the location response",
+      response = ClientDto.class)
+  @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "Statistic was retrieved by id", response = StatisticDto.class),
+      @ApiResponse(code = 401, message = "Unauthorized client", response = ErrorDetails.class),
+      @ApiResponse(code = 403, message = "Access denied", response = ErrorDetails.class),
+      @ApiResponse(code = 404, message = "Statistic was not found", response = ErrorDetails.class),
+      @ApiResponse(code = 500, message = "Error getting statistic", response = ErrorDetails.class)} )
   @ResponseBody
   public ResponseEntity<StatisticDto> getStatisticById(@Pattern(regexp = "[1-9]+") @PathVariable("id") final Integer id) {
 
@@ -57,6 +75,15 @@ public class StatisticController {
   }
 
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+  @ApiOperation(value = "Retrieves all statistics",
+      notes = "Clients will be sent in the location response",
+      response = StatisticDto.class)
+  @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "All statistics were retrieved", response = StatisticDto.class),
+      @ApiResponse(code = 401, message = "Unauthorized client", response = ErrorDetails.class),
+      @ApiResponse(code = 403, message = "Access denied", response = ErrorDetails.class),
+      @ApiResponse(code = 404, message = "Statistics were not found", response = ErrorDetails.class),
+      @ApiResponse(code = 500, message = "Error getting all statistics", response = ErrorDetails.class)} )
   @ResponseBody
   public ResponseEntity<List<StatisticDto>> getAllStatistic() {
 
@@ -69,6 +96,14 @@ public class StatisticController {
   }
 
   @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+  @ApiOperation(value = "Updates statistic",
+      notes = "Statistic will be updated",
+      response = Void.class)
+  @ApiResponses(value = {
+      @ApiResponse(code = 202, message = "Statistic was updated", response = Void.class),
+      @ApiResponse(code = 401, message = "Unauthorized client", response = ErrorDetails.class),
+      @ApiResponse(code = 403, message = "Access denied", response = ErrorDetails.class),
+      @ApiResponse(code = 500, message = "Error updating statistic", response = ErrorDetails.class)} )
   public ResponseEntity<?> editStatistic(@Valid @RequestBody final StatisticDto statistic) {
 
     LOG.info("Update statistic {}", statistic);
@@ -76,7 +111,7 @@ public class StatisticController {
     service.save(statistic);
 
     final URI createdClientUri = ServletUriComponentsBuilder.fromCurrentRequest().path(
-      "/{id}").buildAndExpand(statistic.getId()).toUri();
+      "/{id}").buildAndExpand(statistic.getStatisticId()).toUri();
 
     final HttpHeaders responseHeaders = new HttpHeaders();
     responseHeaders.setLocation(createdClientUri);
@@ -86,6 +121,14 @@ public class StatisticController {
   }
 
   @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+  @ApiOperation(value = "Saves statistics",
+      notes = "Statistic will be saved",
+      response = Void.class)
+  @ApiResponses(value = {
+      @ApiResponse(code = 201, message = "Statistic was created", response = Void.class),
+      @ApiResponse(code = 401, message = "Unauthorized client", response = ErrorDetails.class),
+      @ApiResponse(code = 403, message = "Access denied", response = ErrorDetails.class),
+      @ApiResponse(code = 500, message = "Error saving statistic", response = ErrorDetails.class)} )
   public ResponseEntity<?> createStatistic(@Valid @RequestBody final StatisticDto statistic) {
 
     LOG.info("Create statistic '{}'", statistic);
@@ -93,7 +136,7 @@ public class StatisticController {
     service.save(statistic);
 
     final URI createdClientUri = ServletUriComponentsBuilder.fromCurrentRequest().path(
-      "/{id}").buildAndExpand(statistic.getId()).toUri();
+      "/{id}").buildAndExpand(statistic.getStatisticId()).toUri();
 
     final HttpHeaders responseHeaders = new HttpHeaders();
     responseHeaders.setLocation(createdClientUri);
@@ -103,6 +146,15 @@ public class StatisticController {
   }
 
   @DeleteMapping
+  @ApiOperation(value = "Deletes statistic",
+      notes = "Statistic will be deleted",
+      response = Void.class)
+  @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "Statistic was deleted", response = Void.class),
+      @ApiResponse(code = 204, message = "No Content", response = ErrorDetails.class),
+      @ApiResponse(code = 401, message = "Unauthorized client", response = ErrorDetails.class),
+      @ApiResponse(code = 403, message = "Access denied", response = ErrorDetails.class),
+      @ApiResponse(code = 500, message = "Error deleting statistic", response = ErrorDetails.class)} )
   public ResponseEntity<?> deleteStatistic(@Valid @RequestBody final StatisticDto statistic) {
 
     LOG.info("Delete statistic '{}'", statistic);
@@ -114,6 +166,15 @@ public class StatisticController {
   }
 
   @DeleteMapping(value = "/{id}")
+  @ApiOperation(value = "Deletes statistic by id",
+      notes = "Statistic will be deleted by id",
+      response = Void.class)
+  @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "Statistic was deleted", response = Void.class),
+      @ApiResponse(code = 204, message = "No Content", response = ErrorDetails.class),
+      @ApiResponse(code = 401, message = "Unauthorized client", response = ErrorDetails.class),
+      @ApiResponse(code = 403, message = "Access denied", response = ErrorDetails.class),
+      @ApiResponse(code = 500, message = "Error deleting statistic", response = ErrorDetails.class)} )
   public ResponseEntity<?> deleteStatisticById(@Pattern(regexp = "[1-9]+") @RequestParam("id") final Integer id) {
 
     LOG.info("Delete statistic with id '{}'", id);

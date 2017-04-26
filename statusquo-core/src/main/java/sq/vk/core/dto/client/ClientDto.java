@@ -9,13 +9,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.springframework.hateoas.ResourceSupport;
 import sq.vk.core.domain.client.ClientRole;
 import sq.vk.core.domain.statistic.Statistic;
 
 /**
  * Created by Vadzim Kavalkou on 22.03.2017.
  */
-public class ClientDto {
+public class ClientDto extends ResourceSupport {
 
   private Integer id;
 
@@ -54,7 +55,7 @@ public class ClientDto {
 
   }
 
-  public Integer getId() {
+  public Integer getClientId() {
     return id;
   }
 

@@ -5,6 +5,7 @@ import javax.validation.constraints.Size;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.springframework.hateoas.ResourceSupport;
 import sq.vk.core.domain.gameinfo.PokerRoomType;
 import sq.vk.core.domain.gameinfo.Speed;
 import sq.vk.core.domain.gameinfo.TableSize;
@@ -13,7 +14,7 @@ import sq.vk.core.domain.gameinfo.Type;
 /**
  * Created by Vadzim_Kavalkou on 4/17/2017.
  */
-public class GameInfoDto {
+public class GameInfoDto extends ResourceSupport {
 
   private Integer id;
 
@@ -42,7 +43,7 @@ public class GameInfoDto {
 
   }
 
-  public Integer getId() {
+  public Integer getGameInfoId() {
     return id;
   }
 

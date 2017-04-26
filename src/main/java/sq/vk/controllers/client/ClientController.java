@@ -1,6 +1,7 @@
 package sq.vk.controllers.client;
 
 import java.net.URI;
+import java.time.ZoneId;
 import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
@@ -33,6 +34,9 @@ import sq.vk.controllers.exceptionhandlers.errordetails.ErrorDetails;
 import sq.vk.core.dto.client.ClientDto;
 import sq.vk.service.client.ClientService;
 
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+
 /**
  * Created by Vadzim Kavalkou on 22.03.2017.
  */
@@ -43,6 +47,8 @@ import sq.vk.service.client.ClientService;
 public class ClientController {
 
   private static final Logger LOG = LoggerFactory.getLogger(ClientController.class);
+
+  private static final ZoneId EUROPE_MOSCOW = ZoneId.of("Europe/Moscow");
 
   private static final String ROLE_ADMIN = "ROLE_ADMIN";
   private static final String ROLE_DEVELOPER = "ROLE_DEVELOPER";
@@ -67,6 +73,8 @@ public class ClientController {
     LOG.info("Get all clients");
 
     final List<ClientDto> allClients = service.findAll();
+    allClients.stream().forEach(dto -> dto.add(linkTo(methodOn(ClientController.class).getAllClients())
+                                                      .slash(dto.getClientId()).withSelfRel()));
 
     return new ResponseEntity<>(allClients, new HttpHeaders(), HttpStatus.OK);
 
@@ -90,6 +98,7 @@ public class ClientController {
     final HttpStatus httpStatus = HttpStatus.OK;
 
     final ClientDto client = service.findOne(id);
+    client.add(linkTo(methodOn(ClientController.class).getAllClients()).slash(client.getClientId()).withSelfRel());
 
     return new ResponseEntity<>(client, new HttpHeaders(), httpStatus);
 
@@ -134,7 +143,7 @@ public class ClientController {
     final ClientDto client = service.save(clientDto);
 
     final URI createdClientUri = ServletUriComponentsBuilder.fromCurrentRequest()
-                                 .path("/{id}").buildAndExpand(client.getId()).toUri();
+                                 .path("/{id}").buildAndExpand(client.getClientId()).toUri();
 
     final HttpHeaders responseHeaders = new HttpHeaders();
     responseHeaders.setLocation(createdClientUri);
@@ -159,7 +168,7 @@ public class ClientController {
     final ClientDto client = service.save(clientDto);
 
     final URI createdClientUri = ServletUriComponentsBuilder.fromCurrentRequest()
-                                 .path("/{id}").buildAndExpand(client.getId()).toUri();
+                                 .path("/{id}").buildAndExpand(client.getClientId()).toUri();
 
     final HttpHeaders responseHeaders = new HttpHeaders();
     responseHeaders.setLocation(createdClientUri);
@@ -177,7 +186,7 @@ public class ClientController {
       @ApiResponse(code = 204, message = "No Content", response = ErrorDetails.class),
       @ApiResponse(code = 401, message = "Unauthorized client", response = ErrorDetails.class),
       @ApiResponse(code = 403, message = "Access denied", response = ErrorDetails.class),
-      @ApiResponse(code = 500, message = "Error updating client", response = ErrorDetails.class)} )
+      @ApiResponse(code = 500, message = "Error deleting client", response = ErrorDetails.class)} )
   public ResponseEntity<ClientDto> deleteClient(@Valid @RequestBody final ClientDto clientDto) {
 
     LOG.info("Deletes client [{}].", clientDto);
@@ -197,7 +206,7 @@ public class ClientController {
       @ApiResponse(code = 204, message = "No Content", response = ErrorDetails.class),
       @ApiResponse(code = 401, message = "Unauthorized client", response = ErrorDetails.class),
       @ApiResponse(code = 403, message = "Access denied", response = ErrorDetails.class),
-      @ApiResponse(code = 500, message = "Error updating client", response = ErrorDetails.class)} )
+      @ApiResponse(code = 500, message = "Error deleting client", response = ErrorDetails.class)} )
   public ResponseEntity<?> deleteClientById(
     @Pattern(regexp = "[1-9]+") @PathVariable("id") final Integer id) {
 

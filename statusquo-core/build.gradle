@@ -31,6 +31,11 @@ dependencies {
         exclude group: "org.slf4j"
     }
 
+    compile ('org.springframework.hateoas:spring-hateoas:0.23.0.RELEASE'){
+        exclude group: "org.springframework"
+        exclude group: "org.slf4j"
+    }
+
     compile group: 'org.springframework', name: 'spring-web', version: springVersion
 
     compile ('org.springframework:spring-context:'+springVersion){
@@ -38,8 +43,8 @@ dependencies {
     }
 
     //Hibernate and Validation API
-    compile group: 'org.hibernate', name: 'hibernate-core', version: hibernateVersion
     compile group: 'org.hibernate', name: 'hibernate-validator', version: hibernateVersion
+    compile group: 'org.hibernate', name: 'hibernate-java8', version: hibernateVersion
 
     //Logger
     compile group: 'org.slf4j', name: 'slf4j-log4j12', version: slf4Version

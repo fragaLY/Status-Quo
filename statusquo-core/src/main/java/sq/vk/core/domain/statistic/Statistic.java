@@ -1,6 +1,6 @@
 package sq.vk.core.domain.statistic;
 
-import java.util.Date;
+import java.time.LocalDate;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,8 +12,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -33,8 +31,8 @@ public class Statistic {
   private double profit;
   private GameInfo gameInfo;
   private Client client;
-  private Date from;
-  private Date to;
+  private LocalDate from;
+  private LocalDate to;
 
   public Statistic() {
   }
@@ -104,23 +102,21 @@ public class Statistic {
     this.client = client;
   }
 
-  @Temporal(TemporalType.DATE)
-  @Column(name = "date_from")
-  public Date getFrom() {
+  @Column(name = "date_from", columnDefinition = "DATE")
+  public LocalDate getFrom() {
     return from;
   }
 
-  public void setFrom(Date from) {
+  public void setFrom(LocalDate from) {
     this.from = from;
   }
 
-  @Temporal(TemporalType.DATE)
-  @Column(name = "date_to")
-  public Date getTo() {
+  @Column(name = "date_to", columnDefinition = "DATE")
+  public LocalDate getTo() {
     return to;
   }
 
-  public void setTo(Date to) {
+  public void setTo(LocalDate to) {
     this.to = to;
   }
 
@@ -181,8 +177,8 @@ public class Statistic {
     private double profit;
     private GameInfo gameInfo;
     private Client client;
-    private Date from;
-    private Date to;
+    private LocalDate from;
+    private LocalDate to;
 
     public Builder setId(Integer id) {
       this.id = id;
@@ -209,12 +205,12 @@ public class Statistic {
       return this;
     }
 
-    public Builder setFrom(Date from) {
+    public Builder setFrom(LocalDate from) {
       this.from = from;
       return this;
     }
 
-    public Builder setTo(Date to) {
+    public Builder setTo(LocalDate to) {
       this.to = to;
       return this;
     }
