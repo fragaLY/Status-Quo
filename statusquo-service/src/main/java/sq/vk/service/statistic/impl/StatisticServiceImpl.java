@@ -18,6 +18,8 @@ import sq.vk.service.statistic.StatisticService;
 
 /**
  * Created by Vadzim Kavalkou on 08.04.2017.
+ *
+ * StatisticService implementation.
  */
 @Service("StatisticService")
 public class StatisticServiceImpl implements StatisticService {

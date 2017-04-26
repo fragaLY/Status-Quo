@@ -1,11 +1,13 @@
 package sq.vk.configuration.mvc;
 
-import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
-
 import javax.servlet.ServletRegistration;
+
+import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 /**
  * Created by Vadzim Kavalkou on 23.03.2016.
+ *
+ * Dispatcher servlet configuration.
  */
 public class DispatcherServletInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 

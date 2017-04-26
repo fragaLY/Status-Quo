@@ -10,6 +10,8 @@ import sq.vk.core.domain.client.Client;
 
 /**
  * Created by Vadzim Kavalkou on 22.03.2017.
+ *
+ * ClientDao interface.
  */
 public interface ClientDao extends JpaRepository<Client, Integer> {
 
@@ -20,6 +22,7 @@ public interface ClientDao extends JpaRepository<Client, Integer> {
 
     Client findOne(Integer id);
 
+    @SuppressWarnings("unchecked")
     Client save(Client client);
 
     void delete(Client client);

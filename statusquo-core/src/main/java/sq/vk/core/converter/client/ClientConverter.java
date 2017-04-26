@@ -12,6 +12,8 @@ import sq.vk.core.exceptions.client.ClientNotFoundException;
 
 /**
  * Created by Vadzim Kavalkou on 22.03.2017.
+ *
+ * ClientConverter.class
  */
 @Component("ClientConverter")
 public class ClientConverter implements Function<Client, ClientDto> {

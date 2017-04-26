@@ -5,6 +5,8 @@ import java.util.Optional;
 
 /**
  * Created by Vadzim_Kavalkou on 4/17/2017.
+ *
+ * All speeds of tourneys.
  */
 public enum Speed {
 

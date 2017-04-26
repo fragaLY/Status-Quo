@@ -15,6 +15,8 @@ import sq.vk.core.domain.statistic.Statistic;
 
 /**
  * Created by Vadzim Kavalkou on 22.03.2017.
+ *
+ * ClientDto.class
  */
 public class ClientDto extends ResourceSupport {
 
@@ -39,9 +41,6 @@ public class ClientDto extends ResourceSupport {
   private ClientRole role;
 
   private Set<Statistic> statistics;
-
-  public ClientDto() {
-  }
 
   private ClientDto(Builder builder) {
 

@@ -5,6 +5,8 @@ import java.util.Optional;
 
 /**
  * Created by Vadzim Kavalkou on 22.03.2017.
+ *
+ * All client's roles.
  */
 public enum ClientRole {
 

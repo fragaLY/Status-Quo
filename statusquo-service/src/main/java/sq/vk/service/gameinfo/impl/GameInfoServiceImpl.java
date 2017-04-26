@@ -15,6 +15,8 @@ import sq.vk.service.gameinfo.GameInfoService;
 
 /**
  * Created by Vadzim_Kavalkou on 4/18/2017.
+ *
+ * GameInfoService implementation.
  */
 @Service("GameInfoService")
 public class GameInfoServiceImpl implements GameInfoService {

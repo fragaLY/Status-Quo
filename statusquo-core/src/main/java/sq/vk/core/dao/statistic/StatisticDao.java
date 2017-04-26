@@ -10,9 +10,12 @@ import sq.vk.core.domain.statistic.Statistic;
 
 /**
  * Created by Vadzim_Kavalkou on 4/7/2017.
+ *
+ * StatisticDao interface.
  */
 public interface StatisticDao extends JpaRepository<Statistic, Integer> {
 
+    @SuppressWarnings("unchecked")
     Statistic save(Statistic statistic);
 
     List<Statistic> findAll();

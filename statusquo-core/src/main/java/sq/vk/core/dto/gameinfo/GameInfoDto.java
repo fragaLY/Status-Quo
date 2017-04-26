@@ -13,6 +13,8 @@ import sq.vk.core.domain.gameinfo.Type;
 
 /**
  * Created by Vadzim_Kavalkou on 4/17/2017.
+ *
+ * GameInfoDto.class
  */
 public class GameInfoDto extends ResourceSupport {
 
@@ -30,10 +32,7 @@ public class GameInfoDto extends ResourceSupport {
   @Size(min = 3, max = 20)
   private Type type;
 
-  public GameInfoDto(){
-  }
-
-  public GameInfoDto(Builder builder){
+  private GameInfoDto(Builder builder){
 
     this.id = builder.id;
     this.roomType = builder.roomType;

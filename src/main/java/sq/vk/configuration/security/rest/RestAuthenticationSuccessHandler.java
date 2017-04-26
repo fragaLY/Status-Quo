@@ -5,6 +5,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
@@ -15,17 +17,23 @@ import org.springframework.util.StringUtils;
 
 /**
  * Created by Vadzim_Kavalkou on 4/10/2017.
+ *
+ * RestAuthenticationSuccessHandler.class
  */
 @Component
 public class RestAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
   private RequestCache requestCache = new HttpSessionRequestCache();
 
+  private static final Logger LOG = LoggerFactory.getLogger(RestAuthenticationSuccessHandler.class);
+
   @Override
   public void onAuthenticationSuccess(
     HttpServletRequest request,
     HttpServletResponse response,
     Authentication authentication) throws IOException, ServletException {
+
+    LOG.info("On auth success handler: [ {} ], [ {} ] , [ {} ].", request, response, authentication);
 
     final SavedRequest savedRequest = requestCache.getRequest(request, response);
 

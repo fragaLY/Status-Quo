@@ -14,6 +14,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * Created by Vadzim_Kavalkou on 4/20/2017.
+ *
+ * SpringFox configuration.
  */
 @Configuration
 @EnableWebMvc
@@ -24,12 +26,12 @@ public class SwaggerConfig {
   private static final String TITLE = "Status Quo";
   private static final String DESCRIPTION = "Control your investments.";
   private static final String VERSION = "1.0 SNAPSHOT";
-  private static final String TERMS = "Terms of service";
-  private static final String LICENSE = "License of API";
-  private static final String LICENSE_URL = "API license URL";
+  private static final String TERMS = "http://swagger.io/terms/";
+  private static final String LICENSE = "Apache 2.0";
+  private static final String LICENSE_URL = "http://www.apache.org/licenses/LICENSE-2.0.html";
 
-  private static final String NAME = "Vadzim Kavalkou";
-  private static final String URL = "https://www.linkedin.com/in/vadzim-kavalkou-641659130/";
+  private static final String NAME = "Vadzim Kavalkou (Junior Software Developer 'EPAM Systems' BY/Mahileu)";
+  private static final String URL = "https://github.com/fragaLY/Status-Quo";
   private static final String EMAIL = "fragalymlg@gmail.com";
 
   @Bean

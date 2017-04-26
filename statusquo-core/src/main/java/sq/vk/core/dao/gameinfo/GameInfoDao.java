@@ -7,6 +7,8 @@ import sq.vk.core.domain.gameinfo.GameInfo;
 
 /**
  * Created by Vadzim_Kavalkou on 4/18/2017.
+ *
+ * GameInfoDao interface.
  */
 public interface GameInfoDao extends JpaRepository<GameInfo, Integer> {
 
@@ -14,6 +16,7 @@ public interface GameInfoDao extends JpaRepository<GameInfo, Integer> {
 
   GameInfo findOne(Integer id);
 
+  @SuppressWarnings("unchecked")
   GameInfo save(GameInfo info);
 
   void delete(GameInfo info);
