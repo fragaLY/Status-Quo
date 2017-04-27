@@ -86,12 +86,12 @@ public class ClientServiceImplTest {
 
     List<ClientDto> expectedDtos = ImmutableList.of(firstExpectedClientDto, secondExpectedClientDto);
 
-    //when
     when(dao.findAll()).thenReturn(clients);
 
     when(converter.apply(firstClient)).thenReturn(firstExpectedClientDto);
     when(converter.apply(secondClient)).thenReturn(secondExpectedClientDto);
 
+    //when
     List<ClientDto> actualClientDtos = service.findAll();
 
     //then
@@ -122,11 +122,11 @@ public class ClientServiceImplTest {
                                           .setPassword(PASSWORD)
                                         .build();
 
-    //when
     when(dao.findOneByEmail(EMAIL)).thenReturn(Optional.of(client));
 
     when(converter.apply(client)).thenReturn(expectedClientDto);
 
+    //when
     ClientDto actualClientDto = service.findOneByEmail(EMAIL);
 
     //then
@@ -140,9 +140,9 @@ public class ClientServiceImplTest {
     //given
     final Client client = null;
 
-    //when
     when(dao.findOneByEmail(EMAIL)).thenReturn(Optional.ofNullable(client));
 
+    //when
     service.findOneByEmail(EMAIL);
 
   }
@@ -171,11 +171,11 @@ public class ClientServiceImplTest {
                                           .setPassword(PASSWORD)
                                         .build();
 
-    //when
     when(dao.findOne(id)).thenReturn(client);
 
     when(converter.apply(client)).thenReturn(expectedClientDto);
 
+    //when
     ClientDto actualClientDto = service.findOne(id);
 
     //then
@@ -205,12 +205,11 @@ public class ClientServiceImplTest {
                                           .setRole(role)
                                           .setPassword(PASSWORD)
                                         .build();
-
-    //when
     when(converter.transform(expectedClientDto)).thenReturn(client);
 
     when(dao.save(client)).thenReturn(client);
 
+    //when
     ClientDto actualClientDto = service.save(expectedClientDto);
 
     //then
@@ -241,11 +240,11 @@ public class ClientServiceImplTest {
                                   .setPassword(PASSWORD)
                                 .build();
 
-    //when
     when(converter.transform(clientDto)).thenReturn(client);
 
     doNothing().when(dao).delete(client);
 
+    //when
     ClientDto deletedClientDto = service.delete(clientDto);
 
     //then
@@ -259,9 +258,9 @@ public class ClientServiceImplTest {
     //given
     final Integer id = 1;
 
-    //when
     doNothing().when(dao).delete(id);
 
+    //when
     Integer expectedId = service.delete(id);
 
     //then
@@ -275,9 +274,9 @@ public class ClientServiceImplTest {
     //given
     final String email = EMAIL;
 
-    //when
     doNothing().when(dao).deleteByEmail(email);
 
+    //when
     String actualEmail = service.delete(email);
 
     //then

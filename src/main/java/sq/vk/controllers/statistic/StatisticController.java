@@ -30,11 +30,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import sq.vk.controllers.exceptionhandlers.errordetails.ErrorDetails;
-import sq.vk.core.dto.client.ClientDto;
 import sq.vk.core.dto.statistic.StatisticDto;
 import sq.vk.service.statistic.StatisticService;
 
 import static java.time.LocalDateTime.now;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 /**
  * Created by Vadzim_Kavalkou on 4/7/2017.
@@ -61,7 +62,7 @@ public class StatisticController {
   @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
   @ApiOperation(value = "Retrieves statistic by id",
       notes = "Statistic will be sent in the location response",
-      response = ClientDto.class)
+      response = StatisticDto.class)
   @ApiResponses(value = {
       @ApiResponse(code = 200, message = "Statistic was retrieved by id", response = StatisticDto.class),
       @ApiResponse(code = 401, message = "Unauthorized client", response = ErrorDetails.class),
@@ -74,19 +75,22 @@ public class StatisticController {
     LOG.info("Get statistic by id {}", id);
     final long now = now().atZone(EUROPE_MOSCOW).toInstant().toEpochMilli();
 
-    final StatisticDto statistic = service.findOne(id);
+    final StatisticDto dto = service.findOne(id);
+
+    dto.add(linkTo(methodOn(StatisticController.class).getAllStatistic()).slash(dto.getStatisticId()).withSelfRel());
+    //statisticDto.getGameInfo().add(linkTo(methodOn()));
 
     final HttpHeaders responseHeader = new HttpHeaders();
     responseHeader.setLastModified(now);
 
-    return new ResponseEntity<>(statistic, responseHeader, HttpStatus.OK);
+    return new ResponseEntity<>(dto, responseHeader, HttpStatus.OK);
 
   }
 
   @Secured({ROLE_ADMIN, ROLE_DEVELOPER})
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
   @ApiOperation(value = "Retrieves all statistics",
-      notes = "Clients will be sent in the location response",
+      notes = "Statistics will be sent in the location response",
       response = StatisticDto.class)
   @ApiResponses(value = {
       @ApiResponse(code = 200, message = "All statistics were retrieved", response = StatisticDto.class),
@@ -101,6 +105,11 @@ public class StatisticController {
     final long now = now().atZone(EUROPE_MOSCOW).toInstant().toEpochMilli();
 
     final List<StatisticDto> statistics = service.findAll();
+
+    statistics.forEach(dto -> {
+      dto.add(linkTo(methodOn(StatisticController.class).getAllStatistic()).slash(dto.getStatisticId()).withSelfRel());
+      //statisticDto.getGameInfo().add(linkTo(methodOn()));;
+    });
 
     final HttpHeaders responseHeader = new HttpHeaders();
     responseHeader.setLastModified(now);
@@ -125,11 +134,11 @@ public class StatisticController {
 
     service.save(statistic);
 
-    final URI createdClientUri = ServletUriComponentsBuilder.fromCurrentRequest().path(
+    final URI updatedStatisticUri = ServletUriComponentsBuilder.fromCurrentRequest().path(
       "/{id}").buildAndExpand(statistic.getStatisticId()).toUri();
 
     final HttpHeaders responseHeaders = new HttpHeaders();
-    responseHeaders.setLocation(createdClientUri);
+    responseHeaders.setLocation(updatedStatisticUri);
     responseHeaders.setLastModified(now);
 
     return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);
@@ -152,11 +161,11 @@ public class StatisticController {
 
     service.save(statistic);
 
-    final URI createdClientUri = ServletUriComponentsBuilder.fromCurrentRequest().path(
+    final URI createdStatisticUri = ServletUriComponentsBuilder.fromCurrentRequest().path(
       "/{id}").buildAndExpand(statistic.getStatisticId()).toUri();
 
     final HttpHeaders responseHeaders = new HttpHeaders();
-    responseHeaders.setLocation(createdClientUri);
+    responseHeaders.setLocation(createdStatisticUri);
     responseHeaders.setLastModified(now);
 
     return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);

@@ -20,6 +20,7 @@ ext {
     slf4Version = '1.7.+'
     apacheCommonsVersion = '3.+'
     junitVersion = '4.+'
+    mockitoCoreVersion = '2.7.+'
     jacksonVersion = '2.8.+'
 }
 
@@ -56,6 +57,7 @@ dependencies {
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: jacksonVersion
 
     //Test
+    testCompile group: 'org.mockito', name: 'mockito-core', version: mockitoCoreVersion
     testCompile group: 'junit', name: 'junit', version: junitVersion
 
 }
