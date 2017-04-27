@@ -32,6 +32,9 @@ public class GameInfoDto extends ResourceSupport {
   @Size(min = 3, max = 20)
   private Type type;
 
+  public GameInfoDto(){
+  }
+
   private GameInfoDto(Builder builder){
 
     this.id = builder.id;

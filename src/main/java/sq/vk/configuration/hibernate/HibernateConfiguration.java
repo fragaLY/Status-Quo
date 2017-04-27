@@ -42,6 +42,8 @@ public class HibernateConfiguration {
   private static final String CREATE_STATISTIC_GAMEINFO_TABLE = "sql/create-statistics-gameinfo.sql";
 
   private static final String INIT_CLIENT_TABLE = "sql/init-clients.sql";
+  private static final String INIT_STATISTIC_TABLE = "sql/init-statistics.sql";
+  private static final String INIT_GAMEINFO_TABLE = "sql/init-gameinfo.sql";
 
   private final Environment environment;
 
@@ -64,6 +66,8 @@ public class HibernateConfiguration {
             .addScript(CREATE_STATISTIC_CLIENT_TABLE)
             .addScript(CREATE_STATISTIC_GAMEINFO_TABLE)
             .addScript(INIT_CLIENT_TABLE)
+            .addScript(INIT_STATISTIC_TABLE)
+            .addScript(INIT_GAMEINFO_TABLE)
           .build();
   }
 

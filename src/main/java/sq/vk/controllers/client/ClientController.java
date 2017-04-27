@@ -3,8 +3,8 @@ package sq.vk.controllers.client;
 import java.net.URI;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.Set;
 import javax.validation.Valid;
-import javax.validation.constraints.Pattern;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -32,7 +32,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import sq.vk.controllers.exceptionhandlers.errordetails.ErrorDetails;
+import sq.vk.controllers.statistic.StatisticController;
+import sq.vk.core.domain.statistic.Statistic;
 import sq.vk.core.dto.client.ClientDto;
+import sq.vk.core.dto.statistic.StatisticDto;
 import sq.vk.service.client.ClientService;
 
 import static java.time.LocalDateTime.now;
@@ -78,13 +81,21 @@ public class ClientController {
     LOG.info("Get all clients");
     final long now = now().atZone(EUROPE_MOSCOW).toInstant().toEpochMilli();
 
-    final List<ClientDto> allClients = service.findAll();
-    allClients.forEach(dto -> dto.add(linkTo(methodOn(ClientController.class).getAllClients())
-                                                      .slash(dto.getClientId()).withSelfRel()));
+    final List<ClientDto> clients = service.findAll();
+
+    //TODO VK: split this logic
+    clients.forEach(dto -> {
+      dto.add(linkTo(methodOn(ClientController.class).getAllClients()).slash(dto.getClientId()).withSelfRel());
+      dto.getStatistics().forEach(statisticDto -> {
+        statisticDto.add(linkTo(methodOn(StatisticController.class).getAllStatistic()).slash(statisticDto.getStatisticId()).withSelfRel());
+        //statisticDto.getGameInfo().add(linkTo(methodOn()));
+      });
+    });
+
     final HttpHeaders responseHeader = new HttpHeaders();
     responseHeader.setLastModified(now);
 
-    return new ResponseEntity<>(allClients, responseHeader, HttpStatus.OK);
+    return new ResponseEntity<>(clients, responseHeader, HttpStatus.OK);
 
   }
 
@@ -107,13 +118,19 @@ public class ClientController {
 
     final HttpStatus httpStatus = HttpStatus.OK;
 
-    final ClientDto client = service.findOne(id);
-    client.add(linkTo(methodOn(ClientController.class).getAllClients()).slash(client.getClientId()).withSelfRel());
+    final ClientDto dto = service.findOne(id);
+
+    dto.add(linkTo(methodOn(ClientController.class).getAllClients()).slash(dto.getClientId()).withSelfRel());
+
+    dto.getStatistics().forEach(statisticDto -> {
+      statisticDto.add(linkTo(methodOn(ClientController.class).getAllClients()).slash(statisticDto.getStatisticId()).withSelfRel());
+      //statisticDto.getGameInfo().add(linkTo(methodOn()));
+    });
 
     final HttpHeaders responseHeader = new HttpHeaders();
     responseHeader.setLastModified(now);
 
-    return new ResponseEntity<>(client, responseHeader, httpStatus);
+    return new ResponseEntity<>(dto, responseHeader, httpStatus);
 
   }
 
@@ -135,12 +152,19 @@ public class ClientController {
 
     final String email = SecurityContextHolder.getContext().getAuthentication().getName();
 
-    final ClientDto currentClient = service.findOneByEmail(email);
+    final ClientDto dto = service.findOneByEmail(email);
 
-    final HttpHeaders responseHeader = new HttpHeaders();
-    responseHeader.setLastModified(now);
+    dto.add(linkTo(methodOn(ClientController.class).getAllClients()).slash(dto.getClientId()).withSelfRel());
 
-    return new ResponseEntity<>(currentClient, responseHeader, HttpStatus.OK);
+    dto.getStatistics().forEach(statisticDto -> {
+      statisticDto.add(linkTo(methodOn(ClientController.class).getAllClients()).slash(statisticDto.getStatisticId()).withSelfRel());
+      //statisticDto.getGameInfo().add(linkTo(methodOn()));
+    });
+
+    final HttpHeaders responseHeaders = new HttpHeaders();
+    responseHeaders.setLastModified(now);
+
+    return new ResponseEntity<>(dto, responseHeaders, HttpStatus.OK);
 
   }
 
@@ -189,11 +213,11 @@ public class ClientController {
 
     final ClientDto client = service.save(clientDto);
 
-    final URI createdClientUri = ServletUriComponentsBuilder.fromCurrentRequest()
+    final URI editedClientUri = ServletUriComponentsBuilder.fromCurrentRequest()
                                  .path("/{id}").buildAndExpand(client.getClientId()).toUri();
 
     final HttpHeaders responseHeaders = new HttpHeaders();
-    responseHeaders.setLocation(createdClientUri);
+    responseHeaders.setLocation(editedClientUri);
     responseHeaders.setLastModified(now);
 
     return new ResponseEntity<>(null, responseHeaders, HttpStatus.OK);
@@ -217,6 +241,7 @@ public class ClientController {
     final long now = now().atZone(EUROPE_MOSCOW).toInstant().toEpochMilli();
 
     service.delete(clientDto);
+
     final HttpHeaders responseHeaders = new HttpHeaders();
     responseHeaders.setLastModified(now);
 
@@ -235,8 +260,7 @@ public class ClientController {
       @ApiResponse(code = 401, message = "Unauthorized client", response = ErrorDetails.class),
       @ApiResponse(code = 403, message = "Access denied", response = ErrorDetails.class),
       @ApiResponse(code = 500, message = "Error deleting client", response = ErrorDetails.class)} )
-  public ResponseEntity<?> deleteClientById(
-    @Pattern(regexp = "[1-9]+") @PathVariable("id") final Integer id) {
+  public ResponseEntity<?> deleteClientById(@Range(min=1) @PathVariable("id") final Integer id) {
 
     LOG.info("Deletes client with id [{}].", id);
     final long now = now().atZone(EUROPE_MOSCOW).toInstant().toEpochMilli();
@@ -247,6 +271,33 @@ public class ClientController {
     responseHeaders.setLastModified(now);
 
     return new ResponseEntity<>(null, responseHeaders, HttpStatus.OK);
+
+  }
+
+  @GetMapping(value = "profile/statistics", produces = MediaType.APPLICATION_JSON_VALUE)
+  @ApiOperation(value = "Retrieves statistics who was authorized",
+      notes = "Statistics will be sent in the location response",
+      response = StatisticDto.class)
+  @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "Current statistic was retrieved", response = Statistic.class),
+      @ApiResponse(code = 401, message = "Unauthorized client", response = ErrorDetails.class),
+      @ApiResponse(code = 403, message = "Access denied", response = ErrorDetails.class),
+      @ApiResponse(code = 404, message = "Client was not found", response = ErrorDetails.class),
+      @ApiResponse(code = 500, message = "Error getting statistics", response = ErrorDetails.class)} )
+  @ResponseBody
+  public ResponseEntity<Set<StatisticDto>> getClientStatistics() {
+
+    LOG.info("Get current user's statistics.");
+    final long now = now().atZone(EUROPE_MOSCOW).toInstant().toEpochMilli();
+
+    final String email = SecurityContextHolder.getContext().getAuthentication().getName();
+
+    final Set<StatisticDto> statistics = service.findOneByEmail(email).getStatistics();
+
+    final HttpHeaders responseHeaders = new HttpHeaders();
+    responseHeaders.setLastModified(now);
+
+    return new ResponseEntity<>(statistics, responseHeaders, HttpStatus.OK);
 
   }
 

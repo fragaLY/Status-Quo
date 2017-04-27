@@ -4,14 +4,13 @@ import java.time.LocalDate;
 
 import org.junit.Before;
 import org.junit.Test;
-import sq.vk.core.domain.client.Client;
-import sq.vk.core.domain.client.ClientRole;
 import sq.vk.core.domain.gameinfo.GameInfo;
 import sq.vk.core.domain.gameinfo.PokerRoomType;
 import sq.vk.core.domain.gameinfo.Speed;
 import sq.vk.core.domain.gameinfo.TableSize;
 import sq.vk.core.domain.gameinfo.Type;
 import sq.vk.core.domain.statistic.Statistic;
+import sq.vk.core.dto.gameinfo.GameInfoDto;
 import sq.vk.core.dto.statistic.StatisticDto;
 import sq.vk.core.exceptions.statistic.StatisticNotFoundException;
 
@@ -28,8 +27,8 @@ public class StatisticConverterTest {
   private static final LocalDate from = LocalDate.now();
   private static final LocalDate to = from.plusMonths(3);
 
-  private Client client;
   private GameInfo gameInfo;
+  private GameInfoDto gameInfoDto;
 
   private StatisticConverter converter;
 
@@ -38,14 +37,6 @@ public class StatisticConverterTest {
 
     converter = new StatisticConverter();
 
-    client = new Client.Builder("email@email.com")
-               .setRole(ClientRole.USER)
-               .setPassword("PSW*&!A")
-               .setId(15)
-               .setFirstName("VAD")
-               .setSecondName("KO")
-             .build();
-
     gameInfo = new GameInfo.Builder()
                  .setType(Type.ALL)
                  .setSpeed(Speed.NORMAL)
@@ -53,6 +44,14 @@ public class StatisticConverterTest {
                  .setSize(TableSize.HEADSUP)
                  .setId(154)
                .build();
+
+    gameInfoDto = new GameInfoDto.Builder()
+        .setType(Type.ALL)
+        .setSpeed(Speed.NORMAL)
+        .setRoomType(PokerRoomType.POKERSTARS)
+        .setSize(TableSize.HEADSUP)
+        .setId(154)
+        .build();
   }
 
   @Test
@@ -65,7 +64,6 @@ public class StatisticConverterTest {
                                   .setId(id)
                                   .setName(NAME)
                                   .setProfit(PROFIT)
-                                  .setClient(client)
                                   .setGameInfo(gameInfo)
                                   .setFrom(from)
                                   .setTo(to)
@@ -75,8 +73,7 @@ public class StatisticConverterTest {
                                                 .setId(id)
                                                 .setName(NAME)
                                                 .setProfit(PROFIT)
-                                                .setClient(client)
-                                                .setGameInfo(gameInfo)
+                                                .setGameInfo(gameInfoDto)
                                                 .setFrom(from)
                                                 .setTo(to)
                                               .build();
@@ -85,7 +82,7 @@ public class StatisticConverterTest {
     StatisticDto actualStatisticDto = converter.apply(statistic);
 
     //then
-    assertEquals(expectedStatisticDto, actualStatisticDto);
+    assertEquals(expectedStatisticDto, actualStatisticDto);//TODO: FIX POSSIBLE BUG
 
   }
 
@@ -107,7 +104,6 @@ public class StatisticConverterTest {
                                           .setId(id)
                                           .setName(NAME)
                                           .setProfit(PROFIT)
-                                          .setClient(client)
                                           .setGameInfo(gameInfo)
                                           .setFrom(from)
                                           .setTo(to)
@@ -117,8 +113,7 @@ public class StatisticConverterTest {
                                         .setId(id)
                                         .setName(NAME)
                                         .setProfit(PROFIT)
-                                        .setClient(client)
-                                        .setGameInfo(gameInfo)
+                                        .setGameInfo(gameInfoDto)
                                         .setFrom(from)
                                         .setTo(to)
                                       .build();

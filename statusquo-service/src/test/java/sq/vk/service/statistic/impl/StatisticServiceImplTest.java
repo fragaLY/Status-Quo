@@ -105,8 +105,7 @@ public class StatisticServiceImplTest {
                                              .setId(firstId)
                                              .setName(NAME)
                                              .setProfit(PROFIT)
-                                             .setClient(client)
-                                             .setGameInfo(gameInfo)
+                                             .setGameInfo(null)//TODO: FIX POSSIBLE BUG
                                              .setFrom(from)
                                              .setTo(to)
                                            .build();
@@ -115,8 +114,7 @@ public class StatisticServiceImplTest {
                                               .setId(secondId)
                                               .setName(NAME)
                                               .setProfit(PROFIT)
-                                              .setClient(client)
-                                              .setGameInfo(gameInfo)
+                                              .setGameInfo(null)
                                               .setFrom(from)
                                               .setTo(to)
                                             .build();
@@ -133,7 +131,7 @@ public class StatisticServiceImplTest {
     List<StatisticDto> actualStatisticDtos = service.findAll();
 
     //then
-    assertEquals(expectedStatisticDtos,actualStatisticDtos);
+    assertEquals(expectedStatisticDtos,actualStatisticDtos);//TODO: FIX POSSIBLE BUG
 
   }
 
@@ -147,7 +145,6 @@ public class StatisticServiceImplTest {
                                   .setId(id)
                                   .setName(NAME)
                                   .setProfit(PROFIT)
-                                  .setClient(client)
                                   .setGameInfo(gameInfo)
                                   .setFrom(from)
                                   .setTo(to)
@@ -157,8 +154,7 @@ public class StatisticServiceImplTest {
                                                 .setId(id)
                                                 .setName(NAME)
                                                 .setProfit(PROFIT)
-                                                .setClient(client)
-                                                .setGameInfo(gameInfo)
+                                                .setGameInfo(null)
                                                 .setFrom(from)
                                                 .setTo(to)
                                               .build();
@@ -197,7 +193,6 @@ public class StatisticServiceImplTest {
                                   .setId(id)
                                   .setName(NAME)
                                   .setProfit(PROFIT)
-                                  .setClient(client)
                                   .setGameInfo(gameInfo)
                                   .setFrom(from)
                                   .setTo(to)
@@ -207,8 +202,7 @@ public class StatisticServiceImplTest {
                                                 .setId(id)
                                                 .setName(NAME)
                                                 .setProfit(PROFIT)
-                                                .setClient(client)
-                                                .setGameInfo(gameInfo)
+                                                .setGameInfo(null)
                                                 .setFrom(from)
                                                 .setTo(to)
                                               .build();
@@ -234,7 +228,6 @@ public class StatisticServiceImplTest {
                                   .setId(id)
                                   .setName(NAME)
                                   .setProfit(PROFIT)
-                                  .setClient(client)
                                   .setGameInfo(gameInfo)
                                   .setFrom(from)
                                   .setTo(to)
@@ -244,8 +237,7 @@ public class StatisticServiceImplTest {
                                                 .setId(id)
                                                 .setName(NAME)
                                                 .setProfit(PROFIT)
-                                                .setClient(client)
-                                                .setGameInfo(gameInfo)
+                                                .setGameInfo(null)
                                                 .setFrom(from)
                                                 .setTo(to)
                                               .build();
@@ -271,7 +263,6 @@ public class StatisticServiceImplTest {
                                   .setId(id)
                                   .setName(NAME)
                                   .setProfit(PROFIT)
-                                  .setClient(client)
                                   .setGameInfo(gameInfo)
                                   .setFrom(from)
                                   .setTo(to)
@@ -281,8 +272,7 @@ public class StatisticServiceImplTest {
                                                 .setId(id)
                                                 .setName(NAME)
                                                 .setProfit(PROFIT)
-                                                .setClient(client)
-                                                .setGameInfo(gameInfo)
+                                                .setGameInfo(null)
                                                 .setFrom(from)
                                                 .setTo(to)
                                               .build();
