@@ -6,12 +6,13 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.hateoas.ResourceSupport;
 import sq.vk.core.domain.client.ClientRole;
-import sq.vk.core.domain.statistic.Statistic;
+import sq.vk.core.dto.statistic.StatisticDto;
 
 /**
  * Created by Vadzim Kavalkou on 22.03.2017.
@@ -19,8 +20,6 @@ import sq.vk.core.domain.statistic.Statistic;
  * ClientDto.class
  */
 public class ClientDto extends ResourceSupport {
-
-  private Integer id;
 
   @Pattern(regexp = "\\w+@[a-zA-Z_]+?\\.[a-zA-Z]{2,6}")
   @Size(min = 7, max = 100)
@@ -40,7 +39,13 @@ public class ClientDto extends ResourceSupport {
   @NotNull
   private ClientRole role;
 
-  private Set<Statistic> statistics;
+  private Set<StatisticDto> statistics;
+
+  @JsonProperty("clientId")
+  private Integer id;
+
+  public ClientDto(){
+  }
 
   private ClientDto(Builder builder) {
 
@@ -102,11 +107,11 @@ public class ClientDto extends ResourceSupport {
     this.password = password;
   }
 
-  public Set<Statistic> getStatistics() {
+  public Set<StatisticDto> getStatistics() {
     return statistics;
   }
 
-  public void setStatistics(Set<Statistic> statistics) {
+  public void setStatistics(Set<StatisticDto> statistics) {
     this.statistics = statistics;
   }
 
@@ -169,7 +174,7 @@ public class ClientDto extends ResourceSupport {
     private String secondName;
     private ClientRole role;
     private String password;
-    private Set<Statistic> statistics;
+    private Set<StatisticDto> statistics;
 
     public Builder(final String email) {
       this.email = email;
@@ -200,7 +205,7 @@ public class ClientDto extends ResourceSupport {
       return this;
     }
 
-    public Builder setStatistics(Set<Statistic> statistics) {
+    public Builder setStatistics(Set<StatisticDto> statistics) {
       this.statistics = statistics;
       return this;
     }

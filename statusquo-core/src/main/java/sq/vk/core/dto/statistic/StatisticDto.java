@@ -9,8 +9,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.hateoas.ResourceSupport;
-import sq.vk.core.domain.client.Client;
-import sq.vk.core.domain.gameinfo.GameInfo;
+import sq.vk.core.dto.gameinfo.GameInfoDto;
 
 /**
  * Created by Vadzim_Kavalkou on 4/7/2017.
@@ -29,10 +28,7 @@ public class StatisticDto extends ResourceSupport {
     private double profit;
 
     @NotNull
-    private GameInfo gameInfo;
-
-    @NotNull
-    private Client client;
+    private GameInfoDto gameInfo;
 
     @NotNull
     private LocalDate from;
@@ -40,13 +36,15 @@ public class StatisticDto extends ResourceSupport {
     @NotNull
     private LocalDate to;
 
+    public StatisticDto() {
+    }
+
     private StatisticDto(Builder builder) {
 
         this.id = builder.id;
         this.name = builder.name;
         this.profit = builder.profit;
         this.gameInfo = builder.gameInfo;
-        this.client = builder.client;
         this.from = builder.from;
         this.to = builder.to;
 
@@ -76,20 +74,12 @@ public class StatisticDto extends ResourceSupport {
         this.profit = profit;
     }
 
-    public GameInfo getGameInfo() {
+    public GameInfoDto getGameInfo() {
         return gameInfo;
     }
 
-    public void setGameInfo(GameInfo gameInfo) {
+    public void setGameInfo(GameInfoDto gameInfo) {
         this.gameInfo = gameInfo;
-    }
-
-    public Client getClient() {
-        return client;
-    }
-
-    public void setClient(Client client) {
-        this.client = client;
     }
 
     public LocalDate getFrom() {
@@ -122,7 +112,6 @@ public class StatisticDto extends ResourceSupport {
                    .append(id, that.id)
                    .append(name, that.name)
                    .append(gameInfo, that.gameInfo)
-                   .append(client, that.client)
                    .append(from, that.from)
                    .append(to, that.to)
                .isEquals();
@@ -134,7 +123,6 @@ public class StatisticDto extends ResourceSupport {
                    .append(name)
                    .append(profit)
                    .append(gameInfo)
-                   .append(client)
                    .append(from)
                    .append(to)
                .toHashCode();
@@ -146,7 +134,6 @@ public class StatisticDto extends ResourceSupport {
                    .append("name", name)
                    .append("profit",profit)
                    .append("gameInfo", gameInfo)
-                   .append("client",client)
                    .append("from", from)
                    .append("to", to)
                .toString();
@@ -157,8 +144,7 @@ public class StatisticDto extends ResourceSupport {
         private Integer id;
         private String name;
         private double profit;
-        private GameInfo gameInfo;
-        private Client client;
+        private GameInfoDto gameInfo;
         private LocalDate from;
         private LocalDate to;
 
@@ -177,13 +163,8 @@ public class StatisticDto extends ResourceSupport {
             return this;
         }
 
-        public Builder setGameInfo(GameInfo gameInfo) {
+        public Builder setGameInfo(GameInfoDto gameInfo) {
             this.gameInfo = gameInfo;
-            return this;
-        }
-
-        public Builder setClient(Client client) {
-            this.client = client;
             return this;
         }
 
