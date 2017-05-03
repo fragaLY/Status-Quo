@@ -1,3 +1,4 @@
 rootProject.name = 'Status Quo'
 include 'statusquo-core'
 include 'statusquo-service'
+include 'statusquo-web'

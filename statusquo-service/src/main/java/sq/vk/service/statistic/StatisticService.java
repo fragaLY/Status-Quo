@@ -6,6 +6,8 @@ import sq.vk.core.dto.statistic.StatisticDto;
 
 /**
  * Created by Vadzim Kavalkou on 08.04.2017.
+ *
+ * StatisticService interface.
  */
 public interface StatisticService {
 

@@ -13,6 +13,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -21,6 +22,8 @@ import sq.vk.core.domain.gameinfo.GameInfo;
 
 /**
  * Created by Vadzim_Kavalkou on 4/7/2017.
+ *
+ * Statistic repository.
  */
 @Entity
 @Table(name = "statistics")
@@ -60,7 +63,7 @@ public class Statistic {
     this.id = id;
   }
 
-  @Column(name = "name")
+  @Column(name = "player_name")
   public String getName() {
     return name;
   }
@@ -90,6 +93,7 @@ public class Statistic {
     this.gameInfo = gameInfo;
   }
 
+  @JsonIgnore
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinTable(name = "statistic_client",
              joinColumns = { @JoinColumn(name = "statistic_id", nullable = false, updatable = false) },
@@ -134,8 +138,6 @@ public class Statistic {
              .append(profit, statistic.profit)
              .append(id, statistic.id)
              .append(name,statistic.name)
-             .append(gameInfo, statistic.gameInfo)
-             .append(client, statistic.client)
              .append(from,statistic.from)
              .append(to, statistic.to)
            .isEquals();
@@ -148,8 +150,6 @@ public class Statistic {
             .append(id)
             .append(name)
             .append(profit)
-            .append(gameInfo)
-            .append(client)
             .append(from)
             .append(to)
           .toHashCode();
@@ -162,8 +162,6 @@ public class Statistic {
             .append("id", id)
             .append("name", name)
             .append("profit", profit)
-            .append("gameInfo",gameInfo)
-            .append("client", client)
             .append("from", from)
             .append("to", to)
           .toString();

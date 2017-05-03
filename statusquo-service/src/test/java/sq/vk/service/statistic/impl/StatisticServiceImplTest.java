@@ -105,8 +105,7 @@ public class StatisticServiceImplTest {
                                              .setId(firstId)
                                              .setName(NAME)
                                              .setProfit(PROFIT)
-                                             .setClient(client)
-                                             .setGameInfo(gameInfo)
+                                             .setGameInfo(null)//TODO: FIX POSSIBLE BUG
                                              .setFrom(from)
                                              .setTo(to)
                                            .build();
@@ -115,8 +114,7 @@ public class StatisticServiceImplTest {
                                               .setId(secondId)
                                               .setName(NAME)
                                               .setProfit(PROFIT)
-                                              .setClient(client)
-                                              .setGameInfo(gameInfo)
+                                              .setGameInfo(null)
                                               .setFrom(from)
                                               .setTo(to)
                                             .build();
@@ -124,16 +122,16 @@ public class StatisticServiceImplTest {
     final List<Statistic> statistics = ImmutableList.of(firstStatistic, secondStatistic);
     final List<StatisticDto> expectedStatisticDtos = ImmutableList.of(firstStatisticDto, secondStatisticDto);
 
-    //when
     when(dao.findAll()).thenReturn(statistics);
 
     when(converter.apply(firstStatistic)).thenReturn(firstStatisticDto);
     when(converter.apply(secondStatistic)).thenReturn(secondStatisticDto);
 
+    //when
     List<StatisticDto> actualStatisticDtos = service.findAll();
 
     //then
-    assertEquals(expectedStatisticDtos,actualStatisticDtos);
+    assertEquals(expectedStatisticDtos,actualStatisticDtos);//TODO: FIX POSSIBLE BUG
 
   }
 
@@ -147,7 +145,6 @@ public class StatisticServiceImplTest {
                                   .setId(id)
                                   .setName(NAME)
                                   .setProfit(PROFIT)
-                                  .setClient(client)
                                   .setGameInfo(gameInfo)
                                   .setFrom(from)
                                   .setTo(to)
@@ -157,16 +154,15 @@ public class StatisticServiceImplTest {
                                                 .setId(id)
                                                 .setName(NAME)
                                                 .setProfit(PROFIT)
-                                                .setClient(client)
-                                                .setGameInfo(gameInfo)
+                                                .setGameInfo(null)
                                                 .setFrom(from)
                                                 .setTo(to)
                                               .build();
 
-    //when
     when(dao.findOne(id)).thenReturn(statistic);
     when(converter.apply(statistic)).thenReturn(expectedStatisticDto);
 
+    //when
     StatisticDto actualStatistic = service.findOne(id);
 
     //then
@@ -180,9 +176,9 @@ public class StatisticServiceImplTest {
     //given
     Statistic statistic = null;
 
-    //when
     when(dao.findOneByName(NAME)).thenReturn(Optional.ofNullable(statistic));
 
+    //when
     service.findOne(NAME);
 
   }
@@ -197,7 +193,6 @@ public class StatisticServiceImplTest {
                                   .setId(id)
                                   .setName(NAME)
                                   .setProfit(PROFIT)
-                                  .setClient(client)
                                   .setGameInfo(gameInfo)
                                   .setFrom(from)
                                   .setTo(to)
@@ -207,16 +202,15 @@ public class StatisticServiceImplTest {
                                                 .setId(id)
                                                 .setName(NAME)
                                                 .setProfit(PROFIT)
-                                                .setClient(client)
-                                                .setGameInfo(gameInfo)
+                                                .setGameInfo(null)
                                                 .setFrom(from)
                                                 .setTo(to)
                                               .build();
 
-    //when
     when(dao.findOneByName(NAME)).thenReturn(Optional.of(statistic));
     when(converter.apply(statistic)).thenReturn(expectedStatisticDto);
 
+    //when
     StatisticDto actualStatistic = service.findOne(NAME);
 
     //then
@@ -234,7 +228,6 @@ public class StatisticServiceImplTest {
                                   .setId(id)
                                   .setName(NAME)
                                   .setProfit(PROFIT)
-                                  .setClient(client)
                                   .setGameInfo(gameInfo)
                                   .setFrom(from)
                                   .setTo(to)
@@ -244,16 +237,15 @@ public class StatisticServiceImplTest {
                                                 .setId(id)
                                                 .setName(NAME)
                                                 .setProfit(PROFIT)
-                                                .setClient(client)
-                                                .setGameInfo(gameInfo)
+                                                .setGameInfo(null)
                                                 .setFrom(from)
                                                 .setTo(to)
                                               .build();
 
-    //when
     when(converter.transform(expectedStatisticDto)).thenReturn(statistic);
     when(dao.save(statistic)).thenReturn(statistic);
 
+    //when
     StatisticDto actualStatisticDto = service.save(expectedStatisticDto);
 
     //then
@@ -271,7 +263,6 @@ public class StatisticServiceImplTest {
                                   .setId(id)
                                   .setName(NAME)
                                   .setProfit(PROFIT)
-                                  .setClient(client)
                                   .setGameInfo(gameInfo)
                                   .setFrom(from)
                                   .setTo(to)
@@ -281,16 +272,15 @@ public class StatisticServiceImplTest {
                                                 .setId(id)
                                                 .setName(NAME)
                                                 .setProfit(PROFIT)
-                                                .setClient(client)
-                                                .setGameInfo(gameInfo)
+                                                .setGameInfo(null)
                                                 .setFrom(from)
                                                 .setTo(to)
                                               .build();
 
-    //when
     when(converter.transform(expectedStatisticDto)).thenReturn(statistic);
     doNothing().when(dao).delete(statistic);
 
+    //when
     StatisticDto actualStatisticDto = service.delete(expectedStatisticDto);
 
     //then
@@ -304,9 +294,9 @@ public class StatisticServiceImplTest {
     //given
     final Integer id = 1;
 
-    //when
     doNothing().when(dao).delete(id);
 
+    //when
     Integer actualId = service.delete(id);
 
     //then

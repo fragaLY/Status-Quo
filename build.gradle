@@ -1,63 +1,12 @@
 group 'by.integrated'
 version '1.0-SNAPSHOT'
 
-apply plugin: 'java'
-apply plugin: 'war'
 apply plugin: 'idea'
-apply plugin: 'org.akhikhl.gretty'
 
-compileJava {
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
-}
-
-repositories {
-    mavenLocal()
-    mavenCentral()
-}
-
-ext {
-    springVersion = '4.+'
-    h2Version = '1.+'
-    jacksonVersion = '2.8.+'
-    springFoxVersion = '2.6.+'
-}
-
-dependencies {
-
-    //Spring
-    compile group: 'org.springframework.security', name: 'spring-security-config', version: springVersion
-    compile group: 'org.springframework.security', name: 'spring-security-taglibs', version: springVersion
-    compile group: 'org.springframework', name: 'spring-webmvc', version: springVersion
-    compile group: 'org.springframework', name: 'spring-orm', version: springVersion
-
-    //Spring fox
-    compile group: 'io.springfox', name: 'springfox-swagger2', version: springFoxVersion
-    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: springFoxVersion
-    compile group: 'io.springfox', name: 'springfox-data-rest', version: springFoxVersion
-    compile group: 'io.springfox', name: 'springfox-bean-validators', version: springFoxVersion
-
-    //H2 database
-    runtime group: 'com.h2database', name: 'h2', version: h2Version
-
-    //Jackson
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: jacksonVersion
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: jacksonVersion
-
-    compile project(":statusquo-service")
-}
-
-buildscript {
-    repositories {
-        jcenter()
+allprojects {
+    task showProjectNames {
+        doLast { task ->
+            println "- $task.project.name"
+        }
     }
-    dependencies {
-        classpath 'org.akhikhl.gretty:gretty:+'
-    }
-}
-
-gretty {
-    httpPort = 8080
-    contextPath = '/'
-    servletContainer = 'jetty9'
 }

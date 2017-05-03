@@ -4,18 +4,25 @@ import java.util.function.Function;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import sq.vk.core.converter.gameinfo.GameInfoConverter;
 import sq.vk.core.domain.statistic.Statistic;
 import sq.vk.core.dto.statistic.StatisticDto;
 import sq.vk.core.exceptions.statistic.StatisticNotFoundException;
 
 /**
  * Created by Vadzim_Kavalkou on 4/7/2017.
+ *
+ * StatisticConverter.class
  */
 @Component("StatisticConverter")
 public class StatisticConverter implements Function<Statistic, StatisticDto> {
 
     private static final Logger LOG = LoggerFactory.getLogger(StatisticConverter.class);
+
+    @Autowired
+    private GameInfoConverter gameInfoConverter;
 
     @Override
     public StatisticDto apply(final Statistic statistic) {
@@ -29,19 +36,18 @@ public class StatisticConverter implements Function<Statistic, StatisticDto> {
             throw new StatisticNotFoundException("Statistic was not found");
         }
 
-        StatisticDto statisticDto = new StatisticDto.Builder()
+        StatisticDto dto = new StatisticDto.Builder()
                                         .setId(statistic.getId())
                                         .setName(statistic.getName())
                                         .setProfit(statistic.getProfit())
-                                        .setGameInfo(statistic.getGameInfo())
-                                        .setClient(statistic.getClient())
+                                        .setGameInfo(gameInfoConverter.apply(statistic.getGameInfo()))
                                         .setFrom(statistic.getFrom())
                                         .setTo(statistic.getTo())
                                     .build();
 
-        LOG.info("Statistic was successfully converted into statisticDto = [{}].", statisticDto);
+        LOG.info("Statistic was successfully converted into dto = [{}].", dto);
 
-        return statisticDto;
+        return dto;
     }
 
     public Statistic transform(final StatisticDto statisticDto){
@@ -52,8 +58,7 @@ public class StatisticConverter implements Function<Statistic, StatisticDto> {
                                  .setId(statisticDto.getStatisticId())
                                  .setName(statisticDto.getName())
                                  .setProfit(statisticDto.getProfit())
-                                 .setGameInfo(statisticDto.getGameInfo())
-                                 .setClient(statisticDto.getClient())
+                                 .setGameInfo(gameInfoConverter.transform(statisticDto.getGameInfo()))
                                  .setFrom(statisticDto.getFrom())
                                  .setTo(statisticDto.getTo())
                              .build();

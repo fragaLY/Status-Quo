@@ -12,6 +12,8 @@ import sq.vk.core.exceptions.gameinfo.GameInfoNotFound;
 
 /**
  * Created by Vadzim Kavalkou on 22.03.2017.
+ *
+ * GameInfoConverter.class
  */
 @Component("GameInfoConverter")
 public class GameInfoConverter implements Function<GameInfo, GameInfoDto> {

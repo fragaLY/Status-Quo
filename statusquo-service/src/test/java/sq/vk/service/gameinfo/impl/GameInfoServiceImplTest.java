@@ -83,12 +83,12 @@ public class GameInfoServiceImplTest {
     final List<GameInfo> gameInfos = ImmutableList.of(firstGameInfo,secondGameInfo);
     final List<GameInfoDto> expectedDtos = ImmutableList.of(firstDto,secondDto);
 
-    //when
     when(dao.findAll()).thenReturn(gameInfos);
 
     when(converter.apply(firstGameInfo)).thenReturn(firstDto);
     when(converter.apply(secondGameInfo)).thenReturn(secondDto);
 
+    //when
     List<GameInfoDto> actualDtos = service.findAll();
 
     //then
@@ -116,10 +116,10 @@ public class GameInfoServiceImplTest {
                                       .setRoomType(EIGHTS)
                                     .build();
 
-    //when
     when(dao.findOne(FIRST_ID)).thenReturn(gameInfo);
     when(converter.apply(gameInfo)).thenReturn(expectedDto);
 
+    //when
     GameInfoDto actualDto = service.findOne(FIRST_ID);
 
     //then
@@ -147,10 +147,10 @@ public class GameInfoServiceImplTest {
                                       .setRoomType(EIGHTS)
                                     .build();
 
-    //when
     when(converter.transform(expectedDto)).thenReturn(gameInfo);
     when(dao.save(gameInfo)).thenReturn(gameInfo);
 
+    //when
     GameInfoDto actualGameInfo = service.save(expectedDto);
 
     //then
@@ -178,10 +178,10 @@ public class GameInfoServiceImplTest {
                                       .setRoomType(EIGHTS)
                                     .build();
 
-    //when
     when(converter.transform(expectedDto)).thenReturn(gameInfo);
     doNothing().when(dao).delete(gameInfo);
 
+    //when
     GameInfoDto actualDto = service.delete(expectedDto);
 
     //then
@@ -195,9 +195,9 @@ public class GameInfoServiceImplTest {
     //given
     final Integer id = 51;
 
-    //when
     doNothing().when(dao).delete(id);
 
+    //when
     Integer actualId = service.delete(id);
 
     //then
