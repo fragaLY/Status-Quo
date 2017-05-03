@@ -4,7 +4,7 @@ version '1.0-SNAPSHOT'
 apply plugin: 'idea'
 
 allprojects {
-    task showProjectNames {
+    task showModulesNames {
         doLast { task ->
             println "- $task.project.name"
         }
